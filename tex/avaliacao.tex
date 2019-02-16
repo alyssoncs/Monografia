@@ -1,0 +1,23 @@
+\chapter{Avaliação quantitativa}\label{chap:avaliacao}
+
+O objetivo deste capítulo é descrever as avaliações utilizadas na solução proposta. A avaliação tem como objetivo determinar a performance e acurácia do mecanismo de descoberta, conexão e desconexão de \smartobjs{}.
+
+A avaliação será realizada por meio de experimentos, onde a performance será avaliada através da contagem de tempo desde que o \mhub{} efetivamente descobre um objeto até o momento em que a aplicação é informada sobre este evento. A acurácia da solução consistirá na verificação de quantas operações de conexão, desconexão e descoberta geraram eventos correspondentes para a aplicação.
+
+\section{Descrição dos experimentos}
+
+Foi desenvolvido um aplicativo android utilizando o \mhubcddl{} onde o \smartphone{} permanece ativamente procurando e, quando possível, se conectando a \smartobjs{} no ambiente. O aplicativo é responsável por registrar a ocorrencia de interações com \smartobjs{}, juntamente com os \timestamps{} de cada um desses eventos. Os experimentos foram realizados no âmbito de dois cenários de uso descritos a seguir.
+
+\subsection{Cenário de uso 1} 
+
+Este cenário de uso consiste em uma casa onde cada cômodo é equipado com um \beacon{} \ble{}, calibrado de forma que o sinal emitido não possa ser detectado fora do cômodo. Uma pessoa carregando o \smartphone{} é instruida a conduzir as atividades do dia a dia normalmente, e o aplicativo detecta em qual região da casa a pessoa se encontra.
+
+Ao entrer em um cômodo, o \beacon{} será encontrado pelo \mhubcddl{}, gerando um evento de descoberta no \stwopa{} que deverá ser propagado para a aplicação.
+
+\subsection{Cenário de uso 2} 
+
+Consiste em uma casa que possui um sistema multimídia na sala de estar, onde o conteúdo da televisão se adapta de acordo com os usuários que estão presentes na sala de estar, e a interação com as aplicações da televisão digital acontece através do \smartphone{}.
+
+Ao entrar na sala de estar o sistema multimídia é encontrado e em seguida a conexão é estabelecida. Quando o usuário sai da sala de estar a conexão é desfeita. É medido o tempo de propagação de todos os eventos de descoberta, conexão e desconexão gerados no \stwopa{} para a aplicação.
+
+
