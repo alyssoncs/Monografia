@@ -14,7 +14,7 @@ Ao entrar em um cômodo, o \beacon{} será encontrado pelo \mhubcddl{}, gerando 
 
 \subsection{Métricas}
 
-Para este experimeto, como os \beacons{} estão configurados para emitir 10 anúncios por segundo, é esperado que o aplicativo detecte um anúncio a cada 0.1 segundo em que o participante permanece em um cômodo. Cada anúncio detectado corresponde a um evento de descoberta gerado pelo \stwopa{}, este evento deve então ser propagado até a aplicação.
+Para este experimeto, cada anúncio detectado corresponde a um evento de descoberta gerado pelo \stwopa{}, este evento deve então ser propagado até a aplicação.
 
 A fim de determinar a performance, a aplicação permanece constantemente anotando os \timestamps{} de cada evento de descoberta emitido pelo \stwopa{}, e os \timestamps{} de notificações destes eventos na aplicação---ambos em milisegundos. O primeiro \timestamp{} é subtraído do segundo de forma a calcular o tempo de propagação dos eventos de descoberta, que será de agora em diante referido como $TP_{descoberta}$ e calculado da seguinte forma. 
 
@@ -42,7 +42,7 @@ No trabalho citado, o autor realizou o experimento em 4 residências distintas, 
 
 A fim de maximizar a quantidade de eventos de descoberta, foi utilizado os dados do experimento ``\texttt{living\_2}'' da casa ``\texttt{Residence D}'' pois este experimento possui um dos maiores tempos de monitoramento e quantidade de entrada em cômodos. Os dados deste experimento consistem de 58 minutos de monitoramento de um indivíduo em uma casa de 10 cômodos. Os dados possuem uma resolução média de aproximadamente 11 medições por segundo.
 
-As informações sobre a distribuição da quantidade de vezes o indivíduo visita um quarto estão sumarizadas na \autoref{fig:dataset-histogram}.
+Informações referentes à distribuição da quantidade de vezes em que o indivíduo visita um quarto estão sumarizadas na \autoref{fig:dataset-histogram}.
 
 \begin{figure}[htb]
 	
@@ -58,7 +58,32 @@ As informações sobre a distribuição da quantidade de vezes o indivíduo visi
 
 O \dataset{} original é composto principalmente por um arquivo de texto que contém em cada linha uma representação de um momento no decorrer do experimento. Entre os dados contidos por linha, destaca-se o \timestamp{} da medição e a etiqueta detectada naquele instante. 
 
-Realizou-se um pré-processamento no \dataset{} de forma a facilitar a utilização dos dados para fim da simulação, gerando um arquivo divido em 3 valores separadas por espaço em que cada linha representa o instante em que o participante entrou e permaneceu contínuamente em um cômodo. O 3 valores são o identificador do cômodo, o nome do cômodo e o \timestamp{} em que o indivíduo entrou naquele cômodo.
+Realizou-se um pré-processamento no \dataset{} de forma a facilitar a utilização dos dados para fim da simulação, gerando um arquivo contendo 3 valores separadas por espaço em que cada linha representa o instante em que o participante entrou e permaneceu contínuamente em um cômodo. Os 3 valores são: um identificador numérico do cômodo, o nome do cômodo e o \timestamp{} em que o indivíduo entrou naquele cômodo, como pode ser visto no \autoref{lst:preprocessed-dataset}.
+
+\begin{center}
+	\begin{lstlisting}[float, caption={Parte do \dataset{} pré-processado}, label=lst:preprocessed-dataset]
+		#room	room-name	timestamp(seconds)
+		2	living_area_A	485.352
+		1	hallway_lower	506.273
+		6	stairs		513.380
+		8	hallway_upper	519.319
+		10	bedroom_1	526.159
+		8	hallway_upper	561.328
+		7	bathroom_toilet	565.832
+		8	hallway_upper	628.495
+		9	bedroom_2	632.065
+	\end{lstlisting}
+\end{center}
+
+Como descrito anteriormente, cada um dos 10 cômodos possui um \beacon{} \ble{}, configurados para emitir 10 anúncios por segundo. É esperado, então,  que o aplicativo detecte um anúncio a cada 0.1 segundo em que o participante permanece em um cômodo. 
+
+Utilizando o \dataset{} já descrito, a cada momento em que o participante entra em determinado cômodo, calcula-se quantos anúncios o \beacon{} daquele cômodo transmitirá durante o tempo de permanência no local, o calculo é apresentado a seguir.
+
+\[
+	anuncios = \frac{tempoPermanencia}{0.1} 
+\]
+
+Onde $tempoPermanencia$ denota o tempo que o indivíduo permaneceu no cômodo. Os anúncios são então repoduzidos a cada intervalo de 0.1 segundo.
 
 \section{Experimento 2}
 
