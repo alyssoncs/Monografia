@@ -18,22 +18,47 @@ Para este experimeto, cada anúncio detectado corresponde a um evento de descobe
 
 A fim de determinar a performance, a aplicação permanece constantemente anotando os \timestamps{} de cada evento de descoberta emitido pelo \stwopa{}, e os \timestamps{} de notificações destes eventos na aplicação---ambos em milisegundos. O primeiro \timestamp{} é subtraído do segundo de forma a calcular o tempo de propagação dos eventos de descoberta, que será de agora em diante referido como $TP_{descoberta}$ e calculado da seguinte forma. 
 
-\[
+\begin{equation}
 	TP_{descoberta} = TS_{descoberta,app} - TS_{descoberta,\stwopa{}}
-\]
+\end{equation}
 
 Onde $TS_{descoberta,app}$ e $TS_{descoberta,\stwopa{}}$ se referem ao \timestamp{} de uma notificação de descoberta na aplicação e ao \timestamp{} do evento de descoberta gerado pelo \stwopa{}, respectivamente.
 
+Para avaliar a acurácia é realizada uma comparação entre a quantidade de eventos que foram gerados e quantas notificações foram entregues à aplicação, e será calculada da seguinte maneira.
 
-Para avaliar a acurácia é realizada uma comparação entre quantos eventos foram gerados e quantas notificações foram entregues à aplicação, e será calculada da seguinte maneira.
-
-\[
+\begin{equation}
+	\label{equ:acuracy}
 	Acur\acute{a}cia = \frac{EventosGerados - |EventosGerados - EventosNotificados|}{EventosGerados}
-\]
+\end{equation}
+
+Onde $EventosGerados$ e $EventosNotificados$ se referem à quantidade de eventos gerados no \stwopa{} e à quantidade de notificações desses eventos que chegaram à aplicação, respectivamente.
+
+A \autoref{tab:expected-results-1} mostra os valores do termo $EventosGerados$ na \autoref{equ:acuracy}, estes valores serão posteriormente comparados com o quantidade de eventos notificados para calcular a acurácia.
+
+\begin{table}[htb]
+	\begin{center}
+		\IBGEtab{
+			\caption{Resultados esperados do experimento 1}
+			\label{tab:expected-results-1}
+		}{
+			\begin{tabular}{lc}
+				\toprule
+				& \textbf{$EventosGerados$}	    \\
+				\midrule \midrule
+				\textbf{Eventos de descoberta}	& 34814	    \\
+				\textbf{Eventos de conexão}	& 0	    \\
+				\textbf{Eventos de desconexão}	& 0	    \\
+				\bottomrule
+			\end{tabular}
+		}{
+			\fonte{\autoriapropria}
+		}
+	\end{center}
+\end{table}
 
 \subsection{Simulação dos \beacons{}}
 
-O experimento descrito na \autoref{chap:avaliacao-experimento1} foi simulado utilizando um \dataset{}, esta seção descreve como este \dataset{} foi utilizado para simular a detecção dos \beacons{}. Os dados utilizados para a simulação do experimento 1 foram obtidos do \dataset{} disponibilizado por \citeonline{byrne2018residential}\footnote{O \dataset{} pode ser obtido em \cite{byrne2019dataset}}. Neste trabalho os autores instruiram que participantes conduzissem suas rotinas diárias em casa, enquanto sua localização na residência era monitorada.
+O experimento descrito na \autoref{chap:avaliacao-experimento1} foi simulado utilizando um \dataset{}, esta seção descreve como este \dataset{} foi utilizado para simular a detecção dos \beacons{}. Os dados utilizados para a simulação do experimento 1 foram obtidos do \dataset{} disponibilizado por \citeonline{byrne2018residential}\footnote{O \dataset{} pode ser obtido em \cite{byrne2019dataset}}. Neste trabalho os autores instruíram que participantes conduzissem suas rotinas diárias em casa, enquanto sua localização na residência era monitorada.
 
 O chão dos cômodos das casas foi marcado com etiquetas, cada etiqueta é uma imagem binária que codifica um número inteiro, e este, único para cada uma das etiquetas. Os participantes são equipados com uma câmera na região do torso que aponta em direção ao chão, detectando e interpretando qual etiqueta está visível no momento, e deste modo, identificando em qual cômodo o participante se encontra.
 
@@ -61,7 +86,7 @@ O \dataset{} original é composto principalmente por um arquivo de texto que con
 Realizou-se um pré-processamento no \dataset{} de forma a facilitar a utilização dos dados para fim da simulação, gerando um arquivo contendo 3 valores separadas por espaço em que cada linha representa o instante em que o participante entrou e permaneceu contínuamente em um cômodo. Os 3 valores são: um identificador numérico do cômodo, o nome do cômodo e o \timestamp{} em que o indivíduo entrou naquele cômodo, como pode ser visto no \autoref{lst:preprocessed-dataset}.
 
 \begin{center}
-	\begin{lstlisting}[float, caption={Parte do \dataset{} pré-processado}, label=lst:preprocessed-dataset]
+	\begin{lstlisting}[caption={Parte do \dataset{} pré-processado}, label=lst:preprocessed-dataset]
 		#room	room-name	timestamp(seconds)
 		2	living_area_A	485.352
 		1	hallway_lower	506.273
@@ -79,11 +104,11 @@ Como descrito anteriormente, cada um dos 10 cômodos possui um \beacon{} \ble{},
 
 Utilizando o \dataset{} já descrito, a cada momento em que o participante entra em determinado cômodo, calcula-se quantos anúncios o \beacon{} daquele cômodo transmitirá durante o tempo de permanência no local, o calculo é apresentado a seguir.
 
-\[
+\begin{equation}
 	anuncios = \frac{tempoPermanencia}{0.1} 
-\]
+\end{equation}
 
-Onde $tempoPermanencia$ denota o tempo que o indivíduo permaneceu no cômodo. Os anúncios são então repoduzidos a cada intervalo de 0.1 segundo.
+Onde $tempoPermanencia$ denota o tempo que o indivíduo permaneceu no cômodo. Os anúncios são então repoduzidos a cada intervalo de 0.1 segundo. Com isso foi possível calcular previamente os valores da \autoref{tab:expected-results-1}.
 
 \section{Experimento 2}
 
@@ -103,27 +128,6 @@ Para o cenário de uso 2, a todo momento em que o participante entra na sala de 
 As avaliaçãos de desempenho e acurácia deste cenário de uso são análogas às do cenário de uso 1, com a exceção de que eventos de conexão e desconexão também fazem partes das medições.
 
 A \autoref{tab:expected-results-1} e a \autoref{tab:expected-results-2} mostram os resultados esperados de ambos os cenários de uso. Estes valores serão utilizados para a análise de acurácia da solução.
-
-\begin{table}[htb]
-	\begin{center}
-		\IBGEtab{
-			\caption{Resultados esperados do cenário de uso 1}
-			\label{tab:expected-results-1}
-		}{
-			\begin{tabular}{lc}
-				\toprule
-				& \textbf{Cenário de uso 1 (Esperado)}	    \\
-				\midrule \midrule
-				\textbf{Eventos de descoberta}	& 34814	    \\
-				\textbf{Eventos de conexão}	& 0	    \\
-				\textbf{Eventos de desconexão}	& 0	    \\
-				\bottomrule
-			\end{tabular}
-		}{
-			\fonte{\autoriapropria}
-		}
-	\end{center}
-\end{table}
 
 \begin{table}[htb]
 	\begin{center}
