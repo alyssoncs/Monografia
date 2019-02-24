@@ -1,0 +1,39 @@
+digraph {
+	node[shape=box];
+	rankdir = LR;
+
+	beacon[label = "Beacon BLE", shape = oval];
+	mqtt[label = "Broker MQTT"];
+
+	subgraph cluster_device {
+		label = "Dispositivo Android";
+		
+
+		eventbus[label = "EventBus"];
+
+		subgraph cluster_mhub {
+			label = "M-Hub";
+
+			s2pa[label = "S2PA"];
+			ble[label = "BLETechnology"];
+		}
+
+		subgraph cluster_cddl {
+			label = "CDDL";
+
+			qoc[label = "QoCEvaluator"];
+			publisher[label = "Publisher"];
+			subscriber[label = "Subscriber"];
+		}
+
+	}
+
+	beacon -> ble [arrowhead = oopen];
+	ble -> s2pa [headlabel = "⏱:T0", labeldistance = 2.0, labelangle = -29.0];
+	s2pa -> eventbus [arrowhead = open];
+	eventbus -> qoc [arrowhead = open];
+	qoc -> publisher;
+	publisher -> mqtt [arrowhead = open];
+	mqtt -> subscriber [headlabel = "⏱:T1", labeldistance = 2.9, labelangle = 20.0, arrowhead = open,];
+
+}
