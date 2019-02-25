@@ -19,7 +19,7 @@ Para este experimeto, cada anúncio detectado corresponde a um evento de descobe
 A fim de determinar a performance, a aplicação permanece constantemente anotando os \timestamps{} de cada evento de descoberta emitido pelo \stwopa{}, e os \timestamps{} de notificações destes eventos na aplicação---ambos em milisegundos. O primeiro \timestamp{} é subtraído do segundo de forma a calcular o tempo de propagação dos eventos de descoberta, que será de agora em diante referido como $TP_{descoberta}$ e calculado da seguinte forma. 
 
 \begin{equation}
-	\label{equ:performance}
+	\label{equ:performance-discovery}
 	TP_{descoberta} = TS_{descoberta,app} - TS_{descoberta,\stwopa{}}
 \end{equation}
 
@@ -34,7 +34,7 @@ Para avaliar a acurácia é realizada uma comparação entre a quantidade de eve
 
 Onde $EventosGerados$ e $EventosNotificados$ se referem à quantidade de eventos gerados no \stwopa{} e à quantidade de notificações desses eventos que chegaram à aplicação, respectivamente.
 
-A \autoref{tab:expected-results-1} mostra os valores do termo $EventosGerados$ na \autoref{equ:acuracy}, estes valores serão posteriormente comparados com o quantidade de eventos notificados para calcular a acurácia.
+A \autoref{tab:expected-results-1} mostra os valores do termo $EventosGerados$ na \autoref{equ:acuracy}, estes valores serão posteriormente comparados com a quantidade de eventos notificados para calcular a acurácia.
 
 \begin{table}[htb]
 	\begin{center}
@@ -57,7 +57,7 @@ A \autoref{tab:expected-results-1} mostra os valores do termo $EventosGerados$ n
 	\end{center}
 \end{table}
 
-\subsection{Simulação dos \beacons{}}
+\subsection{Simulação dos \beacons{}}\label{chap:avaliacao-simulacao-beacons}
 
 O experimento descrito na \autoref{chap:avaliacao-experimento1} foi simulado utilizando um \dataset{}, esta seção descreve como este \dataset{} foi utilizado para simular a detecção dos \beacons{}. Os dados utilizados para a simulação do experimento 1 foram obtidos do \dataset{} disponibilizado por \citeonline{byrne2018residential}\footnote{O \dataset{} pode ser obtido em \cite{byrne2019dataset}}. Neste trabalho os autores instruíram que participantes conduzissem suas rotinas diárias em casa, enquanto sua localização na residência era monitorada.
 
@@ -87,6 +87,7 @@ O \dataset{} original é composto principalmente por um arquivo de texto que con
 Realizou-se um pré-processamento no \dataset{} de forma a facilitar a utilização dos dados para fim da simulação, gerando um arquivo contendo 3 valores separadas por espaço em que cada linha representa o instante em que o participante entrou e permaneceu contínuamente em um cômodo. Os 3 valores são: um identificador numérico do cômodo, o nome do cômodo e o \timestamp{} em que o indivíduo entrou naquele cômodo, como pode ser visto no \autoref{lst:preprocessed-dataset}.
 
 \begin{center}
+	
 	\begin{lstlisting}[caption={Parte do \dataset{} pré-processado}, label=lst:preprocessed-dataset]
 		#room	room-name	timestamp(seconds)
 		2	living_area_A	485.352
@@ -99,11 +100,12 @@ Realizou-se um pré-processamento no \dataset{} de forma a facilitar a utilizaç
 		8	hallway_upper	628.495
 		9	bedroom_2	632.065
 	\end{lstlisting}
+	
 \end{center}
 
 Como descrito anteriormente, cada um dos 10 cômodos possui um \beacon{} \ble{}, configurados para emitir 10 anúncios por segundo. É esperado, então,  que o aplicativo detecte um anúncio a cada 0.1 segundo em que o participante permanece em um cômodo. 
 
-Utilizando o \dataset{} já descrito, a cada momento em que o participante entra em determinado cômodo, calcula-se quantos anúncios o \beacon{} daquele cômodo transmitirá durante o tempo de permanência no local, o calculo é apresentado a seguir.
+Utilizando o \dataset{} já descrito, a cada momento em que o participante entra em determinado cômodo, calcula-se quantos anúncios o \beacon{} daquele cômodo transmitirá durante o tempo de permanência no local, o cálculo é apresentado a seguir.
 
 \begin{equation}
 	anuncios = \frac{tempoPermanencia}{0.1} 
@@ -111,37 +113,55 @@ Utilizando o \dataset{} já descrito, a cada momento em que o participante entra
 
 Onde $tempoPermanencia$ denota o tempo que o indivíduo permaneceu no cômodo. Os anúncios são então repoduzidos a cada intervalo de 0.1 segundo. Com isso foi possível calcular previamente os valores da \autoref{tab:expected-results-1}.
 
-\section{Coleta das métricas de performance}
+\subsection{Coleta das métricas de performance}
 
-Na \autoref{img:performance-annotation} é possível observar onde os \timestamps{} utilizados na avaliação de performance são anotados. Ambos os \timestamps{} são denotados na imagem por um cronômetro. Na imagem, $T0$ e $T1$ são equivalentes à $TS_{descoberta,\stwopa{}}$ e $TS_{descoberta,app}$ da \autoref{equ:performance}.
+Na \autoref{img:performance-annotation} é possível observar onde os \timestamps{} utilizados na avaliação de performance são anotados. Ambos os \timestamps{} são denotados na imagem por um cronômetro. Na imagem, $T0$ e $T1$ são equivalentes à $TS_{descoberta,\stwopa{}}$ e $TS_{descoberta,app}$ da \autoref{equ:performance-discovery}.
 
-\begin{figure}
+\begin{figure}[htb]
+	
 	\begin{center}
+
 		\caption{\label{img:performance-annotation}Componentes onde há a captura de \timestamps{}}
 		\includegraphics[scale = 0.50]{img/performance-annotation}
 		\fonte{\autoriapropria{}}
+
 	\end{center}
+	
 \end{figure}
 
+\subsection{Recursos computacionais}
+
+O experimento descrito foi executado em um \smartphone{} Lenovo Moto Z Play, com processador de 8 núcleos e 2GHz, e 3GB de memória RAM.
+
+Também foi utilizado uma máquina virtual como \broker{} \mqtt{}, esta máquina executa o sistema operacional Ubuntu 16.04.4 LTS, possui processador de 2 núcleos com 2.5GHz e 4GB de memória RAM.
 
 \section{Experimento 2}
 
-Para o cenário de uso 2 utilizou-se o cômodo ``\texttt{living\_area\_A}'' como a sala de estar onde o sistema multimídia se localiza. As informações referentes a quantidade de vezes que o participante entra em cada cômodo estão sumarizadas na \autoref{fig:dataset-histogram}.
+O segundo experimento visa avaliar o desempenho e acurácia da solução proposta, entretanto levando em consideração também os eventos de conexão e desconexão que não foram analisados no primeiro experimento. O experimento consiste em um cenário de uso composto por uma casa que possui um sistema multimídia na sala de estar, onde o conteúdo da televisão se adapta de acordo com os usuários que estão presentes na sala, e a interação com as aplicações da televisão digital acontece através do \smartphone{}.
 
-Consiste em uma casa que possui um sistema multimídia na sala de estar, onde o conteúdo da televisão se adapta de acordo com os usuários que estão presentes na sala de estar, e a interação com as aplicações da televisão digital acontece através do \smartphone{}.
+Uma aplicação android foi desenvolvida com o \middleware{} \mhubcddl{} que permanece ativamente procurando e se conectando ao sistema multimídia no ambiente. Ao entrar na sala de estar o sistema multimídia é encontrado e em seguida a conexão é estabelecida. Quando o usuário sai da sala de estar a conexão é desfeita. 
 
-Ao entrar na sala de estar o sistema multimídia é encontrado e em seguida a conexão é estabelecida. Quando o usuário sai da sala de estar a conexão é desfeita. É medido o tempo de propagação de todos os eventos de descoberta, conexão e desconexão gerados no \stwopa{} para a aplicação.
+\subsection{Métricas}
 
-\section{Descrição dos dados}
+Para o experimento 2, a todo momento em que o participante entra na sala de estar acontece interações entre o aplicativo e o sistema multimídia, essas interações são compostas de um evento de descoberta, seguido por um evento de conexão. Ao sair do quarto um evento de desconexão é também gerado. Cada um desses eventos são gerados pelo \stwopa{} e notificados posteriormente à aplicação.
 
-\section{Métricas}
+As avaliaçãos de desempenho e acurácia deste cenário de uso são análogas às descritas para o experimento 1, com a exceção de que eventos de conexão e desconexão também fazem partes das medições.
 
+A \autoref{equ:performance-discovery} será utilizada para avaliar a performance da notificação de eventos de descoberta. A performance da notificação dos eventos de conexão e desconexão serão os tempos de propagação de tais eventos até a aplicação, e denotados como $TP_{conexao}$ e $TP_{desconexao}$ respectivamente.
 
-Para o cenário de uso 2, a todo momento em que o participante entra na sala de estar acontece interações entre o aplicativo e o sistema multimídia, essas interações são compostas de um evento de descoberta, seguido por um evento de conexão. Ao sair do quarto um evento de desconexão é também gerado. 
+\begin{equation}
+	\label{equ:performance-connection}
+	TP_{conexao} = TS_{conexao,app} - TS_{conexao,\stwopa{}}
+\end{equation}
 
-As avaliaçãos de desempenho e acurácia deste cenário de uso são análogas às do cenário de uso 1, com a exceção de que eventos de conexão e desconexão também fazem partes das medições.
+\begin{equation}
+	\label{equ:performance-disconnection}
+	TP_{desconexao} = TS_{desconexao,app} - TS_{desconexao,\stwopa{}}
+\end{equation}
 
-A \autoref{tab:expected-results-1} e a \autoref{tab:expected-results-2} mostram os resultados esperados de ambos os cenários de uso. Estes valores serão utilizados para a análise de acurácia da solução.
+Onde $TS_{conexao,\stwopa{}}$ e $TS_{desconexao,\stwopa{}}$ são os \timestamps{} de quando os eventos de conexão e desconexão são gerados no \stwopa{}. Já $TS_{conexao,app}$ e $TS_{desconexao,app}$ são os \timestamps{} de quando esses eventos são entregues à aplicação.
+
+Para medir a acurácia será utilizado a \autoref{equ:acuracy}. A \autoref{tab:expected-results-2} sumariza os resultados esperados para o experimento.
 
 \begin{table}[htb]
 	\begin{center}
@@ -151,7 +171,7 @@ A \autoref{tab:expected-results-1} e a \autoref{tab:expected-results-2} mostram 
 		}{
 			\begin{tabular}{lc}
 				\toprule
-				& \textbf{Cenário de uso 2 (Esperado)}	\\
+				& \textbf{$EventosGerados$}		\\
 				\midrule \midrule
 				\textbf{Eventos de descoberta}	& 140	\\
 				\textbf{Eventos de conexão}	& 140	\\
@@ -164,11 +184,13 @@ A \autoref{tab:expected-results-1} e a \autoref{tab:expected-results-2} mostram 
 	\end{center}
 \end{table}
 
-\section{Descrição dos experimentos}
+\subsection{Simulação do sistema multimídia}
 
-Foi desenvolvido um aplicativo android utilizando o \mhubcddl{} onde o \smartphone{} permanece ativamente procurando e, quando possível, se conectando a \smartobjs{} no ambiente. O aplicativo é responsável por registrar a ocorrencia de interações com \smartobjs{}, juntamente com os \timestamps{} de cada um desses eventos. Os experimentos foram realizados no âmbito de dois cenários de uso descritos a seguir.
+O experimento 2 foi simulado utilizando os dados obtidos do \dataset{} descrito na \autoref{chap:avaliacao-simulacao-beacons}
+Para o experimento 2 foi feita uma simulação de um indivíduo andando em uma residência, foram utilizados os dados do \dataset{} descrito na \autoref{chap:avaliacao-simulacao-beacons} para 
 
-Os cenários de uso foram simulados com a tecnologia \fakesensor{} para gerar os eventos no \stwopa{}.
+Para o cenário de uso 2 utilizou-se o cômodo ``\texttt{living\_area\_A}'' como a sala de estar onde o sistema multimídia se localiza. As informações referentes a quantidade de vezes que o participante entra em cada cômodo estão sumarizadas na \autoref{fig:dataset-histogram}.
 
 
+A \autoref{tab:expected-results-1} e a \autoref{tab:expected-results-2} mostram os resultados esperados de ambos os cenários de uso. Estes valores serão utilizados para a análise de acurácia da solução.
 
