@@ -19,6 +19,7 @@ Para este experimeto, cada anúncio detectado corresponde a um evento de descobe
 A fim de determinar a performance, a aplicação permanece constantemente anotando os \timestamps{} de cada evento de descoberta emitido pelo \stwopa{}, e os \timestamps{} de notificações destes eventos na aplicação---ambos em milisegundos. O primeiro \timestamp{} é subtraído do segundo de forma a calcular o tempo de propagação dos eventos de descoberta, que será de agora em diante referido como $TP_{descoberta}$ e calculado da seguinte forma. 
 
 \begin{equation}
+	\label{equ:performance}
 	TP_{descoberta} = TS_{descoberta,app} - TS_{descoberta,\stwopa{}}
 \end{equation}
 
@@ -110,7 +111,18 @@ Utilizando o \dataset{} já descrito, a cada momento em que o participante entra
 
 Onde $tempoPermanencia$ denota o tempo que o indivíduo permaneceu no cômodo. Os anúncios são então repoduzidos a cada intervalo de 0.1 segundo. Com isso foi possível calcular previamente os valores da \autoref{tab:expected-results-1}.
 
-\section{Realização dos experimentos}
+\section{Coleta das métricas de performance}
+
+Na \autoref{img:performance-annotation} é possível observar onde os \timestamps{} utilizados na avaliação de performance são anotados. Ambos os \timestamps{} são denotados na imagem por um cronômetro. Na imagem, $T0$ e $T1$ são equivalentes à $TS_{descoberta,\stwopa{}}$ e $TS_{descoberta,app}$ da \autoref{equ:performance}.
+
+\begin{figure}
+	\begin{center}
+		\caption{\label{img:performance-annotation}Componentes onde há a captura de \timestamps{}}
+		\includegraphics[scale = 0.50]{img/performance-annotation}
+		\fonte{\autoriapropria{}}
+	\end{center}
+\end{figure}
+
 
 \section{Experimento 2}
 
