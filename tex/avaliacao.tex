@@ -34,13 +34,13 @@ Para avaliar a acurácia é realizada uma comparação entre a quantidade de eve
 
 Onde $EventosGerados$ e $EventosNotificados$ se referem à quantidade de eventos gerados no \stwopa{} e à quantidade de notificações desses eventos que chegaram à aplicação, respectivamente.
 
-A \autoref{tab:expected-results-1} mostra os valores do termo $EventosGerados$ na \autoref{equ:acuracy}, estes valores serão posteriormente comparados com a quantidade de eventos notificados para calcular a acurácia.
+A \autoref{tab:generated-events-1} mostra os valores do termo $EventosGerados$ na \autoref{equ:acuracy}, estes valores serão posteriormente comparados com a quantidade de eventos notificados para calcular a acurácia.
 
 \begin{table}[htb]
 	\begin{center}
 		\IBGEtab{
-			\caption{Resultados esperados do experimento 1}
-			\label{tab:expected-results-1}
+			\caption{Quantidade de eventos que serão gerados no experimento 1}
+			\label{tab:generated-events-1}
 		}{
 			\begin{tabular}{lc}
 				\toprule
@@ -111,7 +111,7 @@ Utilizando o \dataset{} já descrito, a cada momento em que o participante entra
 	anuncios = \frac{tempoPermanencia}{0.1} 
 \end{equation}
 
-Onde $tempoPermanencia$ denota o tempo que o indivíduo permaneceu no cômodo. Os anúncios são então repoduzidos a cada intervalo de 0.1 segundo. Com isso foi possível calcular previamente os valores da \autoref{tab:expected-results-1}.
+Onde $tempoPermanencia$ denota o tempo que o indivíduo permaneceu no cômodo. Os anúncios são então repoduzidos a cada intervalo de 0.1 segundo. Com isso foi possível calcular previamente os valores da \autoref{tab:generated-events-1}.
 
 \subsection{Coleta das métricas de performance}
 
@@ -163,13 +163,13 @@ A \autoref{equ:performance-discovery} será utilizada para avaliar a performance
 
 Onde $TS_{conexao,\stwopa{}}$ e $TS_{desconexao,\stwopa{}}$ são os \timestamps{} de quando os eventos de conexão e desconexão são gerados no \stwopa{}. Já $TS_{conexao,app}$ e $TS_{desconexao,app}$ são os \timestamps{} de quando esses eventos são entregues à aplicação.
 
-Para medir a acurácia será utilizado a \autoref{equ:acuracy}. A \autoref{tab:expected-results-2} sumariza os resultados esperados para o experimento.
+Para medir a acurácia será utilizado a \autoref{equ:acuracy}. A \autoref{tab:generated-events-2} sumariza os resultados esperados para o experimento.
 
 \begin{table}[htb]
 	\begin{center}
 		\IBGEtab{
-			\caption{Resultados esperados do experimento 2}
-			\label{tab:expected-results-2}
+			\caption{Quantidade de eventos que serão gerados no experimento 2}
+			\label{tab:generated-events-2}
 		}{
 			\begin{tabular}{lc}
 				\toprule
@@ -190,8 +190,5 @@ Para medir a acurácia será utilizado a \autoref{equ:acuracy}. A \autoref{tab:e
 
 Para este experimento foi feita uma simulação de um indivíduo andando em uma residência, foram utilizados os dados do \dataset{} descrito na \autoref{chap:avaliacao-simulacao-beacons} para esta simulação.
 
-Utilizou-se também o experimento ``\texttt{living\_2}'' da casa ``\texttt{Residence D}'' por fornecer um dos maiores tempos de monitoramento do participante juntamente com a maior quantidade de visitas à sala de estar. o cômodo ``\texttt{living\_area\_A}'' como a sala de estar onde o sistema multimídia se localiza. As informações referentes a quantidade de vezes que o participante entra em cada cômodo estão sumarizadas na \autoref{fig:dataset-histogram}.
-
-
-A \autoref{tab:expected-results-1} e a \autoref{tab:expected-results-2} mostram os resultados esperados de ambos os cenários de uso. Estes valores serão utilizados para a análise de acurácia da solução.
+Escolheu-se também o experimento ``\texttt{living\_2}'' da casa ``\texttt{Residence D}'' por fornecer um dos maiores tempos de monitoramento do participante juntamente com a maior quantidade de visitas à sala de estar. Será utilizado apenas a parte do \dataset{} referentes à entradas no cômodo denotado como ``\texttt{living\_area\_A}'' na \autoref{fig:dataset-histogram}, pois este cômodo foi escolhido como a sala de estar onde o sistema multimídia se localiza.
 
