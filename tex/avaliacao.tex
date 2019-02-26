@@ -137,7 +137,9 @@ Também foi utilizado uma máquina virtual como \broker{} \mqtt{}, esta máquina
 
 \section{Experimento 2}
 
-O segundo experimento visa avaliar o desempenho e acurácia da solução proposta, entretanto levando em consideração também os eventos de conexão e desconexão que não foram analisados no primeiro experimento. O experimento consiste em um cenário de uso composto por uma casa que possui um sistema multimídia na sala de estar, onde o conteúdo da televisão se adapta de acordo com os usuários que estão presentes na sala, e a interação com as aplicações da televisão digital acontece através do \smartphone{}.
+O segundo experimento visa avaliar o desempenho e acurácia da solução proposta, entretanto levando em consideração também os eventos de conexão e desconexão que não foram analisados no primeiro experimento. O experimento consiste em um cenário de uso composto por uma casa equipada com um sistema multimídia na sala de estar que possibilita que \smartphones{} se conectem a ele através de \bluetooth{}, onde o conteúdo da televisão se adapta de acordo com os usuários que estão presentes na sala, e a interação com as aplicações da televisão digital acontece através do \smartphone{}.
+
+O sistema multimídia pode ter ciência de qual usuário está presente através dos \smartphones{} conectados no momento, pois ele armazena a relação dos moradores da residência com seus respectivos \smartphones{}.
 
 Uma aplicação android foi desenvolvida com o \middleware{} \mhubcddl{} que permanece ativamente procurando e se conectando ao sistema multimídia no ambiente. Ao entrar na sala de estar o sistema multimídia é encontrado e em seguida a conexão é estabelecida. Quando o usuário sai da sala de estar a conexão é desfeita. 
 
@@ -186,10 +188,9 @@ Para medir a acurácia será utilizado a \autoref{equ:acuracy}. A \autoref{tab:e
 
 \subsection{Simulação do sistema multimídia}
 
-O experimento 2 foi simulado utilizando os dados obtidos do \dataset{} descrito na \autoref{chap:avaliacao-simulacao-beacons}
-Para o experimento 2 foi feita uma simulação de um indivíduo andando em uma residência, foram utilizados os dados do \dataset{} descrito na \autoref{chap:avaliacao-simulacao-beacons} para 
+Para este experimento foi feita uma simulação de um indivíduo andando em uma residência, foram utilizados os dados do \dataset{} descrito na \autoref{chap:avaliacao-simulacao-beacons} para esta simulação.
 
-Para o cenário de uso 2 utilizou-se o cômodo ``\texttt{living\_area\_A}'' como a sala de estar onde o sistema multimídia se localiza. As informações referentes a quantidade de vezes que o participante entra em cada cômodo estão sumarizadas na \autoref{fig:dataset-histogram}.
+Utilizou-se também o experimento ``\texttt{living\_2}'' da casa ``\texttt{Residence D}'' por fornecer um dos maiores tempos de monitoramento do participante juntamente com a maior quantidade de visitas à sala de estar. o cômodo ``\texttt{living\_area\_A}'' como a sala de estar onde o sistema multimídia se localiza. As informações referentes a quantidade de vezes que o participante entra em cada cômodo estão sumarizadas na \autoref{fig:dataset-histogram}.
 
 
 A \autoref{tab:expected-results-1} e a \autoref{tab:expected-results-2} mostram os resultados esperados de ambos os cenários de uso. Estes valores serão utilizados para a análise de acurácia da solução.
