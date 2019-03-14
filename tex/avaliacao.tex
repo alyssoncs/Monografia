@@ -45,7 +45,7 @@ A \autoref{tab:generated-events-1} mostra os valores do termo $EventosGerados$ n
 			\begin{tabular}{lc}
 				\toprule
 				                               & $EventosGerados$ \\
-				\midrule \midrule
+				\midrule 
 				\textbf{Eventos de descoberta} & 34814            \\
 				\textbf{Eventos de conexão}    & 0                \\
 				\textbf{Eventos de desconexão} & 0                \\
@@ -174,7 +174,7 @@ Para medir a acurácia será utilizado a \autoref{equ:acuracy}. A \autoref{tab:g
 			\begin{tabular}{lc}
 				\toprule
 				                               & $EventosGerados$ \\
-				\midrule \midrule
+				\midrule 
 				\textbf{Eventos de descoberta} & 37               \\
 				\textbf{Eventos de conexão}    & 37               \\
 				\textbf{Eventos de desconexão} & 37               \\
@@ -194,6 +194,8 @@ Escolheu-se também o experimento ``\texttt{living\_2}'' da casa ``\texttt{Resid
 
 \section{Resultados}
 
+\newcommand{\nullval}{\textbf{---}}
+
 \begin{table}[htb]
 	\begin{center}
 		\IBGEtab{
@@ -202,11 +204,11 @@ Escolheu-se também o experimento ``\texttt{living\_2}'' da casa ``\texttt{Resid
 		}{
 			\begin{tabular}{lccc}
 				\toprule
-				                               & $EventosGerados$ & $EventosNotificados$ & $Acur\acute{a}cia$(\%) \\
-				\midrule \midrule
-				\textbf{Eventos de descoberta} & 34814            & 34811                & 99.99		  \\
-				\textbf{Eventos de conexão}    & 0                & 0                    & \textbf{---}	          \\
-				\textbf{Eventos de desconexão} & 0                & 0                    & \textbf{---}		  \\
+				                               & $EventosGerados$ & $EventosNotificados$ & $Acur\acute{a}cia$ (\%) \\
+				\midrule
+				\textbf{Eventos de descoberta} & 34814            & 34811                & 99.99		   \\
+				\textbf{Eventos de conexão}    & 0                & 0                    & \nullval	           \\
+				\textbf{Eventos de desconexão} & 0                & 0                    & \nullval		   \\
 				\bottomrule
 			\end{tabular}
 		}{
@@ -224,13 +226,44 @@ Escolheu-se também o experimento ``\texttt{living\_2}'' da casa ``\texttt{Resid
 		}{
 			\begin{tabular}{lccc}
 				\toprule
-				                               & $EventosGerados$ & $EventosNotificados$ & $Acur\acute{a}cia$(\%) \\
-				\midrule \midrule
-				\textbf{Eventos de descoberta} & 37               & 37                   & 100			  \\
-				\textbf{Eventos de conexão}    & 37	          & 37                   & 100			  \\
-				\textbf{Eventos de desconexão} & 37	          & 37                   & 100			  \\
+				                               & $EventosGerados$ & $EventosNotificados$ & $Acur\acute{a}cia$ (\%) \\
+				\midrule
+				\textbf{Eventos de descoberta} & 37               & 37                   & 100			   \\
+				\textbf{Eventos de conexão}    & 37	          & 37                   & 100			   \\
+				\textbf{Eventos de desconexão} & 37	          & 37                   & 100			   \\
 				\bottomrule
 			\end{tabular}
+		}{
+			\fonte{\autoriapropria}
+		}
+	\end{center}
+\end{table}
+
+
+%only used in the next table
+\newcommand{\tabperformanceheader}{
+	& \multicolumn{2}{c}{$TP_{descoberta}$ (ms)} & & \multicolumn{2}{c}{$TP_{conexao}$ (ms)} & & \multicolumn{2}{c}{$TP_{desconexao}$ (ms)} \\
+	\cmidrule{2-3} \cmidrule{5-6} \cmidrule{8-9}
+	& Média & Desvio padrão                 & & Média & Desvio padrão              & & Média & Desvio padrão                 
+}
+
+\begin{table}[htb]
+	\begin{center}
+		\IBGEtab{
+			\caption{Performânce da entrega de mensagens}
+			\label{tab:experiments-performance}
+		}{
+			\scalebox{.97}{
+			\begin{tabular}{l*{8}{c}}
+				\toprule
+				\tabperformanceheader                                                                    \\
+				\midrule 
+				\textbf{Experimento 1} & 96.77  & 168.35 & & \nullval & \nullval & & \nullval & \nullval \\
+				\textbf{Experimento 2} & 173.14 & 87.07  & & 241.22   & 87.80    & & 117.05   & 78.07    \\
+				\bottomrule
+			\end{tabular}
+
+			}
 		}{
 			\fonte{\autoriapropria}
 		}
