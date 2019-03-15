@@ -151,15 +151,10 @@ As avaliaçãos de desempenho e acurácia deste cenário de uso são análogas �
 
 A \autoref{equ:performance-discovery} será utilizada para avaliar a performance da notificação de eventos de descoberta. A performance da notificação dos eventos de conexão e desconexão serão os tempos de propagação de tais eventos até a aplicação, e denotados como $TP_{conexao}$ e $TP_{desconexao}$ respectivamente.
 
-\begin{equation}
-	\label{equ:performance-connection}
-	TP_{conexao} = TS_{conexao,app} - TS_{conexao,\stwopa{}}
-\end{equation}
-
-\begin{equation}
-	\label{equ:performance-disconnection}
-	TP_{desconexao} = TS_{desconexao,app} - TS_{desconexao,\stwopa{}}
-\end{equation}
+\begin{align}
+	TP_{conexao} &= TS_{conexao,app} - TS_{conexao,\stwopa{}} \label{equ:performance-connection} \\
+	TP_{desconexao} &= TS_{desconexao,app} - TS_{desconexao,\stwopa{}} \label{equ:performance-disconnection}
+\end{align}
 
 Onde $TS_{conexao,\stwopa{}}$ e $TS_{desconexao,\stwopa{}}$ são os \timestamps{} de quando os eventos de conexão e desconexão são gerados no \stwopa{}. Já $TS_{conexao,app}$ e $TS_{desconexao,app}$ são os \timestamps{} de quando esses eventos são entregues à aplicação.
 
