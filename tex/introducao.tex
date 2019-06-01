@@ -66,16 +66,36 @@ De acordo com \citeonline{nahrstedt2016internet}, a \iomt{} se diferencia da \io
 \end{alineas}
 
 
-
-Dado a dinamicidade característica da \iomt{}, onde a topologia da rede muda constantemente e os \smartobjs{} e \gateways{} interagem de forma oportunística, torna-se claro a necessidade da existência de um mecanismo de notificação que informe aos desenvolvedores de aplicações a ocorrência de eventos de descoberta, conexão e desconexão de \smartobjs{}.
-
 \subsection{\mhubcddl{}}
 
+O Mobile Hub/Context Data Distribution Layer (\mhubcddl) é um \middleware{} \iot{} para aquisição, processamento e distribuição de dados de contexto, e com amplo suporte para criação de aplicações de \iot{} que possuam requisitos de qualidade de contexto \cite{Gomes_2017}.
+
+Surgindo de uma parceria entre o Laboratório de Sistemas Distribuídos Inteligentes (LSDi) da UFMA e o Laboratory for Advanced Collaboration (LAC) da PUC-Rio, o \middleware{} combina um \gateway{} móvel para aquisição dos dados de sensores, internos e externos, com uma camada de distribuição que também oferece mecanismos de descoberta e qualidade de serviço.
+
+Adota o MQTT como único protocolo de comunicação, possuindo inclusive um microbroker interno. Assim, a captura dos dados de sensores obedece a arquitetura \textit{publish}/\textit{subscribe}.
 
 \section{Caracterização do problema}
 
+Dado a dinamicidade característica da \iomt{}, onde a topologia da rede muda constantemente e os \smartobjs{} e \gateways{} interagem de forma oportunística, torna-se claro a necessidade da existência de um mecanismo de notificação que informe à aplicação a ocorrência de eventos de descoberta, conexão e desconexão de \smartobjs{} com os \smartphones.
+
+Um problema semelhante, entretanto mais desafiador, é a construção de tal mecanismo de forma que a aplicação seja notificada sobre os eventos que ocorrem no âmbito de outras aplicações que estão sendo executadas em outros dispositivos.
 
 \section{Objetivos}
+
+O trabalho terá como objetivo a proposta de um modelo do mecanismo de propagação de eventos de descoberta, conexão e desconexão de \smartobjs{} no \middleware{} \mhubcddl{}. A solução deverá se adequar aos requisitos de ambientes de \iomt{}.
+
+\subsection{Objetivos específicos}
+
+\begin{alineas}
+
+	\item Projetar a arquitetura do mecanismo de notificação;
+
+	\item Implementar a solução no \middleware{} \mhubcddl{};
+
+	\item Realizar análises de performance e acurácia na solução proposta.
+
+\end{alineas}
+
 
 
 \section{Organização do texto}
