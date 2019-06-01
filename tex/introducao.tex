@@ -4,27 +4,27 @@ Após a leitura deste capítulo introdutório, o leitor será capaz de entender 
 
 \section{Contextualização}
 
-\subsection{\iot{}}
+\subsection{\iot}
 
-A Internet das Coisas (\textit{Internet of Things} -- \iot) é um paradigma de comunicação recente, onde objetos do dia a dia são equipados com equipamentos e protocolos que permitem que se comuniquem com seus usuários e com outros objetos, se tornando parte integral da Internet \cite{Atzori:2010}.  Pode ser definida como a interconexão de sensores e atuadores que fornece a capacidade de compartilhar informações entre plataformas através de um \framework{} unificado \cite{gubbi2013internet}. 
+A Internet das Coisas (\textit{Internet of Things} -- \iot) é um paradigma de comunicação recente, onde objetos do dia a dia são equipados com equipamentos e protocolos que permitem que se comuniquem com seus usuários e com outros objetos, se tornando parte integral da Internet \cite{Atzori:2010}.  Pode ser definida como a interconexão de sensores e atuadores que fornece a capacidade de compartilhar informações entre plataformas através de um \framework unificado \cite{gubbi2013internet}. 
 
-No contexto da \iot{}, as ``coisas'' (do inglês: \textit{things}) são denominados ``\smartobjs'' \cite{bandyopadhyay2011internet}. Seu conceito propõe tornar a Internet ainda mais pervasiva e imersiva, ela promoverá o desenvolvimento de aplicações que utilizarão a grande quantidade e variedade de dados produzidos por esses objetos, de forma a prover serviços para os usuários. 
+No contexto da \iot, as ``coisas'' (do inglês: \textit{things}) são denominados ``\smartobjs'' \cite{bandyopadhyay2011internet}. Seu conceito propõe tornar a Internet ainda mais pervasiva e imersiva, ela promoverá o desenvolvimento de aplicações que utilizarão a grande quantidade e variedade de dados produzidos por esses objetos, de forma a prover serviços para os usuários. 
 
 %colocar isso na Justificativa?
 %A medida em que a \iot{} se expande em diversos setores da economia, a demanda para empregar e integrar dispositivos com capacidade de atuação também aumenta. Enquanto que muitos trabalhos lidem com plataformas de \middleware{} que deem suporte ao desenvolvimento de aplicações que necessitem de sensoriamento, pouco foi feito para prover serviços de atuação a nível de \middleware{} \cite{OJIOT_2018v4i1n03_Valim}.
 
-No âmbito desse trabalho, é necessário definir o conceito de \middleware{}, componente essencial para aplicações de \iot{}.
+No âmbito desse trabalho, é necessário definir o conceito de \middleware, componente essencial para aplicações de \iot.
 \begin{citacao}
-	O \middleware{} é uma camada de software ou conjunto de subcamadas interposta entre os níveis tecnológicos e de aplicação. Sua característica de esconder os detalhes de diferentes tecnologias é fundamental para isentar o programador de problemas que não são diretamente pertinentes para seu foco, que é o desenvolvimento da aplicação específica hablilitada pelas infraestruturas de \iot{} \cite[tradução~nossa]{Atzori:2010}.
+	O \middleware é uma camada de software ou conjunto de subcamadas interposta entre os níveis tecnológicos e de aplicação. Sua característica de esconder os detalhes de diferentes tecnologias é fundamental para isentar o programador de problemas que não são diretamente pertinentes para seu foco, que é o desenvolvimento da aplicação específica hablilitada pelas infraestruturas de \iot \cite[tradução~nossa]{Atzori:2010}.
 \end{citacao}
 
-\subsubsection{\iomt{}}
+\subsubsection{\iomt}
 
-A \iot{} geralmente lida com \smartobjs{} estáticos, frequentemente presentes na infraestrutura do ambiente, como: sensores de uma sala, leitores \rfid{} de prédios inteligentes, etc. A Internet das Coisas Móveis (Internet of Mobile Things -- \iomt{}) é uma extensão da \iot{} clássica, onde os objetos e os \gateways{} são livres para se locomover, gerando uma maior dinamicidade de interações.
+A \iot geralmente lida com \smartobjs estáticos, frequentemente presentes na infraestrutura do ambiente, como: sensores de uma sala, leitores \rfid de prédios inteligentes, etc. A Internet das Coisas Móveis (Internet of Mobile Things -- \iomt) é uma extensão da \iot clássica, onde os objetos e os \gateways são livres para se locomover, gerando uma maior dinamicidade de interações.
 
-Exemplos de \smartobjs{} móveis incluem: dispositivos vestíveis, veículos, e robôs móveis. Visto o contexto de mobilidade, \smartphones{} são dispositivos adequados para assumir o papel de fornecedor de Internet e serviço de localização---ou seja, um \gateway{}---para \smartobjs{} que tenham disponíveis apenas tecnologias de comunicação sem fio de curto alcance e, dessa forma, não implementam a pilha TCP/IP \cite{talavera2015mobile}.
+Exemplos de \smartobjs móveis incluem: dispositivos vestíveis, veículos, e robôs móveis. Visto o contexto de mobilidade, \smartphones são dispositivos adequados para assumir o papel de fornecedor de Internet e serviço de localização---ou seja, um \gateway---para \smartobjs que tenham disponíveis apenas tecnologias de comunicação sem fio de curto alcance e, dessa forma, não implementam a pilha TCP/IP \cite{talavera2015mobile}.
 
-De acordo com \citeonline{nahrstedt2016internet}, a \iomt{} se diferencia da \iot{} nos seguintes aspectos:
+De acordo com \citeonline{nahrstedt2016internet}, a \iomt se diferencia da \iot nos seguintes aspectos:
 \begin{alineas}
 
 	\item \emph{Contexto}, exemplo:
@@ -66,23 +66,23 @@ De acordo com \citeonline{nahrstedt2016internet}, a \iomt{} se diferencia da \io
 \end{alineas}
 
 
-\subsection{\mhubcddl{}}
+\subsection{\mhubcddl}
 
-O Mobile Hub/Context Data Distribution Layer (\mhubcddl) é um \middleware{} \iot{} para aquisição, processamento e distribuição de dados de contexto, e com amplo suporte para criação de aplicações de \iot{} que possuam requisitos de qualidade de contexto \cite{Gomes_2017}.
+O Mobile Hub/Context Data Distribution Layer (\mhubcddl) é um \middleware \iot para aquisição, processamento e distribuição de dados de contexto, e com amplo suporte para criação de aplicações de \iot que possuam requisitos de qualidade de contexto \cite{Gomes_2017}.
 
-Surgindo de uma parceria entre o Laboratório de Sistemas Distribuídos Inteligentes (LSDi) da UFMA e o Laboratory for Advanced Collaboration (LAC) da PUC-Rio, o \middleware{} combina um \gateway{} móvel para aquisição dos dados de sensores, internos e externos, com uma camada de distribuição que também oferece mecanismos de descoberta e qualidade de serviço.
+Surgindo de uma parceria entre o Laboratório de Sistemas Distribuídos Inteligentes (LSDi) da UFMA e o Laboratory for Advanced Collaboration (LAC) da PUC-Rio, o \middleware combina um \gateway móvel para aquisição dos dados de sensores, internos e externos, com uma camada de distribuição que também oferece mecanismos de descoberta e qualidade de serviço.
 
 Adota o MQTT como único protocolo de comunicação, possuindo inclusive um microbroker interno. Assim, a captura dos dados de sensores obedece a arquitetura \textit{publish}/\textit{subscribe}.
 
 \section{Caracterização do problema}
 
-Dado a dinamicidade característica da \iomt{}, onde a topologia da rede muda constantemente e os \smartobjs{} e \gateways{} interagem de forma oportunística, torna-se claro a necessidade da existência de um mecanismo de notificação que informe à aplicação a ocorrência de eventos de descoberta, conexão e desconexão de \smartobjs{} com os \smartphones.
+Dado a dinamicidade característica da \iomt, onde a topologia da rede muda constantemente e os \smartobjs e \gateways interagem de forma oportunística, torna-se claro a necessidade da existência de um mecanismo de notificação que informe à aplicação a ocorrência de eventos de descoberta, conexão e desconexão de \smartobjs com os \smartphones.
 
 Um problema semelhante, entretanto mais desafiador, é a construção de tal mecanismo de forma que a aplicação seja notificada sobre os eventos que ocorrem no âmbito de outras aplicações que estão sendo executadas em outros dispositivos.
 
 \section{Objetivos}
 
-O trabalho terá como objetivo a proposta de um modelo do mecanismo de propagação de eventos de descoberta, conexão e desconexão de \smartobjs{} no \middleware{} \mhubcddl{}. A solução deverá se adequar aos requisitos de ambientes de \iomt{}.
+O trabalho terá como objetivo a proposta de um modelo do mecanismo de propagação de eventos de descoberta, conexão e desconexão de \smartobjs no \middleware \mhubcddl. A solução deverá se adequar aos requisitos de ambientes de \iomt.
 
 \subsection{Objetivos específicos}
 
@@ -90,7 +90,7 @@ O trabalho terá como objetivo a proposta de um modelo do mecanismo de propagaç
 
 	\item Projetar a arquitetura do mecanismo de notificação;
 
-	\item Implementar a solução no \middleware{} \mhubcddl{};
+	\item Implementar a solução no \middleware \mhubcddl;
 
 	\item Realizar análises de performance e acurácia na solução proposta.
 
@@ -100,5 +100,5 @@ O trabalho terá como objetivo a proposta de um modelo do mecanismo de propagaç
 
 \section{Organização do texto}
 
-O restante deste trabalho é estruturado da seguinte maneira: No \autoref{chap:fundamentacao} será apresentada a fundamentação teórica das tecnologias habilitadoras do trabalho. No \autoref{chap:solucao} a proposta do trabalho é definida. A avaliação da solução proposta é assunto do \autoref{chap:avaliacao}. As conclusões estão presentes no \underline{Capítulo 4}.
+O restante deste trabalho é estruturado da seguinte maneira: No \autoref{chap:fundamentacao} será apresentada a fundamentação teórica das tecnologias habilitadoras do trabalho. No \autoref{chap:solucao} a proposta do trabalho é definida. A avaliação da solução proposta é assunto do \autoref{chap:avaliacao}. As conclusões estão presentes no \autoref{chap:conclusao}.
 
