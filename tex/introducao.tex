@@ -68,9 +68,9 @@ De acordo com \citeonline{nahrstedt2016internet}, a \iomt se diferencia da \iot 
 
 \subsection{\mhubcddl}
 
-O Mobile Hub/Context Data Distribution Layer (\mhubcddl) é um \middleware \iot para aquisição, processamento e distribuição de dados de contexto, e com amplo suporte para criação de aplicações de \iot que possuam requisitos de qualidade de contexto \cite{Gomes_2017}.
+O Mobile Hub/Context Data Distribution Layer (\mhubcddl) é um \middleware \iot para aquisição, processamento e distribuição de dados de contexto, com amplo suporte para criação de aplicações de \iot cientes de contexto que possuam requisitos de qualidade de contexto \cite{Gomes_2017}.
 
-Surgindo de uma parceria entre o Laboratório de Sistemas Distribuídos Inteligentes (LSDi) da UFMA e o Laboratory for Advanced Collaboration (LAC) da PUC-Rio, o \middleware combina um \gateway móvel para aquisição dos dados de sensores, internos e externos, com uma camada de distribuição que também oferece mecanismos de descoberta e qualidade de serviço.
+Surgido de uma parceria entre o Laboratório de Sistemas Distribuídos Inteligentes (LSDi) da UFMA e o Laboratory for Advanced Collaboration (LAC) da PUC-Rio, o \middleware combina o \mhub \cite{talavera2015mobile} como \gateway móvel para aquisição dos dados de sensores, internos e externos, com o \cddl, um camada de distribuição responsável por registrar e descobrir serviços de contexto disponíveis, prover e monitorar dados de contexto e garantir a qualidade dos serviços de distribuição dos dados de contexto.
 
 Adota o MQTT como único protocolo de comunicação, possuindo inclusive um microbroker interno. Assim, a captura dos dados de sensores obedece a arquitetura \textit{publish}/\textit{subscribe}.
 
@@ -95,7 +95,6 @@ O trabalho terá como objetivo a proposta de um modelo do mecanismo de propagaç
 	\item Realizar análises de performance e acurácia na solução proposta.
 
 \end{alineas}
-
 
 
 \section{Organização do texto}
