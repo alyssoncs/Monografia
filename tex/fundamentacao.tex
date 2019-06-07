@@ -10,4 +10,10 @@ As seções seguintes abordarão cada um desses componentes separadamente.
 
 \subsection{\mhub}
 
-O \middleware \mhub pode ser definido, de acordo com \citeonline{talavera2015mobile}, como um serviço de \middleware de \iomt geral responsável por descobrir e oportunisticamente conectar à uma miríade de \smartobjs acessíveis apenas através de tecnologias WPAN de curto alcance. Por estar envolvido com cenários de \iomt, este componenete de 
+O \middleware \mhub pode ser definido, de acordo com \citeonline{talavera2015mobile}, como um serviço de \middleware de \iomt geral executado em um dispositivo móvel pessoal, responsável por descobrir e oportunisticamente conectar à uma miríade de \smartobjs acessíveis apenas através de tecnologias WPAN de curto alcance. Por estar envolvido com cenários de \iomt, este componenete de \software tem que lidar com situações que apresentam muito mais indeterminismo, devido à fatores como a menor garantia de disponibilidade de sensores e atuadores, confiabilidade reduzida, maior volatilidade em conexões, etc.
+
+O \smartphone executando uma intância do \mhub, funciona como \gateway para \smartobjs, fornecendo acesso à internet para dispositivos que não podem se conectar. Outro recurso importante que pode ser explorado pelas aplicações é a habilidade de enriquecer os dados de sensores com dados de contexto obtidos dos sensores internos do \mhub.
+
+\subsubsection{\stwopa}
+
+Para gerenciar a descoberta e conexão com dispositivos que trabalham com diferentes tecnologias de comunicação, além dos sensores internos do \smartphone, o \mhub utiliza o \textit{Short-range Sensing, Presence \& Actuation} (\stwopa), um protocolo que fornece uma 
