@@ -13,6 +13,7 @@
 \usepackage{mathtools}
 \usepackage{xspace}
 \usepackage[brazilian, hyperpageref]{backref}	 % Paginas com as citações na bibl
+\usepackage{hyperref}
 \usepackage[alf]{abntex2cite}			 % Citações padrão ABNT
 
 \definecolor{blue}{RGB}{41,5,195}
@@ -23,8 +24,19 @@
 	citecolor=blue,        		% color of links to bibliography
 	filecolor=magenta,      	% color of file links
 	urlcolor=blue,			% color of url links
-	bookmarksdepth
+	bookmarksdepth,
+	pdftitle={Descoberta e Desconexão de Objetos Inteligentes em Ambientes Oportunístivos de IoMT},
+	pdfauthor={Alysson Cirilo Silva},
 }
+
+\renewcommand*{\backrefalt}[4]{
+	\ifcase #1 %
+		Nenhuma citação no texto.%
+	\or
+		Citado na página #2.%
+	\else
+		Citado #1 vezes nas páginas #2.%
+\fi}%
 
 \setlength{\parindent}{1.3cm} 		% paragraph identation
 \setlength{\parskip}{0.2cm}		% space between paragraph
