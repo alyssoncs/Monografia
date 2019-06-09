@@ -14,7 +14,23 @@ O \middleware \mhub pode ser definido, de acordo com \citeonline{talavera2015mob
 
 O \smartphone executando uma intância do \mhub, funciona como \gateway para \smartobjs, fornecendo acesso à internet para dispositivos que não podem se conectar. Outro recurso importante que pode ser explorado pelas aplicações é a habilidade de enriquecer os dados de sensores com dados de contexto obtidos dos sensores internos do \mhub.
 
+Para que o \mhub tenha suporte à determinada tecnologia de comunicação, é necessário que um novo módulo seja implementado. Este módulo será responsável por gerenciar quaisquer operações que sejam necessárias para garantir o funcionamento desta tecnologia.
+
 \subsubsection{\stwopa}
 
 Para gerenciar a descoberta e conexão com dispositivos que trabalham com diferentes tecnologias de comunicação, além dos sensores internos do \smartphone, o \mhub utiliza o \textit{Short-range Sensing, Presence \& Actuation} (\stwopa), um protocolo que fornece uma \api comum para realizar a comunicação com diferentes tecnologias WPAN.
+
+Implementado como um módulo na arquitetura do \middleware, o \stwopa define um conjunto de métodos e interfaces que os módulos responsáveis por determinada tecnologia de comunicação devem implementar. Isto permite que o \stwopa se comunique com todas as tecnologias WPAN suportadas, gerenciando-as, e assim fornece uma \api unificada para todas as camadas superiores da arquitetura que precisam se comunicar com tais tecnologias.
+
+O \stwopa torna-se então um intermediador entre todas as tecnologias de comunicação específicas e os demais componenetes do \middleware. Dentre as funcionalidades---na forma de métodos e interfaces---que as tecnologias devem implementar para seu correto funcionamento no \middleware, destacam-se:
+
+\begin{alineas}
+	\item descoberta e conexão de \smartobjs;
+	
+	\item descoberta de serviços de cada \smartobjs;
+
+	\item leitura e escrita de atributos de serviços (\textit{e.g.}, dados de sensores e comandos de atuadores);
+
+	\item notificação de desconexão com \smartobjs.
+\end{alineas}
 
