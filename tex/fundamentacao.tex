@@ -34,3 +34,20 @@ O \stwopa torna-se então um intermediador entre todas as tecnologias de comunic
 	\item notificação de desconexão com \smartobjs.
 \end{alineas}
 
+É possível encontrar na \autoref{fig:technology-interface} a interface \techinterface definida pelo \stwopa que declara os métodos padrões que realizam as funcionalidades descritas, a qual todas as tecnologias devem implementar. Também é ilustrada a interface \techlistener que é implementada pela classe \stwopaservice---a implementação do \stwopa no \mhub.
+
+\begin{figure}[htb]
+	\centering
+	\caption{\label{fig:technology-interface}Interface \techinterface}
+	\includegraphics[scale=0.6]{img/technology-interface.png}
+	\fonte{\citeonline[p. 125]{talavera2015mobile}}
+\end{figure}
+
+O \stwopaservice utiliza os métodos da interface \techinterface para gerenciar as tecnologias suportadas e, em particular, utiliza o método \texttt{setListener(\techlistener)} para se cadastrar como o \listener daquela tecnologia. Já as tecnologias utilizam os métodos da interface \techlistener para informar ao \stwopaservice a ocorrência de eventos com \smartobjs, como: descoberta, conexão, desconexão e leitura de dados de sensores.
+
+\begin{figure}
+	\centering
+	\caption{\label{fig:m-hub-architecture}Arquitetura do \mhub}
+	\includegraphics[scale=0.34]{img/m-hub-architecture.png}
+	\fonte{\citeonline[p. 6]{endler2018past}}
+\end{figure}
