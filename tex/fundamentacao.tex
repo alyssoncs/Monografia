@@ -48,25 +48,25 @@ O \stwopaservice utiliza os métodos da interface \techinterface para gerenciar 
 O \mhub fornece diversos serviços que não serão tratados neste trabalho, dentre eles, destaca-se \cite{gomes:2017}:
 
 \begin{alineas}
-	\item \emph{protocolo de transcodificação}: 
+	\item \emph{protocolo de transcodificação}:
 		Os pacotes de dados recebidos dos sensores podem ter diferentes formatos e codificações.  Assim, o \mhub deve transcodificá-los e serializá-los, antes de transmiti-los. A transcodificação de dados é altamente dependente do tipo, marca e fabricante do sensor;
 		
-	\item \emph{caching de dados}: 
+	\item \emph{caching de dados}:
 		A fim de otimizar a transmissão para a nuvem através da Internet móvel, o \mhub pode agrupar várias amostras de dados obtidas a partir de vários sensores próximos antes de enviá-las ao gateway em rajada única. Para isso, o \mhub armazena em cache as amostras de dados recebidas dos sensores;
 		
 	\item \emph{configuração e controle dos sensores}:
 		Dependendo do tipo de sensor, o \mhub pode, eventualmente ou periodicamente, enviar comandos, definições de parâmetros ou requisições de consultas de dados através da WPAN para os sensores conectados;
 		
-	\item \emph{pré-processamento de dados do sensor}: 
-		Antes de enviar os dados, pode ser necessário aplicar uma função de pré-processamento (e.g.  transcodificação, formatação, agregação, filtragem, ou comparação com leituras anteriores etc.).  Esse pré-processamento é feito no \mhub.
+	\item \emph{pré-processamento de dados do sensor}:
+		Antes de enviar os dados, pode ser necessário aplicar uma função de pré-processamento (e.g.  transcodificação, formatação, agregação, filtragem, ou comparação com leituras anteriores etc.).  Esse pré-processamento é feito no \mhub;
 		
-	\item \emph{carregamento dinâmico de módulos do sensor}: 
+	\item \emph{carregamento dinâmico de módulos do sensor}:
 		Uma vez que não é possível ter módulos internos para todos os sensores que podem estar disponíveis a medida que o gateway se move, o \mhub oferece um mecanismo de implantação de módulo em tempo de execução e gerenciamento do ciclo de vida desses módulos;
 		
-	\item \emph{processamento nas pontas}: 
-		O \mhub oferece mecanismos que permitem aos desenvolvedores de aplicações distribuírem as funcionalidades do seu código entre o dispositivo móvel e nodos da nuvem, movendo parte do processamento das informações de contexto para “as pontas” do sistema. A isso se dá o nome de In-Network Processing, uma técnica que ajuda a diminuir a quantidade de informações a ser transmitida para a nuvem, podendo melhorar a escalabilidade do sistema. O processamento ao qual esta funcionalidade se refere pode ser implementado em código Java convencional ou utilizando EPL Esper.
+	\item \emph{processamento nas pontas}:
+		O \mhub oferece mecanismos que permitem aos desenvolvedores de aplicações distribuírem as funcionalidades do seu código entre o dispositivo móvel e nodos da nuvem, movendo parte do processamento das informações de contexto para “as pontas” do sistema. A isso se dá o nome de In-Network Processing, uma técnica que ajuda a diminuir a quantidade de informações a ser transmitida para a nuvem, podendo melhorar a escalabilidade do sistema. O processamento ao qual esta funcionalidade se refere pode ser implementado em código Java convencional ou utilizando EPL Esper;
 		
-	\item \emph{processamento ciente de energia}: 
+	\item \emph{processamento ciente de energia}:
 		Por meio de um componente de gerenciamento de energia, o \mhub monitora o nível da bateria do dispositivo móvel, disparando ações adaptativas que ajustam os comportamento dos seus serviços, de acordo com a disponibilidade de energia do dispositivo móvel. Por exemplo, a frequência de publicação dos dados por ser reduzida quando o nível da bateria está baixo (por exemplo, menor que 20\%).
 \end{alineas}
 
@@ -85,5 +85,20 @@ O \cddl é uma camada de distribuição de dados que provê mecanismos que permi
 
 A interação entre produtores e consumidores de dados de contexto se dá através do modelo \pubsub com a utilização de \brokers, implementando uma comunicação ditribuída com o \mqtt. O \cddl também fornece um \ubroker que executa internamente no dispositivo móvel.
 
-Como \middleware, o \cddl permite que as aplicações clientes assumam o papel de produtoras ou consumidoras de dados de contexto, fornecendo suporte à políticas de qualidade de serviço de distribuição de dados. Desta forma as aplicações podem especificar parâmetros que expressam seus requisitos de QoC para envio e recebimento de mensagens \cite{muniz:2017}.
+Como \middleware, o \cddl permite que as aplicações clientes assumam o papel de produtoras ou consumidoras de dados de contexto, fornecendo suporte à políticas de qualidade de serviço de distribuição de dados. Desta forma as aplicações podem especificar parâmetros que expressam seus requisitos de QoC para envio e recebimento de mensagens. A fim de fornecer suporte para o desenvolvimento de aplicações de \iot e \iomt, o \cddl atende aos seguintes requisitos \cite{muniz:2017}:
 
+\begin{alineas}
+	\item suporte à distribuição de dados local e remota;
+
+	\item suporte ao registro e descoberta distribuída de serviços;
+
+	\item modelo de programação uniforme e independente de localização;
+
+	\item suporte à entrega confiável de dados em cenários de mobilidade;
+
+	\item provisionamento e monitoramento de qualidade da informação;
+
+	\item provisionamento e monitoramento de qualidade do serviço de distribuição;
+
+	\item filtragem das informações.
+\end{alineas}
