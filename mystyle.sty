@@ -17,14 +17,16 @@
 \usepackage{hyperref}
 \usepackage[alf]{abntex2cite}			 % Citações padrão ABNT
 
-\definecolor{blue}{RGB}{41,5,195}
+\definecolor{color-link}{rgb}{0.09,0.45,0.27}
+\definecolor{color-cite}{rgb}{0.09,0.45,0.27}
+\definecolor{color-url}{RGB}{41,5,195}
 \hypersetup{
 	hidelinks,	    		% links without color
 	colorlinks=true,		% false: boxed links; true: colored links
-	linkcolor=blue,          	% color of internal links
-	citecolor=blue,        		% color of links to bibliography
+	linkcolor=color-link,          	% color of internal links
+	citecolor=color-cite,        	% color of links to bibliography
+	urlcolor=color-url,		% color of url links
 	filecolor=magenta,      	% color of file links
-	urlcolor=blue,			% color of url links
 	bookmarksdepth,
 	pdftitle={Descoberta e Desconexão de Objetos Inteligentes em Ambientes Oportunístivos de IoMT},
 	pdfauthor={Alysson Cirilo Silva},
