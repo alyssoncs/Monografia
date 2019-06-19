@@ -6,8 +6,37 @@ Este capítulo visa realizar uma abordagem de toda a fundamentação teórica e 
 
 O \textit{Message Queue Telemetry Transport} (\mqtt)\footnote{\url{http://mqtt.org}} é um protocolo baseado em mensagens e seguindo o modelo \pubsub, utiliza o conceito de tópicos gerenciados por componentes chamados de \brokers. Originalmente projetado para o uso em redes não confiáveis e com recursos limitados, consiste em um servidor \broker e dois tipos distintos de clientes, \pubs e \subs \cite{lee:et-al:2013}.
 
-O \broker funciona como um intermediador entre as mensagens que são enviadas por \pubs e recebidas por \subs. Toda a comunicação é feita por intermédio de tópicos, que funcionam como uma hierarquia de diretórios onde as mensagens são entregues. Os \pubs publicam mensagens no \broker em um determinado tópico, e este se encarrega de realizar a entrega da mensagem para os \subs que registraram interesse naquele tópico, fazendo com que a orquestração da comunicação entre as entidades produtoras e consumidoras de dados seja feita exclusivamente pelo \broker.
+O \broker funciona como um intermediador entre as mensagens que são enviadas por \pubs e recebidas por \subs. Toda a comunicação é feita por intermédio de tópicos, que funcionam como uma hierarquia de diretórios onde as mensagens são entregues. Os \pubs publicam mensagens no \broker em um determinado tópico, e este se encarrega de realizar a entrega da mensagem para os \subs que registraram interesse naquele tópico, fazendo com que a orquestração da comunicação entre as entidades produtoras e consumidoras de dados seja feita exclusivamente pelo \broker. O processo de entrega de mensagens pode ser visto na \autoref{fig:mqtt-sequence}.
 
+\begin{figure}[htb]
+	\caption{Diagrama de sequência do processo de entrega de mensagens no \mqtt}
+	\label{fig:mqtt-sequence}
+	\centering
+	\includegraphics[width=0.85\linewidth]{img/mqtt-sequence.png}
+	\fonte{\citeonline{al-fuqaha:et-al:2015}}
+\end{figure}
+
+Este protocolo permite o desacoplamento total entre os produtores e consumidores de dados, deste modo nenhum dos dois componentes têm ciência da existência mútua entre si.
+
+\subsection{Estrutura de tópicos}
+
+Existem dois elementos em uma mensagem \mqtt---o dado e o tópico. O dado é a informação que o \pub precisa enviar, este dado será então enviado para o \sub que assinou o tópico onde a mensagem foi publicada \cite{tantitharanukul:et-al:2017}.
+
+O \pub pode definir qualquer tópico para enviar uma mensagem, com um ou mais níveis de hieraquía, cada nível é separado por uma barra (e.g., \texttt{thailand/humidity} ou \texttt{thailand/bangkok/traffic}).
+
+Também existe a conveniência da utilização de caracteres coringas para a assinatura de tópicos, como por exemplo \texttt{thailand/+/traffic} onde o caractere ``\texttt{+}'' corresponde a qualquer padrão de um único nível de uma hierarquía, neste caso terceiro nível, podendo ser utilizado para receber os dados de tráfego de qualquer cidade da Tailândia. Outro caractere coringa que pode ser utilizado é o ``\texttt{\#}'' que corresponde a todos os níveis subsequentes de uma hierarquia, este só pode ser utilizado como o último caractere de uma subscrição \cite{hunkeler:truong:stanford-clark:2008}.
+
+Dado o seguinte tópico \texttt{a/b/c/d}, as seguintes assinaturas irão receber os dados publicados nele \cite{light:mosquitto}:
+
+\begin{alineas}
+	\item \texttt{a/b/c/d};
+	\item \texttt{\#};
+	\item \texttt{a/\#};
+	\item \texttt{a/b/\#};
+	\item \texttt{a/b/c/\#};
+	\item \texttt{+/b/c/\#}.
+\end{alineas}
+		
 \section{\mhubcddl}
 
 O \mhubcddl é uma composição de um \gateway (\mhub) e um \middleware de \iomt (\cddl). Enquanto o \mhub transforma o dispositivo \android em que está em execução em um \gateway \iot móvel, o \cddl funciona como \middleware provendo serviços locais e remotos de descoberta de provedores de serviços, processamento de eventos complexos, publicação e assinatura de dados e eventos com qualidade de serviço.
