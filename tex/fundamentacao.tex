@@ -2,6 +2,12 @@
 
 Este capítulo visa realizar uma abordagem de toda a fundamentação teórica e tecnológica necessária para o entendimento da solução proposta neste trabalho.
 
+\section{\mqtt}
+
+O \textit{Message Queue Telemetry Transport} (\mqtt)\footnote{\url{http://mqtt.org}} é um protocolo baseado em mensagens e seguindo o modelo \pubsub, utiliza o conceito de tópicos gerenciados por componentes chamados de \brokers. Originalmente projetado para o uso em redes não confiáveis e com recursos limitados, consiste em um servidor \broker e dois tipos distintos de clientes, \pubs e \subs \cite{lee:et:al:2013}.
+
+O \broker funciona como um intermediador entre as mensagens que são enviadas por \pubs e recebidas por \subs. Toda a comunicação é feita por intermédio de tópicos, que funcionam como uma hierarquia de diretórios onde as mensagens são entregues. Os \pubs publicam mensagens no \broker em um determinado tópico, e este se encarrega de realizar a entrega da mensagem para os \subs que registraram interesse naquele tópico, fazendo com que a orquestração da comunicação entre as entidades produtoras e consumidoras de dados seja feita exclusivamente pelo \broker.
+
 \section{\mhubcddl}
 
 O \mhubcddl é uma composição de um \gateway (\mhub) e um \middleware de \iomt (\cddl). Enquanto o \mhub transforma o dispositivo \android em que está em execução em um \gateway \iot móvel, o \cddl funciona como \middleware provendo serviços locais e remotos de descoberta de provedores de serviços, processamento de eventos complexos, publicação e assinatura de dados e eventos com qualidade de serviço.
@@ -40,7 +46,7 @@ O \stwopa torna-se então um intermediador entre todas as tecnologias de comunic
 	\centering
 	\caption{\label{fig:technology-interface}Interface \techinterface}
 	\includegraphics[scale=0.6]{img/technology-interface.png}
-	\fonte{\citeonline[p. 125]{talavera:et:al:2015}}
+	\fonte{\citeonline[p.~125]{talavera:et:al:2015}}
 \end{figure}
 
 O \stwopaservice utiliza os métodos da interface \techinterface para gerenciar as tecnologias suportadas e, em particular, utiliza o método \texttt{setListener(\techlistener)} para se cadastrar como o \listener daquela tecnologia. Já as tecnologias utilizam os métodos da interface \techlistener para informar ao \stwopaservice a ocorrência de eventos com \smartobjs, como: descoberta, conexão, desconexão e leitura de dados de sensores.
@@ -76,7 +82,7 @@ A arquitetura do \middleware pode ser observada na \autoref{fig:m-hub-architectu
 	\centering
 	\caption{\label{fig:m-hub-architecture}Arquitetura do \mhub}
 	\includegraphics[scale=0.34]{img/m-hub-architecture.png}
-	\fonte{\citeonline[p. 6]{endler:silva:2018}}
+	\fonte{\citeonline[p.~6]{endler:silva:2018}}
 \end{figure}
 
 \subsection{\cddl}
@@ -102,3 +108,18 @@ Como \middleware, o \cddl permite que as aplicações clientes assumam o papel d
 
 	\item filtragem das informações.
 \end{alineas}
+
+\subsection*{O \middleware \mhubcddl}
+
+O \mhubcddl é uma abordagem de \middleware para desenvolvimento de aplicações de \iomt e \iot, utiliza o \mhub como o componente responsável pela descoberta e aquisição dos dados diretamente dos \smartobjs, abstraindo especificidades de comunicação de suas WPANs. O \cddl foi escolhido como a camada de distribuição de dados, que provê o controle de requisitos de qualidade de informação e fornce uma \api única.
+
+A \autoref{fig:mhub-cdll-architecture} ilustra a arquitetura do \middleware. Todos os dados capturados pelo \mhub são entregues ao \cddl através do \stwopa, os dados são então publicados em uma estrutura de tópicos de um \broker \mqtt, local ou não.
+
+\begin{figure}[htb]
+	\centering
+	\caption{\label{fig:mhub-cdll-architecture}Arquitetura do \mhubcddl}
+	\includegraphics[width=0.85\linewidth]{img/mhub-cddl-architecture.png}
+	\fonte{\citeonline[p.~15]{gomes:et:al:2017}}
+\end{figure}
+
+
