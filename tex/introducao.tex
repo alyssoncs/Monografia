@@ -6,7 +6,7 @@ Após a leitura deste capítulo introdutório, o leitor será capaz de entender 
 
 \subsection{\iot}
 
-A Internet das Coisas (\textit{Internet of Things} -- \iot) é um paradigma de comunicação recente, onde objetos do dia a dia são equipados com equipamentos e protocolos que permitem que se comuniquem com seus usuários e com outros objetos, se tornando parte integral da Internet \cite{atzori:iera:morabito:2010}.  Pode ser definida como a interconexão de sensores e atuadores que fornece a capacidade de compartilhar informações entre plataformas através de um \framework unificado \cite{gubbi:et:al:2013}. 
+A Internet das Coisas (\textit{Internet of Things} -- \iot) é um paradigma de comunicação recente, onde objetos do dia a dia são equipados com equipamentos e protocolos que permitem que se comuniquem com seus usuários e com outros objetos, se tornando parte integral da Internet \cite{atzori:iera:morabito:2010}.  Pode ser definida como a interconexão de sensores e atuadores que fornece a capacidade de compartilhar informações entre plataformas através de um \framework unificado \cite{gubbi:et-al:2013}.
 
 No contexto da \iot, as ``coisas'' (do inglês: \textit{things}) são denominados ``\smartobjs'' \cite{bandyopadhyay:sen:2011}. Seu conceito propõe tornar a Internet ainda mais pervasiva e imersiva, ela promoverá o desenvolvimento de aplicações que utilizarão a grande quantidade e variedade de dados produzidos por esses objetos, de forma a prover serviços para os usuários. 
 
@@ -22,9 +22,9 @@ No âmbito desse trabalho, é necessário definir o conceito de \middleware, com
 
 A \iot geralmente lida com \smartobjs estáticos, frequentemente presentes na infraestrutura do ambiente, como: sensores de uma sala, leitores \rfid de prédios inteligentes, etc. A Internet das Coisas Móveis (Internet of Mobile Things -- \iomt) é uma extensão da \iot clássica, onde os objetos e os \gateways são livres para se locomover, gerando uma maior dinamicidade de interações.
 
-Exemplos de \smartobjs móveis incluem: dispositivos vestíveis, veículos, e robôs móveis. Visto o contexto de mobilidade, \smartphones são dispositivos adequados para assumir o papel de fornecedor de Internet e serviço de localização---ou seja, um \gateway---para \smartobjs que tenham disponíveis apenas tecnologias de comunicação sem fio de curto alcance e, dessa forma, não implementam a pilha TCP/IP \cite{talavera:et:al:2015}.
+Exemplos de \smartobjs móveis incluem: dispositivos vestíveis, veículos, e robôs móveis. Visto o contexto de mobilidade, \smartphones são dispositivos adequados para assumir o papel de fornecedor de Internet e serviço de localização---ou seja, um \gateway---para \smartobjs que tenham disponíveis apenas tecnologias de comunicação sem fio de curto alcance e, dessa forma, não implementam a pilha TCP/IP \cite{talavera:et-al:2015}.
 
-De acordo com \citeonline{nahrstedt:et:al:2016}, a \iomt se diferencia da \iot nos seguintes aspectos:
+De acordo com \citeonline{nahrstedt:et-al:2016}, a \iomt se diferencia da \iot nos seguintes aspectos:
 \begin{alineas}
 
 	\item \emph{contexto}, exemplo:
@@ -68,9 +68,9 @@ De acordo com \citeonline{nahrstedt:et:al:2016}, a \iomt se diferencia da \iot n
 
 \subsection{\mhubcddl}
 
-O Mobile Hub/Context Data Distribution Layer (\mhubcddl) é um \middleware \iot para aquisição, processamento e distribuição de dados de contexto, com amplo suporte para criação de aplicações de \iot cientes de contexto que possuam requisitos de qualidade de contexto \cite{gomes:et:al:2017}.
+O Mobile Hub/Context Data Distribution Layer (\mhubcddl) é um \middleware \iot para aquisição, processamento e distribuição de dados de contexto, com amplo suporte para criação de aplicações de \iot cientes de contexto que possuam requisitos de qualidade de contexto \cite{gomes:et-al:2017}.
 
-Surgido de uma parceria entre o Laboratório de Sistemas Distribuídos Inteligentes (LSDi) da UFMA e o Laboratory for Advanced Collaboration (LAC) da PUC-Rio, o \middleware combina o \mhub \cite{talavera:et:al:2015} como \gateway móvel para aquisição dos dados de sensores, internos e externos, com o \cddl, um camada de distribuição responsável por registrar e descobrir serviços de contexto disponíveis, prover e monitorar dados de contexto e garantir a qualidade dos serviços de distribuição dos dados de contexto.
+Surgido de uma parceria entre o Laboratório de Sistemas Distribuídos Inteligentes (LSDi) da UFMA e o Laboratory for Advanced Collaboration (LAC) da PUC-Rio, o \middleware combina o \mhub \cite{talavera:et-al:2015} como \gateway móvel para aquisição dos dados de sensores, internos e externos, com o \cddl, um camada de distribuição responsável por registrar e descobrir serviços de contexto disponíveis, prover e monitorar dados de contexto e garantir a qualidade dos serviços de distribuição dos dados de contexto.
 
 Adota o MQTT como único protocolo de comunicação, possuindo inclusive um microbroker interno. Assim, a captura dos dados de sensores obedece a arquitetura \textit{publish}/\textit{subscribe}.
 

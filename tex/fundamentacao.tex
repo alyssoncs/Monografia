@@ -4,7 +4,7 @@ Este capítulo visa realizar uma abordagem de toda a fundamentação teórica e 
 
 \section{\mqtt}
 
-O \textit{Message Queue Telemetry Transport} (\mqtt)\footnote{\url{http://mqtt.org}} é um protocolo baseado em mensagens e seguindo o modelo \pubsub, utiliza o conceito de tópicos gerenciados por componentes chamados de \brokers. Originalmente projetado para o uso em redes não confiáveis e com recursos limitados, consiste em um servidor \broker e dois tipos distintos de clientes, \pubs e \subs \cite{lee:et:al:2013}.
+O \textit{Message Queue Telemetry Transport} (\mqtt)\footnote{\url{http://mqtt.org}} é um protocolo baseado em mensagens e seguindo o modelo \pubsub, utiliza o conceito de tópicos gerenciados por componentes chamados de \brokers. Originalmente projetado para o uso em redes não confiáveis e com recursos limitados, consiste em um servidor \broker e dois tipos distintos de clientes, \pubs e \subs \cite{lee:et-al:2013}.
 
 O \broker funciona como um intermediador entre as mensagens que são enviadas por \pubs e recebidas por \subs. Toda a comunicação é feita por intermédio de tópicos, que funcionam como uma hierarquia de diretórios onde as mensagens são entregues. Os \pubs publicam mensagens no \broker em um determinado tópico, e este se encarrega de realizar a entrega da mensagem para os \subs que registraram interesse naquele tópico, fazendo com que a orquestração da comunicação entre as entidades produtoras e consumidoras de dados seja feita exclusivamente pelo \broker.
 
@@ -16,7 +16,7 @@ As seções seguintes abordarão cada um desses componentes separadamente.
 
 \subsection{\mhub}
 
-O \middleware \mhub pode ser definido, de acordo com \citeonline{talavera:et:al:2015}, como um serviço de \middleware de \iomt geral executado em um dispositivo móvel pessoal, responsável por descobrir e oportunisticamente conectar à uma miríade de \smartobjs acessíveis apenas através de tecnologias WPAN de curto alcance. Por estar envolvido com cenários de \iomt, este componenete de \software tem que lidar com situações que apresentam muito mais indeterminismo, devido à fatores como a menor garantia de disponibilidade de sensores e atuadores, confiabilidade reduzida, maior volatilidade em conexões, etc.
+O \middleware \mhub pode ser definido, de acordo com \citeonline{talavera:et-al:2015}, como um serviço de \middleware de \iomt geral executado em um dispositivo móvel pessoal, responsável por descobrir e oportunisticamente conectar à uma miríade de \smartobjs acessíveis apenas através de tecnologias WPAN de curto alcance. Por estar envolvido com cenários de \iomt, este componenete de \software tem que lidar com situações que apresentam muito mais indeterminismo, devido à fatores como a menor garantia de disponibilidade de sensores e atuadores, confiabilidade reduzida, maior volatilidade em conexões, etc.
 
 O \smartphone executando uma intância do \mhub, funciona como \gateway para \smartobjs, fornecendo acesso à internet para dispositivos que não podem se conectar. Outro recurso importante que pode ser explorado pelas aplicações é a habilidade de enriquecer os dados de sensores com dados de contexto obtidos dos sensores internos do \mhub.
 
@@ -46,7 +46,7 @@ O \stwopa torna-se então um intermediador entre todas as tecnologias de comunic
 	\centering
 	\caption{\label{fig:technology-interface}Interface \techinterface}
 	\includegraphics[scale=0.6]{img/technology-interface.png}
-	\fonte{\citeonline[p.~125]{talavera:et:al:2015}}
+	\fonte{\citeonline[p.~125]{talavera:et-al:2015}}
 \end{figure}
 
 O \stwopaservice utiliza os métodos da interface \techinterface para gerenciar as tecnologias suportadas e, em particular, utiliza o método \texttt{setListener(\techlistener)} para se cadastrar como o \listener daquela tecnologia. Já as tecnologias utilizam os métodos da interface \techlistener para informar ao \stwopaservice a ocorrência de eventos com \smartobjs, como: descoberta, conexão, desconexão e leitura de dados de sensores.
@@ -119,7 +119,7 @@ A \autoref{fig:mhub-cdll-architecture} ilustra a arquitetura do \middleware. Tod
 	\centering
 	\caption{\label{fig:mhub-cdll-architecture}Arquitetura do \mhubcddl}
 	\includegraphics[width=0.85\linewidth]{img/mhub-cddl-architecture.png}
-	\fonte{\citeonline[p.~15]{gomes:et:al:2017}}
+	\fonte{\citeonline[p.~15]{gomes:et-al:2017}}
 \end{figure}
 
 
