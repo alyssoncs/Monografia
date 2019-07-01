@@ -36,6 +36,8 @@ Dado o seguinte tópico \texttt{a/b/c/d}, as seguintes assinaturas irão receber
 	\item \texttt{a/b/c/\#};
 	\item \texttt{+/b/c/\#}.
 \end{alineas}
+
+O \mqtt é o protocolo padrão utilizado pelo \cddl para realizar troca de mensagens entre diferentes componentes, como será discutido na \autoref{subsec:cddl}.
 		
 \section{\mhubcddl}
 
@@ -78,6 +80,10 @@ O \stwopa torna-se então um intermediador entre todas as tecnologias de comunic
 	\fonte{\citeonline[p.~125]{talavera:et-al:2015}}
 \end{figure}
 
+Além das tecnologias suportadas pelo \mhub, foi implementado uma pseudo tecnologia chamada de \faketechnology.
+Esta não controla nenhuma tecnologia real, mas é interpretada como tal pelo \stwopa, seu objetivo é permitir geração de eventos de descoberta, conexão e desconexão no \stwopa a partir da camada de aplicação, não necessitando a presença de objetos físicos que se comuniquem em determinada WLAN.
+Esta tecnologia foi utilizada para a realização das avaliações da solução proposta por este trabalho, como descrito no \autoref{chap:avaliacao}.
+
 O \stwopaservice utiliza os métodos da interface \techinterface para gerenciar as tecnologias suportadas e, em particular, utiliza o método \texttt{setListener(\techlistener)} para se cadastrar como o \listener daquela tecnologia. Já as tecnologias utilizam os métodos da interface \techlistener para informar ao \stwopaservice a ocorrência de eventos com \smartobjs, como: descoberta, conexão, desconexão e leitura de dados de sensores.
 
 O \mhub fornece diversos serviços que não serão tratados neste trabalho, dentre eles, destaca-se \cite{gomes:2017}:
@@ -114,7 +120,7 @@ A arquitetura do \middleware pode ser observada na \autoref{fig:m-hub-architectu
 	\fonte{\citeonline[p.~6]{endler:silva:2018}}
 \end{figure}
 
-\subsection{\cddl}
+\subsection{\cddl} \label{subsec:cddl}
 
 O \cddl é uma camada de distribuição de dados que provê mecanismos que permitem a especificação, controle e monitoramento de requisitos de qualidade de informação e do serviço de distribuição de dados \cite{gomes:2017}.
 
@@ -150,5 +156,4 @@ A \autoref{fig:mhub-cdll-architecture} ilustra a arquitetura do \middleware. Tod
 	\includegraphics[width=0.85\linewidth]{img/mhub-cddl-architecture.png}
 	\fonte{\citeonline[p.~15]{gomes:et-al:2017}}
 \end{figure}
-
 
