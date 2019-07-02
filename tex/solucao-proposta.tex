@@ -1,1 +1,41 @@
 \chapter{Solução proposta}\label{chap:solucao}
+
+O trabalho em questão tem como objetivo a implementação do mecanismo que propaga os eventos de descoberta, conexão e desconexão que ocorrem no \stwopa do \mhub até a camada de aplicação do \cddl, de forma que os desenvolvedores possam projetar aplicações que se adaptem a tais eventos.
+
+A implementação também deve permitir que tais eventos possam estar disponíveis para outras aplicações que estejam interessadas, utilizando para isso o \mqtt.
+
+\section{Metodologia}
+
+O desenvolvimento do componente de \software foi realizado utilizando a metodologia ágil \textit{Feature-driven development}~\cite{coad:luca:lefebvre:1999}, dividido nas seguintes etapas:
+
+\begin{alineas}
+	\item implementação de um mecanismo de comunicação entre o \mhub e \cddl;
+
+	\item transporte dos eventos gerados no \stwopa para o \cddl;
+
+	\item definição de uma estrutura de tópicos onde os eventos serão publicados pelo \cddl, e posteriormente subscritos pelas aplicações interessadas;
+
+	\item criação de uma \api para o consumo dos eventos.
+\end{alineas}
+
+Dentre as características que se considerou importantes, decidiu-se realizar a avaliação de desempenho e acurácia da solução.
+As avaliações são realizadas através de simulações de cenários de uso, estes estão descritos no \autoref{chap:avaliacao}.
+
+Como métricas da avaliação de desempenho, mede-se o tempo entre a ocorrência do evento e a sua respectiva notificação na camada de aplicação. Já as métricas de acurácia consistem na verificação da quantidade de notificação de eventos em relação a quantidade de eventos gerados.
+
+\section{Requisitos de \software}
+
+\subsection*{Requisitos funcionais}
+
+Os requisitos funcionais definidos para a solução são:
+
+\begin{alineas}
+	\item notificação de eventos de descoberta, conexão e desconexão de \smartobjs para a camada de aplicação do \software;
+
+	\item separação dos fluxos de eventos, provendo uma \api que permita a aplicação registrar interesse em cada tipo de evento individualmente;
+
+	\item permitir que os eventos sejam acessíveis tanto para a aplicação que os gera, quanto para outras aplicações que registrem interesse;
+
+	\item fornecer uma \api assíncrona para o recebimento de cada notificação dos eventos desejados.
+\end{alineas}
+
