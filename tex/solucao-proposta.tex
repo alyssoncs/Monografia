@@ -4,13 +4,11 @@ O trabalho em questão tem como objetivo a implementação do mecanismo que prop
 
 A implementação também deve permitir que tais eventos possam estar disponíveis para outras aplicações que estejam interessadas, utilizando para isso o \mqtt.
 
-\section{Metodologia}
+\section{Metodologia} \label{sec:metodologia}
 
 O desenvolvimento do componente de \software foi realizado utilizando a metodologia ágil \textit{Feature-driven development}~\cite{coad:luca:lefebvre:1999}, dividido nas seguintes etapas:
 
 \begin{alineas}
-	\item implementação de um mecanismo de comunicação entre o \mhub e \cddl;
-
 	\item transporte dos eventos gerados no \stwopa para o \cddl;
 
 	\item definição de uma estrutura de tópicos onde os eventos serão publicados pelo \cddl, e posteriormente subscritos pelas aplicações interessadas;
@@ -38,4 +36,19 @@ Os requisitos funcionais definidos para a solução são:
 
 	\item fornecer uma \api assíncrona para o recebimento de cada notificação dos eventos desejados.
 \end{alineas}
+
+\section{Implementação}
+
+Esta seção descreve os detalhes de implementação da solução, abordando todos os tópicos descritos na \autoref{sec:metodologia}.
+
+\subsection{Propagação de eventos do \stwopa para o \cddl}
+
+Como descrito na \autoref{subsub:s2pa}, o \mhub encapsula todos os eventos em objetos do tipo \sensordata, estes objetos devem então ser propagados para o \cddl.
+O \stwopa comunica-se com o \cddl através do componente \qocevaluator, como pode ser observado na \autoref{fig:mhub-cdll-architecture}~\cite{gomes:2017}.
+
+A comunicação entre os componentes é feita através da biblioteca \eventbus\footnote{\url{http://greenrobot.org/eventbus/}}.
+O \eventbus é uma biblioteca de eventos de código livre escrita em Java para a plataforma \android utilizando o padrão \pubsub, fornecendo um mecanismo central de comunicação simplificando a interação entre componentes da aplicação.
+
+O \stwopa foi modificado então para publicar cada \sensordata no \eventbus, e o \qocevaluator registra interesse em receber objetos do tipo \sensordata publicados no \eventbus.
+O que efetivamente transfere todos os eventos gerados pelo \stwopa ao \cddl.
 
