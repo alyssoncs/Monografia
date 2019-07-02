@@ -86,6 +86,33 @@ Esta tecnologia foi utilizada para a realização das avaliações da solução 
 
 O \stwopaservice utiliza os métodos da interface \techinterface para gerenciar as tecnologias suportadas e, em particular, utiliza o método \texttt{setListener(\techlistener)} para se cadastrar como o \listener daquela tecnologia. Já as tecnologias utilizam os métodos da interface \techlistener para informar ao \stwopaservice a ocorrência de eventos com \smartobjs, como: descoberta, conexão, desconexão e leitura de dados de sensores.
 
+Quando o \stwopaservice recebe de alguma tecnologia, um evento de descoberta, conexão, desconexão ou leitura de dados de \smartobjs, ele o ecapsula em um objeto do tipo \sensordata.
+Esta classe possui os seguintes atributos:
+
+\begin{alineas}
+	\item \texttt{mouuid}: Uma combinação entre o \textit{id} da tecnologia que gerou tal evento com o endereço MAC do \smartobj;
+
+	\item \texttt{signal}: Número em ponto flutuante onde o RSSI (\textit{Receiver Signal Strength}) daquela interação com o \smartobj é armazenado. O RSSI representa a intensidade de sinal naquele momento;
+
+	\item \texttt{action}: Indica que tipo de evento uma instância de \sensordata está encapsulando. Os valores possíveis são as constantes:
+
+	\begin{alineas}
+
+		\item \texttt{FOUND}: Indica que um \smartobj foi descoberto pelo \mhub no ambiente;
+
+		\item \texttt{CONNECTED}: Indica que o \mhub realizou uma conexão com o \smartobj;
+
+		\item \texttt{READ}: Indica que uma leitura foi realizada, ou seja, o \smartobj enviou dados ao \mhub;
+
+		\item \texttt{DISCONNECTED}: Indica que a conexão com o \smartobj foi desfeita.
+
+	\end{alineas}
+
+	\item \texttt{sensorName}: Representa o nome do \smartobj;
+
+	\item \texttt{sensorValue}: Um vetor de pontos flutuantes que armazena os valores lidos do \smartobj. Logicamente este atributo só possui valores quando o atributo \texttt{action} assume o valor \texttt{READ}.
+\end{alineas}
+
 O \mhub fornece diversos serviços que não serão tratados neste trabalho, dentre eles, destaca-se \cite{gomes:2017}:
 
 \begin{alineas}
