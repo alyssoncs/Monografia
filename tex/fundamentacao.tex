@@ -49,7 +49,7 @@ As seções seguintes abordarão cada um desses componentes separadamente.
 
 O \middleware \mhub pode ser definido, de acordo com \citeonline{talavera:et-al:2015}, como um serviço de \middleware de \iomt geral executado em um dispositivo móvel pessoal, responsável por descobrir e oportunisticamente conectar à uma miríade de \smartobjs acessíveis apenas através de tecnologias WPAN de curto alcance. Por estar envolvido com cenários de \iomt, este componenete de \software tem que lidar com situações que apresentam muito mais indeterminismo, devido à fatores como a menor garantia de disponibilidade de sensores e atuadores, confiabilidade reduzida, maior volatilidade em conexões, etc.
 
-O \smartphone executando uma intância do \mhub, funciona como \gateway para \smartobjs, fornecendo acesso à internet para dispositivos que não podem se conectar. Outro recurso importante que pode ser explorado pelas aplicações é a habilidade de enriquecer os dados de sensores com dados de contexto obtidos dos sensores internos do \mhub.
+O \smartphone executando uma intância do \mhub, funciona como \gateway para \smartobjs, fornecendo acesso à Internet para dispositivos que não podem se conectar. Outro recurso importante que pode ser explorado pelas aplicações é a habilidade de enriquecer os dados de sensores com dados de contexto obtidos dos sensores internos do \mhub.
 
 Para que o \mhub tenha suporte à determinada tecnologia de comunicação, é necessário que um novo módulo seja implementado. Este módulo será responsável por gerenciar quaisquer operações que sejam necessárias para garantir o funcionamento desta tecnologia.
 
@@ -151,7 +151,28 @@ A arquitetura do \middleware pode ser observada na \autoref{fig:m-hub-architectu
 
 O \cddl é uma camada de distribuição de dados que provê mecanismos que permitem a especificação, controle e monitoramento de requisitos de qualidade de informação e do serviço de distribuição de dados \cite{gomes:2017}.
 
-A interação entre produtores e consumidores de dados de contexto se dá através do modelo \pubsub com a utilização de \brokers, implementando uma comunicação ditribuída com o \mqtt. O \cddl também fornece um \ubroker que executa internamente no dispositivo móvel.
+A interação entre produtores e consumidores de dados de contexto se dá através do modelo \pubsub com a utilização de \brokers, implementando uma comunicação ditribuída com o \mqtt. O \cddl também fornece um \ubroker que executa internamente no dispositivo móvel, o que permite que certas aplicações possam publicar e receber dados sem a dependência de conexão à Internet.
+
+Todos os dados que são publicados pelo \cddl são instâncias da classe \msg.
+Esta classe encapsula diversos atributos relevantes aos dados de contexto que representam, dentre eles, destaca-se:
+
+\begin{alineas}
+	\item \texttt{serviceName}: Nome do \smartobj que está relacionado a essa \msg;
+
+	\item \texttt{serviceValue}: Valor da leitura dos dados do \smartobj;
+
+	\item \texttt{accuracy}: Acurácia do dado;
+
+	\item \texttt{measurementTime}: O \timestamp em que a \msg foi gerada;
+
+	\item \texttt{sourceLocationLatitude}: Latitude do \mhub que gerou este dado;
+
+	\item \texttt{sourceLocationLongitude}: Longitude do \mhub que gerou este dado;
+
+	\item \texttt{sourceLocationAltitude}: Altitude do \mhub que gerou este dado;
+
+	\item \texttt{signal}: Intensidade do sinal no momento em que o \smartobj interagiu com o \stwopa.
+\end{alineas}
 
 Como \middleware, o \cddl permite que as aplicações clientes assumam o papel de produtoras ou consumidoras de dados de contexto, fornecendo suporte à políticas de qualidade de serviço de distribuição de dados. Desta forma as aplicações podem especificar parâmetros que expressam seus requisitos de QoC para envio e recebimento de mensagens. A fim de fornecer suporte para o desenvolvimento de aplicações de \iot e \iomt, o \cddl atende aos seguintes requisitos \cite{muniz:2017}:
 
