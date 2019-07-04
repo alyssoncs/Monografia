@@ -5,7 +5,17 @@ Visto que o \cddl somente exportava à camada de aplicação, eventos de leitura
 
 Significando que dentre todos os objetos do tipo \sensordata criados no \stwopa, apenas aqueles com atributo ``\texttt{action}'' assumindo valor ``\texttt{READ}'' geravam eventos no \cddl que podiam ser percebidos pela aplicação (vide \autoref{subsub:s2pa}).
 
-A implementação também deve permitir que tais eventos possam estar disponíveis para outras aplicações que estejam interessadas, utilizando para isso o \mqtt.
+Este fato implica em algumas limitações no desenvolvimento de aplicações.
+Imaginando um cenário onde uma aplicação necessite de certos dados providos por um \smartobj--- alocando recursos computacionais para processa-los.
+Em uma eventual desconexão com o \smartobj, o fluxo de dados do sensor cessaria de ser entregue à aplicação, contudo, nenhum fluxo ou notificação do evento de desconexão em si seria entregue.
+Tal aplicação não poderia decidir se o interrompimento do fluxo de dados se deu: devido a uma mudança na latência do envio de dados por parte do sensor, ou por uma desconexão; não podendo então decidir sobre a necessidade da desalocação de recursos.
+
+Outra classe de aplicações de \iomt que seriam prejudicadas, são aquelas que interagem com \smartobjs no ambiente por outros meios além de conexões.
+É o caso de aplicações de localização \textit{indoor} baseadas em \beacons \bluetooth, onde os \beacons são dispostos no interior de ambientes físicos e permanecem realizando \broadcast de sua presença.
+Os dispositívos móveis não realizam tentativas de conexão, apenas percebem a presença destes \smartobjs e utilizam a intensidade do sinal capturado no momento.
+
+Vale ressaltar que a implementação também deve permitir que tais eventos possam estar disponíveis para outras aplicações que estejam interessadas, utilizando para isso o \mqtt.
+Ou seja---caso configurado desta forma---uma aplicação \mhubcddl pode mudar seu comportamento baseado em eventos que foram disparados a partir de interações entre \smartobjs e \smartphones remotos.
 
 \section{Metodologia} \label{sec:metodologia}
 
