@@ -1,6 +1,9 @@
 \chapter{Solução proposta}\label{chap:solucao}
 
 O trabalho em questão tem como objetivo a implementação do mecanismo que propaga os eventos de descoberta, conexão e desconexão que ocorrem no \stwopa do \mhub até a camada de aplicação do \cddl, de forma que os desenvolvedores possam projetar aplicações que se adaptem a tais eventos.
+Visto que o \cddl somente exportava à camada de aplicação, eventos de leitura de dados de contexto.
+
+Significando que dentre todos os objetos do tipo \sensordata criados no \stwopa, apenas aqueles com atributo ``\texttt{action}'' assumindo valor ``\texttt{READ}'' geravam eventos no \cddl que podiam ser percebidos pela aplicação (vide \autoref{subsub:s2pa}).
 
 A implementação também deve permitir que tais eventos possam estar disponíveis para outras aplicações que estejam interessadas, utilizando para isso o \mqtt.
 
@@ -49,6 +52,6 @@ O \stwopa comunica-se com o \cddl através do componente \qocevaluator, como pod
 A comunicação entre os componentes é feita através da biblioteca \eventbus\footnote{\url{http://greenrobot.org/eventbus/}}.
 O \eventbus é uma biblioteca de eventos de código livre escrita em Java para a plataforma \android utilizando o padrão \pubsub, fornecendo um mecanismo central de comunicação simplificando a interação entre componentes da aplicação.
 
-O \stwopa foi modificado então para publicar cada \sensordata no \eventbus, e o \qocevaluator registra interesse em receber objetos do tipo \sensordata publicados no \eventbus.
+O \stwopa foi modificado então para publicar cada \sensordata no \eventbus, enquanto o \qocevaluator registra interesse em receber objetos do tipo \sensordata publicados no \eventbus.
 O que efetivamente transfere todos os eventos gerados pelo \stwopa ao \cddl.
 

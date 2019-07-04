@@ -84,7 +84,7 @@ Além das tecnologias suportadas pelo \mhub, foi implementado uma pseudo tecnolo
 Esta não controla nenhuma tecnologia real, mas é interpretada como tal pelo \stwopa, seu objetivo é permitir geração de eventos de descoberta, conexão e desconexão no \stwopa a partir da camada de aplicação, não necessitando a presença de objetos físicos que se comuniquem em determinada WLAN.
 Esta tecnologia foi utilizada para a realização das avaliações da solução proposta por este trabalho, como descrito no \autoref{chap:avaliacao}.
 
-O \stwopaservice utiliza os métodos da interface \techinterface para gerenciar as tecnologias suportadas e, em particular, utiliza o método \texttt{setListener(\techlistener)} para se cadastrar como o \listener daquela tecnologia. Já as tecnologias utilizam os métodos da interface \techlistener para informar ao \stwopaservice a ocorrência de eventos com \smartobjs, como: descoberta, conexão, desconexão e leitura de dados de sensores.
+O \stwopaservice utiliza os métodos da interface \techinterface para gerenciar as tecnologias suportadas e, em particular, utiliza o método \texttt{setListener()} para se cadastrar como o \listener daquela tecnologia. Já as tecnologias utilizam os métodos da interface \techlistener para informar ao \stwopaservice a ocorrência de eventos com \smartobjs, como: descoberta, conexão, desconexão e leitura de dados de sensores.
 
 Quando o \stwopaservice recebe de alguma tecnologia, um evento de descoberta, conexão, desconexão ou leitura de dados de \smartobjs, ele o ecapsula em um objeto do tipo \sensordata.
 Esta classe possui os seguintes atributos:
@@ -174,6 +174,11 @@ Esta classe encapsula diversos atributos relevantes aos dados de contexto que re
 	\item \texttt{signal}: Intensidade do sinal no momento em que o \smartobj interagiu com o \stwopa.
 \end{alineas}
 
+Como ja mencionado, o modelo de programação do \cddl respeita o padrão \pubsub, então uma aplicação que registra o interesse por algum tipo de dado de contexto será notificada através de um objeto \msg, que representa este dado.
+O \autoref{lst:subscriber} apresenta um exemplo de como o desenvolvedor pode consumir dados de temperatura capturados pelo \middleware.
+
+\lstinputlisting[float=htb,label=lst:subscriber, caption=Modelo de programação \pubsub do \cddl]{code/Subscriber.java}
+
 Como \middleware, o \cddl permite que as aplicações clientes assumam o papel de produtoras ou consumidoras de dados de contexto, fornecendo suporte à políticas de qualidade de serviço de distribuição de dados. Desta forma as aplicações podem especificar parâmetros que expressam seus requisitos de QoC para envio e recebimento de mensagens. A fim de fornecer suporte para o desenvolvimento de aplicações de \iot e \iomt, o \cddl atende aos seguintes requisitos \cite{muniz:2017}:
 
 \begin{alineas}
@@ -196,7 +201,10 @@ Como \middleware, o \cddl permite que as aplicações clientes assumam o papel d
 
 O \mhubcddl é uma abordagem de \middleware para desenvolvimento de aplicações de \iomt e \iot, utiliza o \mhub como o componente responsável pela descoberta e aquisição dos dados diretamente dos \smartobjs, abstraindo especificidades de comunicação de suas WPANs. O \cddl foi escolhido como a camada de distribuição de dados, que provê o controle de requisitos de qualidade de informação e fornce uma \api única.
 
-A \autoref{fig:mhub-cdll-architecture} ilustra a arquitetura do \middleware. Todos os dados capturados pelo \mhub são entregues ao \cddl através do \stwopa, os dados são então publicados em uma estrutura de tópicos de um \broker \mqtt, local ou não.
+A \autoref{fig:mhub-cdll-architecture} ilustra a arquitetura do \middleware.
+O \mhub funcionando como \gateway móvel entre os \smartobjs e a Internet, tranferindo ao \cddl os dados de contexto capturados através do \eventbus.
+Uma vez entregue ao \cddl, todos os dados são então publicados em uma estrutura de tópicos de um \broker \mqtt, local ou não.
+Desta forma sendo entregue às aplicações que registraram no \broker interesse em tais dados.
 
 \begin{figure}[htb]
 	\centering

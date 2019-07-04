@@ -13,9 +13,12 @@
 \usepackage{mathtools}
 \usepackage{xspace}
 \usepackage{marginnote}
+\usepackage[varqu]{zi4}
 \usepackage[brazilian, hyperpageref]{backref}	 % Paginas com as citações na bibl
 \usepackage{hyperref}
 \usepackage[alf]{abntex2cite}			 % Citações padrão ABNT
+
+\renewcommand{\theequation}{\arabic{equation}}
 
 \definecolor{color-link}{rgb}{0.09,0.45,0.27}
 \definecolor{color-cite}{rgb}{0.09,0.45,0.27}
@@ -32,6 +35,32 @@
 	pdftitle={Descoberta e Desconexão de Objetos Inteligentes em Ambientes Oportunísticos de IoMT},
 	pdfauthor={Alysson Cirilo Silva},
 }
+
+\definecolor{commentcolor}{rgb}{0,0.6,0}
+\definecolor{numberlinecolor}{rgb}{0.5,0.5,0.5}
+\definecolor{stringcolor}{rgb}{0.58,0,0.82}
+\definecolor{backgroundcolor}{rgb}{0.93,0.95,0.92}
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backgroundcolor},
+	commentstyle=\color{commentcolor},	
+	numberstyle=\scriptsize\color{numberlinecolor},
+	keywordstyle=\bfseries\color{magenta},
+	stringstyle=\color{stringcolor},
+	basicstyle=\small\ttfamily,
+	rulecolor=\color{black},
+	captionpos=b,
+	frame=single,
+	showstringspaces=false,
+	breaklines=true,
+	language=java, 
+	numbers=left,
+	captionpos=t,
+	numberbychapter=false,
+	escapeinside={(*@}{@*)},
+	numbersep=7pt,
+	morekeywords={String}
+}
+\lstset{style=mystyle}
 
 \renewcommand*{\backrefalt}[4]{
 	\ifcase #1 %
