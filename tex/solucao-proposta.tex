@@ -80,7 +80,28 @@ Foram criadas três novas classes que herdam os atributos de \msg, são elas:
 Com esta abordagem é possível utilizar a \api e métodos existentes, valendo-se do mecanísmo de polimorfismo da orientação a objetos.
 Ao receber um \sensordata, o \qocevaluator faz o seguinte: identifica, utilizando o atributo \texttt{action}, que tipo de evento ele representa; instancia um objeto de um dos tipos descritos anteriormente; e o publica no \broker \mqtt como um objeto do tipo \msg.
 
-Aplicações que estão interessadas em certo tipo de serviço receberão uma instância de \msg, como ela é superclasse das anteriores, a aplicação pode verificar em tempo de execução se determinado objeto é instância das classes mais especializadas.
+Aplicações que estão interessadas em certo tipo de serviço receberão uma instância de \msg a cada evento gerado.
+Como ela é superclasse das anteriores, a aplicação pode verificar em tempo de execução se determinado objeto é instância das classes mais especializadas, como é mostrado no \autoref{lst:polymorphism}.
 
-\lstinputlisting[float=htb]{code/Polymorphism.java}
+\lstinputlisting[float=htb, label=lst:polymorphism, caption=Uso das classes mais especializadas em conjunto com a \api existente]{code/Polymorphism.java}
+
+\subsection{Definição da estrutura de tópicos}
+
+De forma a gerar fluxos diferentes para cada evento, e permitir consultas mais expressivas, o \qocevaluator deve publicar cada mensagem gerada em um tópico específico, de acordo com o tipo de evento que este representa.
+
+A estrutura de tópicos para publicação de eventos de descoberta, conexão e desconexão foi definida como:
+\[
+	\underbrace{\bm{\mathsf{domain}}}_{\text{\textsf{identificador do \cddl}}}
+	\bm{/}
+	\underbrace{\bm{\mathsf{clientId}}}_{\text{\textsf{identificador do cliente}}}
+	\bm{/}
+	\underbrace{\bm{\mathsf{eventTopic}}}_{\text{\textsf{identificador do tipo de evento}}}
+\]
+Onde:
+
+\begin{alineas}
+	\item \emph{domain}: É um prefixo que identifica todas as mensagens publicadas pelo \cddl, isto permite que seja possível identificar as mensagens pertencentes ao \middleware, mesmo que um \broker público seja utilizado;
+	\item \emph{clientId}: É um identificador da aplicação cliente que gerou tal mensagem. Este valor é informado pelo desenvolvedor ao iniciar o \cddl;
+	\item \emph{eventTopic}: Identificador único para cada tipo de evento, ou seja, para os evento de descoberta, conexão e desconexão.
+\end{alineas}
 

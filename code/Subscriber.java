@@ -1,4 +1,5 @@
 Subscriber subscriber = SubscriberFactory.createSubscriber();
+subscriber.addConnection(connection); //connection with mqtt broker
 subscriber.subscribeServiceByName("Temperature");
 
 subscriber.setSubscriberListener(new ISubscriberListener() {
