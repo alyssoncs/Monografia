@@ -1,0 +1,51 @@
+%\documentclass[landscape]{article}
+\documentclass{standalone}
+\usepackage{pgf-umlsd}
+
+
+
+\begin{document}
+% \paperwidth=4000pt
+%\hoffset=-120pt
+
+
+\begin{sequencediagram}
+	
+	\newthread{app}{App}
+	\newinst[3.1]{sub}{:Subscriber}
+	\newinst[1.0]{mqtt}{Broker}
+	\newinst{sobj}{Smart Object}
+	\newinst{s2pa}{:S2PAService}
+	\newinst[1.4]{eb}{:EventBus}
+	\newinst[1.3]{qoc}{:QoCEvaluator}
+
+	\begin{messcall}{qoc}{subscribe(SensorData)}{eb}
+	\end{messcall}
+	
+	\begin{messcall}{app}{subscribeObjectFoundTopic()}{sub}
+		\begin{call}{sub}{subscribe(topic)}{mqtt}{}
+		\end{call}
+	\end{messcall}
+
+	\begin{messcall}{sub}{ack}{app}
+	\end{messcall}
+	
+	\mess{sobj}{broadcast}{s2pa}
+
+	\begin{messcall}{s2pa}{publish(SensorData)}{eb}
+	\end{messcall}
+
+	\begin{messcall}{eb}{publish(SensorData)}{qoc}
+	\end{messcall}
+
+	\begin{messcall}{qoc}{publish(ObjectFoundMessage)}{mqtt}
+	\end{messcall}
+	
+	\begin{messcall}{mqtt}{publish(ObjectFoundMessage)}{sub}
+	\end{messcall}
+	
+	\mess{sub}{ObjectFoundMessage}{app}
+	
+\end{sequencediagram}
+
+\end{document}
