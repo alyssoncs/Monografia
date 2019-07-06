@@ -89,7 +89,7 @@ Como ela é superclasse das anteriores, a aplicação pode verificar em tempo de
 
 De forma a gerar fluxos diferentes para cada evento, e permitir consultas mais expressivas, o \qocevaluator deve publicar cada mensagem gerada em um tópico específico, de acordo com o tipo de evento que este representa.
 
-A estrutura de tópicos para publicação de eventos de descoberta, conexão e desconexão foi definida como:
+A estrutura de tópicos propósta para publicação de eventos de descoberta, conexão e desconexão segue o seguinte padrão:
 \[
 	\underbrace{\bm{\mathsf{domain}}\vphantom{p}}_{\text{\textsf{identificador do \cddl}}}
 	\bm{/}
@@ -103,5 +103,16 @@ Onde:
 	\item \emph{domain}: É um prefixo que identifica todas as mensagens publicadas pelo \cddl, isto permite que seja possível identificar as mensagens pertencentes ao \middleware, mesmo que um \broker público seja utilizado;
 	\item \emph{clientId}: É um identificador da aplicação cliente que gerou tal mensagem. Este valor é informado pelo desenvolvedor ao iniciar o \cddl;
 	\item \emph{eventTopic}: Identificador único para cada tipo de evento, ou seja, para os evento de descoberta, conexão e desconexão.
+	\begin{alineas}
+		\item \texttt{object\_found\_topic}: Para os eventos de descoberta;
+		\item \texttt{object\_connected\_topic}: Para os eventos de conexão;
+		\item \texttt{object\_disconnected\_topic}: Para os eventos de desconexão.
+	\end{alineas}
 \end{alineas}
+
+Foram então adicionados métodos à interface \texttt{Subscriber} que permitem que a aplicação registre interesse em cada tipo de evento gerado através de interações entre \smartobjs o próprio dispositivo móvel em que executa, e também métodos que permitem que a aplicação receba eventos gerados por outras aplicações. Estes métodos inscrevem a aplicação no tópico \mqtt específico.
+
+A fim de se inscrever em eventos gerados por outras aplicações \mhubcddl, faz-se uso dos caracteres coringa do \mqtt descritos na \autoref{subsec:mqtt-topics}. Fazendo com que a aplicação se inscreva em tópicos com o seguinte padrão: \texttt{domain/+/eventTopic}.
+
+Caso a aplicação não possua o requisito de compartilhar os eventos gerados por ela com outras aplicações, pode-se utilizar o \ubroker embarcado disponível na plataforma \mhubcddl.
 
