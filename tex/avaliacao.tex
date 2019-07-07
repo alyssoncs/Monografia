@@ -1,12 +1,12 @@
 \chapter{Avaliação quantitativa}\label{chap:avaliacao}
 
-O objetivo deste capítulo é descrever as avaliações utilizadas na solução proposta. A avaliação tem como objetivo determinar a performance e acurácia do mecanismo de descoberta, conexão e desconexão de \smartobjs.
+O objetivo deste capítulo é descrever as avaliações utilizadas na solução proposta. A avaliação tem como objetivo determinar a performance e o percentual de perdas do mecanismo de descoberta, conexão e desconexão de \smartobjs.
 
-A avaliação será realizada por meio de experimentos, onde a performance será avaliada através da contagem de tempo desde que o \mhub efetivamente descobre um objeto até o momento em que a aplicação é informada sobre este evento. A acurácia da solução consistirá na verificação de quantas operações de conexão, desconexão e descoberta geraram eventos correspondentes para a aplicação.
+A avaliação será realizada por meio de experimentos, onde a performance será avaliada através da contagem de tempo desde que o \mhub efetivamente descobre um objeto até o momento em que a aplicação é informada sobre este evento. O percentual de perdas da solução consistirá na verificação de quantas operações de conexão, desconexão e descoberta geraram eventos correspondentes para a aplicação.
 
 \section{Experimento 1}\label{chap:avaliacao-experimento1}
 
-Este experimento tem como objetivo avaliar a performance e acurácia da solução. Para tal, foi desenvolvido um cenário de uso, onde será possível determinar tais aspectos.
+Este experimento tem como objetivo avaliar a performance e percentual de perdas da solução. Para tal, foi desenvolvido um cenário de uso, onde será possível determinar tais aspectos.
 
 Este cenário de uso consiste em uma casa onde cada cômodo é equipado com um \beacon \ble, calibrado de forma que o sinal emitido não possa ser detectado fora do cômodo e configurado para emitir 10 anúncios por segundo. Uma pessoa portando um \smartphone é instruída a conduzir as atividades do dia a dia nesta residência. Este \smartphone executa uma aplicação desenvolvida com o \middleware \mhubcddl que detecta os anúncios dos \beacons, determinando em qual região da casa o indivíduo se encontra.
 
@@ -16,7 +16,7 @@ Ao entrar em um cômodo, o \beacon será encontrado pelo \mhubcddl, gerando um e
 
 Para este experimeto, cada anúncio detectado corresponde a um evento de descoberta gerado pelo \stwopa, este evento deve então ser propagado até a aplicação.
 
-A fim de determinar a performance, a aplicação permanece constantemente anotando os \timestamps de cada evento de descoberta emitido pelo \stwopa, e os \timestamps de notificações destes eventos na aplicação---ambos em milisegundos. O primeiro \timestamp é subtraído do segundo de forma a calcular o tempo de propagação dos eventos de descoberta, que será de agora em diante referido como $TP_{descoberta}$ e calculado da seguinte forma. 
+A fim de determinar a performance, a aplicação permanece constantemente anotando os \timestamps de cada evento de descoberta emitido pelo \stwopa, e os \timestamps de notificações destes eventos na aplicação---ambos em milisegundos. O primeiro \timestamp é subtraído do segundo de forma a calcular o tempo de propagação dos eventos de descoberta, que será de agora em diante referido como $TP_{descoberta}$ e calculado conforme a \autoref{equ:performance-discovery}.
 
 \begin{equation}
 	\label{equ:performance-discovery}
@@ -25,16 +25,16 @@ A fim de determinar a performance, a aplicação permanece constantemente anotan
 
 Onde $TS_{descoberta,app}$ e $TS_{descoberta,\stwopa}$ se referem ao \timestamp de uma notificação de descoberta na aplicação e ao \timestamp do evento de descoberta gerado pelo \stwopa, respectivamente.
 
-Para avaliar a acurácia é realizada uma comparação entre a quantidade de eventos que foram gerados e quantas notificações foram entregues à aplicação, e será calculada da seguinte maneira.
+Para avaliar percentual de perdas, é realizada uma comparação entre a quantidade de eventos que foram gerados e quantas notificações foram entregues à aplicação, e será calculada através da \autoref{equ:acuracy}.
 
 \begin{equation}
 	\label{equ:acuracy}
-	Acur\acute{a}cia = \frac{EventosGerados - |EventosGerados - EventosNotificados|}{EventosGerados}
+	P_{perda} = \frac{EventosGerados - |EventosGerados - EventosNotificados|}{EventosGerados}
 \end{equation}
 
 Onde $EventosGerados$ e $EventosNotificados$ se referem à quantidade de eventos gerados no \stwopa e à quantidade de notificações desses eventos que chegaram à aplicação, respectivamente.
 
-A \autoref{tab:generated-events-1} mostra os valores do termo $EventosGerados$ na \autoref{equ:acuracy}, estes valores serão posteriormente comparados com a quantidade de eventos notificados para calcular a acurácia.
+A \autoref{tab:generated-events-1} mostra os valores do termo $EventosGerados$ na \autoref{equ:acuracy}, estes valores serão posteriormente comparados com a quantidade de eventos notificados para calcular o percentual de perdas.
 
 \begin{table}[htb]
 	\begin{center}
@@ -59,9 +59,9 @@ A \autoref{tab:generated-events-1} mostra os valores do termo $EventosGerados$ n
 
 \subsection{Simulação dos \beacons}\label{chap:avaliacao-simulacao-beacons}
 
-O experimento descrito na \autoref{chap:avaliacao-experimento1} foi simulado utilizando um \dataset, esta seção descreve como este \dataset foi utilizado para simular a detecção dos \beacons. Os dados utilizados para a simulação do experimento 1 foram obtidos do \dataset disponibilizado por \citeonline{byrne:et-al:2018}\footnote{O \dataset pode ser obtido em \cite{byrne:kozlowski:dataset:2019}}. Neste trabalho os autores instruíram que participantes conduzissem suas rotinas diárias em casa, enquanto sua localização na residência era monitorada.
+O experimento descrito na \autoref{chap:avaliacao-experimento1} foi simulado utilizando um \dataset,\marginpar{ponto} esta seção descreve como este \dataset foi utilizado para simular a detecção dos \beacons. Os dados utilizados para a simulação do experimento 1 foram obtidos do \dataset disponibilizado por \citeonline{byrne:et-al:2018}\footnote{O \dataset pode ser obtido em \cite{byrne:kozlowski:dataset:2019}}. Neste trabalho os autores instruíram que participantes conduzissem suas rotinas diárias em casa, enquanto sua localização na residência era monitorada.
 
-O chão dos cômodos das casas foi marcado com etiquetas, cada etiqueta é uma imagem binária que codifica um número inteiro, e este, único para cada uma das etiquetas. Os participantes são equipados com uma câmera na região do torso que aponta em direção ao chão, detectando e interpretando qual etiqueta está visível no momento, e deste modo, identificando em qual cômodo o participante se encontra.
+O chão dos cômodos das casas foi marcado com etiquetas, \marginpar{onde}cada etiqueta é uma imagem binária que codifica um número inteiro, e este, único para cada uma das etiquetas. Os participantes são equipados com uma câmera na região do torso que aponta em direção ao chão, detectando e interpretando qual etiqueta está visível no momento, e deste modo, identificando em qual cômodo o participante se encontra.
 
 No trabalho citado, o autor realizou o experimento em 4 residências distintas, e estas, foram denotadas de ``\texttt{Residence A}'', ``\texttt{Residence B}'', ``\texttt{Residence C}'' e ``\texttt{Residence D}''. Para cada residência, o experimento foi conduzido múltiplas vezes, e cada um denominado de ``\texttt{living\_1}'', ``\texttt{living\_2}'', ``\texttt{living\_3}'', \dots{}, ``\texttt{living\_n}''.
 
@@ -133,7 +133,7 @@ Também foi utilizado uma máquina virtual como \broker \mqtt, esta máquina exe
 
 \section{Experimento 2}
 
-O segundo experimento visa avaliar o desempenho e acurácia da solução proposta, entretanto levando em consideração também os eventos de conexão e desconexão que não foram analisados no primeiro experimento. O experimento consiste em um cenário de uso composto por uma casa equipada com um sistema multimídia na sala de estar que possibilita que \smartphones se conectem a ele através de \bluetooth, onde o conteúdo da televisão se adapta de acordo com os usuários que estão presentes na sala, e a interação com as aplicações da televisão digital acontece através do \smartphone.
+O segundo experimento visa avaliar o desempenho e o percentual de perdas da solução proposta, entretanto levando em consideração também os eventos de conexão e desconexão que não foram analisados no primeiro experimento. O experimento consiste em um cenário de uso composto por uma casa equipada com um sistema multimídia na sala de estar que possibilita que \smartphones se conectem a ele através de \bluetooth, onde o conteúdo da televisão se adapta de acordo com os usuários que estão presentes na sala, e a interação com as aplicações da televisão digital acontece através do \smartphone.
 
 O sistema multimídia pode ter ciência de qual usuário está presente através dos \smartphones conectados no momento, pois ele armazena a relação dos moradores da residência com seus respectivos \smartphones.
 
@@ -143,10 +143,9 @@ Uma aplicação android foi desenvolvida com o \middleware \mhubcddl que permane
 
 Para o experimento 2, a todo momento em que o participante entra na sala de estar acontece interações entre o aplicativo e o sistema multimídia, essas interações são compostas de um evento de descoberta, seguido por um evento de conexão. Ao sair do quarto um evento de desconexão é também gerado. Cada um desses eventos são gerados pelo \stwopa e notificados posteriormente à aplicação.
 
-As avaliaçãos de desempenho e acurácia deste cenário de uso são análogas às descritas para o experimento 1, com a exceção de que eventos de conexão e desconexão também fazem partes das medições.
+As avaliaçãos de desempenho e percentual de perdas deste cenário de uso são análogas às descritas para o experimento 1, com a exceção de que eventos de conexão e desconexão também fazem partes das medições.
 
 A \autoref{equ:performance-discovery} será utilizada para avaliar a performance da notificação de eventos de descoberta. A performance da notificação dos eventos de conexão e desconexão serão os tempos de propagação de tais eventos até a aplicação, e denotados como $TP_{conexao}$ e $TP_{desconexao}$ respectivamente.
-
 \begin{align}
 	TP_{conexao} &= TS_{conexao,app} - TS_{conexao,\stwopa} \label{equ:performance-connection} \\
 	\nonumber\\
@@ -155,7 +154,7 @@ A \autoref{equ:performance-discovery} será utilizada para avaliar a performance
 
 Onde $TS_{conexao,\stwopa}$ e $TS_{desconexao,\stwopa}$ são os \timestamps de quando os eventos de conexão e desconexão são gerados no \stwopa. Já $TS_{conexao,app}$ e $TS_{desconexao,app}$ são os \timestamps de quando esses eventos são entregues à aplicação.
 
-Para medir a acurácia será utilizado a \autoref{equ:acuracy}. A \autoref{tab:generated-events-2} sumariza os resultados esperados para o experimento.
+Para medir o percentual de perdas será utilizado a \autoref{equ:acuracy}. A \autoref{tab:generated-events-2} sumariza os resultados esperados para o experimento.
 
 \begin{table}[htb]
 	\begin{center}
@@ -180,7 +179,7 @@ Para medir a acurácia será utilizado a \autoref{equ:acuracy}. A \autoref{tab:g
 
 \subsection{Simulação do sistema multimídia}
 
-Para este experimento foi feita uma simulação de um indivíduo andando em uma residência, foram utilizados os dados do \dataset descrito na \autoref{chap:avaliacao-simulacao-beacons} para esta simulação.
+Para este experimento foi feita uma simulação de um indivíduo andando em uma residência,\marginpar{ponto} foram utilizados os dados do \dataset descrito na \autoref{chap:avaliacao-simulacao-beacons} para esta simulação.
 
 Escolheu-se também o experimento ``\texttt{living\_2}'' da casa ``\texttt{Residence D}'' por fornecer um dos maiores tempos de monitoramento do participante juntamente com a maior quantidade de visitas à sala de estar. Será utilizado apenas a parte do \dataset referentes à entradas no cômodo denotado como ``\texttt{living\_area\_A}'' na \autoref{fig:dataset-histogram}, pois este cômodo foi escolhido como a sala de estar onde o sistema multimídia se localiza.
 
@@ -196,11 +195,11 @@ Escolheu-se também o experimento ``\texttt{living\_2}'' da casa ``\texttt{Resid
 		}{
 			\begin{tabular}{lccc}
 				\toprule
-				                               & $EventosGerados$ & $EventosNotificados$ & $Acur\acute{a}cia$ (\%) \\
+							       & $EventosGerados$ & $EventosNotificados$ & $P_{perdas}$ (\%) \\
 				\midrule
-				\textbf{Eventos de descoberta} & 34814            & 34814                & 100		   \\
-				\textbf{Eventos de conexão}    & 0                & 0                    & \nullval	           \\
-				\textbf{Eventos de desconexão} & 0                & 0                    & \nullval		   \\
+				\textbf{Eventos de descoberta} & 34814            & 34814                & 100		     \\
+				\textbf{Eventos de conexão}    & 0                & 0                    & \nullval	     \\
+				\textbf{Eventos de desconexão} & 0                & 0                    & \nullval          \\
 				\bottomrule
 			\end{tabular}
 		}{
@@ -218,11 +217,11 @@ Escolheu-se também o experimento ``\texttt{living\_2}'' da casa ``\texttt{Resid
 		}{
 			\begin{tabular}{lccc}
 				\toprule
-				                               & $EventosGerados$ & $EventosNotificados$ & $Acur\acute{a}cia$ (\%) \\
+							       & $EventosGerados$ & $EventosNotificados$ & $P_{perdas}$ (\%) \\
 				\midrule
-				\textbf{Eventos de descoberta} & 37               & 37                   & 100			   \\
-				\textbf{Eventos de conexão}    & 37	          & 37                   & 100			   \\
-				\textbf{Eventos de desconexão} & 37	          & 37                   & 100			   \\
+				\textbf{Eventos de descoberta} & 37               & 37                   & 100		     \\
+				\textbf{Eventos de conexão}    & 37	          & 37                   & 100		     \\
+				\textbf{Eventos de desconexão} & 37	          & 37                   & 100	             \\
 				\bottomrule
 			\end{tabular}
 		}{
@@ -248,10 +247,10 @@ Escolheu-se também o experimento ``\texttt{living\_2}'' da casa ``\texttt{Resid
 			\scalebox{.97}{
 			\begin{tabular}{l*{8}{c}}
 				\toprule
-				\tabperformanceheader                                                                    \\
+				\tabperformanceheader                                                                  \\
 				\midrule 
-				\textbf{Experimento 1} & 28.03  & 32.71 & & \nullval & \nullval & & \nullval & \nullval \\
-				\textbf{Experimento 2} & 77.00 & 29.23  & & 111.11   & 52.74    & & 60.18   & 22.89    \\
+				\textbf{Experimento 1} & 28.03 & 32.71 & & \nullval & \nullval & & \nullval & \nullval \\
+				\textbf{Experimento 2} & 77.00 & 29.23 & & 111.11   & 52.74    & & 60.18    & 22.89    \\
 				\bottomrule
 			\end{tabular}
 
