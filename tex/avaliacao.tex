@@ -59,9 +59,9 @@ A \autoref{tab:generated-events-1} mostra os valores do termo $EventosGerados$ n
 
 \subsection{Simulação dos \beacons}\label{chap:avaliacao-simulacao-beacons}
 
-O experimento descrito na \autoref{chap:avaliacao-experimento1} foi simulado utilizando um \dataset,\marginpar{ponto} esta seção descreve como este \dataset foi utilizado para simular a detecção dos \beacons. Os dados utilizados para a simulação do experimento 1 foram obtidos do \dataset disponibilizado por \citeonline{byrne:et-al:2018}\footnote{O \dataset pode ser obtido em \cite{byrne:kozlowski:dataset:2019}}. Neste trabalho os autores instruíram que participantes conduzissem suas rotinas diárias em casa, enquanto sua localização na residência era monitorada.
+O experimento descrito na \autoref{chap:avaliacao-experimento1} foi simulado utilizando um \dataset. Esta seção descreve como este \dataset foi utilizado para simular a detecção dos \beacons. Os dados utilizados para a simulação do experimento 1 foram obtidos do \dataset disponibilizado por \citeonline{byrne:et-al:2018}\footnote{O \dataset pode ser obtido em \cite{byrne:kozlowski:dataset:2019}}. Neste trabalho os autores instruíram que participantes conduzissem suas rotinas diárias em casa, enquanto sua localização na residência era monitorada.
 
-O chão dos cômodos das casas foi marcado com etiquetas, \marginpar{onde}cada etiqueta é uma imagem binária que codifica um número inteiro, e este, único para cada uma das etiquetas. Os participantes são equipados com uma câmera na região do torso que aponta em direção ao chão, detectando e interpretando qual etiqueta está visível no momento, e deste modo, identificando em qual cômodo o participante se encontra.
+O chão dos cômodos das casas foi marcado com etiquetas, onde cada etiqueta é uma imagem binária que codifica um número inteiro, e este, único para cada uma das etiquetas. Os participantes são equipados com uma câmera na região do torso que aponta em direção ao chão, detectando e interpretando qual etiqueta está visível no momento, e deste modo, identificando em qual cômodo o participante se encontra.
 
 No trabalho citado, o autor realizou o experimento em 4 residências distintas, e estas, foram denotadas de ``\texttt{Residence A}'', ``\texttt{Residence B}'', ``\texttt{Residence C}'' e ``\texttt{Residence D}''. Para cada residência, o experimento foi conduzido múltiplas vezes, e cada um denominado de ``\texttt{living\_1}'', ``\texttt{living\_2}'', ``\texttt{living\_3}'', \dots{}, ``\texttt{living\_n}''.
 
@@ -179,7 +179,7 @@ Para medir o percentual de perdas será utilizado a \autoref{equ:acuracy}. A \au
 
 \subsection{Simulação do sistema multimídia}
 
-Para este experimento foi feita uma simulação de um indivíduo andando em uma residência,\marginpar{ponto} foram utilizados os dados do \dataset descrito na \autoref{chap:avaliacao-simulacao-beacons} para esta simulação.
+Para este experimento foi feita uma simulação de um indivíduo se locomovendo em uma residência. Foram utilizados os dados do \dataset descrito na \autoref{chap:avaliacao-simulacao-beacons} para esta simulação.
 
 Escolheu-se também o experimento ``\texttt{living\_2}'' da casa ``\texttt{Residence D}'' por fornecer um dos maiores tempos de monitoramento do participante juntamente com a maior quantidade de visitas à sala de estar. Será utilizado apenas a parte do \dataset referentes à entradas no cômodo denotado como ``\texttt{living\_area\_A}'' na \autoref{fig:dataset-histogram}, pois este cômodo foi escolhido como a sala de estar onde o sistema multimídia se localiza.
 
