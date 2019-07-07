@@ -85,23 +85,19 @@ Informações referentes à distribuição da quantidade de vezes em que o indiv
 O \dataset original é composto principalmente por um arquivo de texto que contém em cada linha uma representação de um momento no decorrer do experimento. Entre os dados contidos por linha, destaca-se o \timestamp da medição e a etiqueta detectada naquele instante. 
 
 Realizou-se um pré-processamento no \dataset de forma a facilitar a utilização dos dados para fim da simulação, gerando um arquivo contendo 3 valores separadas por espaço em que cada linha representa o instante em que o participante entrou e permaneceu contínuamente em um cômodo. Os 3 valores são: um identificador numérico do cômodo, o nome do cômodo e o \timestamp em que o indivíduo entrou naquele cômodo, como pode ser visto no \autoref{lst:preprocessed-dataset}.
-
-\begin{center}
+\begin{lstlisting}[language=python, caption={Parte do \dataset pré-processado}, label=lst:preprocessed-dataset]
+#room    room-name          timestamp(seconds)
+2        living_area_A      485.352
+1        hallway_lower      506.273
+6        stairs             513.380
+8        hallway_upper      519.319
+10       bedroom_1          526.159
+8        hallway_upper      561.328
+7        bathroom_toilet    565.832
+8        hallway_upper      628.495
+9        bedroom_2          632.065
+\end{lstlisting}
 	
-	\begin{lstlisting}[caption={Parte do \dataset pré-processado}, label=lst:preprocessed-dataset]
-		#room	room-name	timestamp(seconds)
-		2	living_area_A	485.352
-		1	hallway_lower	506.273
-		6	stairs		513.380
-		8	hallway_upper	519.319
-		10	bedroom_1	526.159
-		8	hallway_upper	561.328
-		7	bathroom_toilet	565.832
-		8	hallway_upper	628.495
-		9	bedroom_2	632.065
-	\end{lstlisting}
-	
-\end{center}
 
 Como descrito anteriormente, cada um dos 10 cômodos possui um \beacon \ble, configurados para emitir 10 anúncios por segundo. É esperado, então,  que o aplicativo detecte um anúncio a cada 0.1 segundo em que o participante permanece em um cômodo. 
 
