@@ -16,7 +16,7 @@ Ao entrar em um cômodo, o \beacon será encontrado pelo \mhubcddl, gerando um e
 
 Para este experimeto, cada anúncio detectado corresponde a um evento de descoberta gerado pelo \stwopa, este evento deve então ser propagado até a aplicação.
 
-A fim de determinar a performance, a aplicação permanece constantemente anotando os \timestamps de cada evento de descoberta emitido pelo \stwopa, e os \timestamps de notificações destes eventos na aplicação---ambos em milisegundos. O primeiro \timestamp é subtraído do segundo de forma a calcular o tempo de propagação dos eventos de descoberta, que será de agora em diante referido como $TP_{descoberta}$ e calculado conforme a \autoref{equ:performance-discovery}.
+A fim de determinar a performance, a aplicação permanece constantemente anotando os \timestamps de cada evento de descoberta emitido pelo \stwopa, e os \timestamps de notificações destes eventos na aplicação---ambos em milissegundos. O primeiro \timestamp é subtraído do segundo de forma a calcular o tempo de propagação dos eventos de descoberta, que será de agora em diante referido como $TP_{descoberta}$ e calculado conforme a \autoref{equ:performance-discovery}.
 
 \begin{equation}
 	\label{equ:performance-discovery}
@@ -29,7 +29,7 @@ Para avaliar percentual de perdas, é realizada uma comparação entre a quantid
 
 \begin{equation}
 	\label{equ:acuracy}
-	P_{perda} = \frac{EventosGerados - |EventosGerados - EventosNotificados|}{EventosGerados}
+	P_{perda} = \frac{EventosGerados - EventosNotificados}{EventosGerados}
 \end{equation}
 
 Onde $EventosGerados$ e $EventosNotificados$ se referem à quantidade de eventos gerados no \stwopa e à quantidade de notificações desses eventos que chegaram à aplicação, respectivamente.
@@ -63,7 +63,7 @@ O experimento descrito na \autoref{chap:avaliacao-experimento1} foi simulado uti
 
 O chão dos cômodos das casas foi marcado com etiquetas, onde cada etiqueta é uma imagem binária que codifica um número inteiro, e este, único para cada uma das etiquetas. Os participantes são equipados com uma câmera na região do torso que aponta em direção ao chão, detectando e interpretando qual etiqueta está visível no momento, e deste modo, identificando em qual cômodo o participante se encontra.
 
-No trabalho citado, o autor realizou o experimento em 4 residências distintas, e estas, foram denotadas de ``\texttt{Residence A}'', ``\texttt{Residence B}'', ``\texttt{Residence C}'' e ``\texttt{Residence D}''. Para cada residência, o experimento foi conduzido múltiplas vezes, e cada um denominado de ``\texttt{living\_1}'', ``\texttt{living\_2}'', ``\texttt{living\_3}'', \dots{}, ``\texttt{living\_n}''.
+No trabalho citado, o autor realizou o experimento em 4 residências distintas, e estas foram denotadas de ``\texttt{Residence A}'', ``\texttt{Residence B}'', ``\texttt{Residence C}'' e ``\texttt{Residence D}''. Para cada residência, o experimento foi conduzido múltiplas vezes, e cada um denominado de ``\texttt{living\_1}'', ``\texttt{living\_2}'', ``\texttt{living\_3}'', \dots{}, ``\texttt{living\_n}''.
 
 
 A fim de maximizar a quantidade de eventos de descoberta, foi utilizado os dados do experimento ``\texttt{living\_2}'' da casa ``\texttt{Residence D}'' pois este experimento possui um dos maiores tempos de monitoramento e quantidade de entrada em cômodos. Os dados deste experimento consistem de 58 minutos de monitoramento de um indivíduo em uma casa de 10 cômodos. Os dados possuem uma resolução média de aproximadamente 11 medições por segundo.
@@ -131,6 +131,50 @@ O experimento descrito foi executado em um \smartphone Lenovo Moto Z Play, com p
 
 Também foi utilizado uma máquina virtual como \broker \mqtt, esta máquina executa o sistema operacional Ubuntu 16.04.4 LTS, possui processador de 2 núcleos com 2.5GHz e 4GB de memória RAM.
 
+\subsection{Resultados}
+
+\newcommand{\nullval}{\textbf{---}}
+
+\begin{table}[htb]
+	\begin{center}
+		\IBGEtab{
+			\caption{Quantidade de eventos notificados no experimento 1}
+			\label{tab:generated-events-1-results}
+		}{
+			\begin{tabular}{lccc}
+				\toprule
+							       & $EventosGerados$ & $EventosNotificados$ & $P_{perdas}$ (\%) \\
+				\midrule
+				\textbf{Eventos de descoberta} & 34814            & 34814                & 0		     \\
+				\textbf{Eventos de conexão}    & 0                & 0                    & \nullval	     \\
+				\textbf{Eventos de desconexão} & 0                & 0                    & \nullval          \\
+				\bottomrule
+			\end{tabular}
+		}{
+			\fonte{\autoriapropria}
+		}
+	\end{center}
+\end{table}
+
+\begin{table}[htb]
+	\begin{center}
+		\IBGEtab{
+			\caption{Quantidade de eventos notificados no experimento 1}
+			\label{tab:experiment-1-performance}
+		}{
+			\begin{tabular}{lccccc}
+				\toprule
+				                       & Média & Desvio padrão & Mínimo & Máximo & Intervalo de 95\% de confiança \\
+				\midrule
+				$\bm{TP_{descoberta}}$ (ms) & 28.03 & 32.71         &        &        &		                  \\
+				\bottomrule
+			\end{tabular}
+		}{
+			\fonte{\autoriapropria}
+		}
+	\end{center}
+\end{table}
+
 \section{Experimento 2}
 
 O segundo experimento visa avaliar o desempenho e o percentual de perdas da solução proposta, entretanto levando em consideração também os eventos de conexão e desconexão que não foram analisados no primeiro experimento. O experimento consiste em um cenário de uso composto por uma casa equipada com um sistema multimídia na sala de estar que possibilita que \smartphones se conectem a ele através de \bluetooth, onde o conteúdo da televisão se adapta de acordo com os usuários que estão presentes na sala, e a interação com as aplicações da televisão digital acontece através do \smartphone.
@@ -183,30 +227,8 @@ Para este experimento foi feita uma simulação de um indivíduo se locomovendo 
 
 Escolheu-se também o experimento ``\texttt{living\_2}'' da casa ``\texttt{Residence D}'' por fornecer um dos maiores tempos de monitoramento do participante juntamente com a maior quantidade de visitas à sala de estar. Será utilizado apenas a parte do \dataset referentes à entradas no cômodo denotado como ``\texttt{living\_area\_A}'' na \autoref{fig:dataset-histogram}, pois este cômodo foi escolhido como a sala de estar onde o sistema multimídia se localiza.
 
-\section{Resultados}
+\subsection{Resultados}
 
-\newcommand{\nullval}{\textbf{---}}
-
-\begin{table}[htb]
-	\begin{center}
-		\IBGEtab{
-			\caption{Quantidade de eventos notificados no experimento 1}
-			\label{tab:generated-events-1-results}
-		}{
-			\begin{tabular}{lccc}
-				\toprule
-							       & $EventosGerados$ & $EventosNotificados$ & $P_{perdas}$ (\%) \\
-				\midrule
-				\textbf{Eventos de descoberta} & 34814            & 34814                & 100		     \\
-				\textbf{Eventos de conexão}    & 0                & 0                    & \nullval	     \\
-				\textbf{Eventos de desconexão} & 0                & 0                    & \nullval          \\
-				\bottomrule
-			\end{tabular}
-		}{
-			\fonte{\autoriapropria}
-		}
-	\end{center}
-\end{table}
 
 
 \begin{table}[htb]
