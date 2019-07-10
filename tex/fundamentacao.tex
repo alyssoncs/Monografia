@@ -18,7 +18,7 @@ O \broker funciona como um intermediador entre as mensagens que são enviadas po
 
 Este protocolo permite o desacoplamento total entre os produtores e consumidores de dados, deste modo nenhum dos dois componentes têm ciência da existência mútua entre si.
 
-\subsection{Estrutura de tópicos} \label{subsec:mqtt-topics}
+\subsection{Tópicos \mqtt} \label{subsec:mqtt-topics}
 
 Existem dois elementos em uma mensagem \mqtt---o dado e o tópico. O dado é a informação que o \pub precisa enviar, este dado será então enviado para o \sub que assinou o tópico onde a mensagem foi publicada \cite{tantitharanukul:et-al:2017}.
 
@@ -41,9 +41,30 @@ O \mqtt é o protocolo padrão utilizado pelo \cddl para realizar troca de mensa
 		
 \section{\mhubcddl}
 
-O \mhubcddl é uma composição de um \gateway (\mhub) e um \middleware de \iomt (\cddl). Enquanto o \mhub transforma o dispositivo \android em que está em execução em um \gateway \iot móvel, o \cddl funciona como \middleware provendo serviços locais e remotos de descoberta de provedores de serviços, processamento de eventos complexos, publicação e assinatura de dados e eventos com qualidade de serviço.
+O \mhubcddl é uma composição de um \gateway (\mhub) e um \middleware de \iomt (\cddl). Enquanto o \mhub transforma o dispositivo \android que está em execução em um \gateway \iot móvel responsável pela descoberta e aquisição de dados diretamente dos \smartobjs, o \cddl funciona como \middleware provendo serviços locais e remotos de descoberta de provedores de serviços, processamento de eventos complexos, publicação e assinatura de dados e eventos com qualidade de serviço.
+A \autoref{fig:mhub-cdll-architecture} apresenta a arquitetura do \middleware.
 
-As seções seguintes abordarão cada um desses componentes separadamente.
+\begin{figure}[htb]
+	\centering
+	\caption{\label{fig:mhub-cdll-architecture}Arquitetura do \mhubcddl}
+	\includegraphics[width=0.85\linewidth]{img/mhub-cddl-architecture.png}
+	\fonte{\citeonline[p.~15]{gomes:et-al:2017}}
+\end{figure}
+
+O \mhub faz o papel de \gateway móvel entre os \smartobjs e a Internet, onde os componentes mais inferiores encapsulam a heterogeneidade e especificidade das tecnologias WPAN suportadas.
+O componente \texttt{BTTechnology} é voltado para a comunicação com dispositivos que utilizam a tecnologia \Bluetooth; a comunicação com \smartobjs que utilizam \Bluetooth \textit{Low Energy} é feita pelo componente \texttt{BLETechnology} enquanto a comunicação com sensores internos do dispositivo móvel é realizada por \texttt{InternalTechnology}.
+
+O \stwopa é o serviço do \mhub que gerencia e oferece uma \api única para comunicação com as tecnologias suportadas.
+Os dados coletados pelo \stwopa são pré-processados e enriquecidos com metadados de Qualidade de Informação (\textit{Quality of Information} -- QoI), e então encaminhados ao \cddl para distribuição.
+
+O \qocevaluator é o componente do \cddl que recebe os dados adquiridos pelo \mhub.
+Uma de suas responsabilidades é calcular dinamicamente o valor de alguns parâmetros de QoI que não puderam ser fornecidos na etapa de aquisição.
+Após esta avaliação, esses parâmetros são adicionados como metadados aos dados de contexto que são encaminhados automaticamente ao \texttt{PublisherImpl}.
+
+Todos os dados---oriundos do \stwopa ou providos pela camada de aplicação---são então publicados pelo \texttt{PublisherImpl} em uma estrutura de tópicos de um \broker \mqtt por intermédio do \texttt{ConnectionImpl}, componente que gerencia conexões e sessões das aplicações clientes com \brokers.
+Desta forma os dados podem ser entregue às aplicações que registrarem, neste \broker, interesse em tais dados.
+
+Também nota-se a presença de um componente chamado \texttt{MicroBroker}, este é uma versão reduzida do \broker \mqtt Moquette voltado para dispositivos \android\footnote{\url{https://github.com/technocreatives/moquette}}. Pode ser utilizado como alternativa a um \broker externo. Desta forma, os dados coletados ficam disponíveis apenas entre aplicações que executem no mesmo dispositivo.
 
 \subsection{\mhub}
 
@@ -196,20 +217,4 @@ Como \middleware, o \cddl permite que as aplicações clientes assumam o papel d
 
 	\item filtragem das informações.
 \end{alineas}
-
-\subsection*{O \middleware \mhubcddl}
-
-O \mhubcddl é uma abordagem de \middleware para desenvolvimento de aplicações de \iomt e \iot, utiliza o \mhub como o componente responsável pela descoberta e aquisição dos dados diretamente dos \smartobjs, abstraindo especificidades de comunicação de suas WPANs. O \cddl foi escolhido como a camada de distribuição de dados, que provê o controle de requisitos de qualidade de informação e fornce uma \api única.
-
-A \autoref{fig:mhub-cdll-architecture} ilustra a arquitetura do \middleware.
-O \mhub funcionando como \gateway móvel entre os \smartobjs e a Internet, tranferindo ao \cddl os dados de contexto capturados através do \eventbus.
-Uma vez entregue ao \cddl, todos os dados são então publicados em uma estrutura de tópicos de um \broker \mqtt, local ou não.
-Desta forma sendo entregue às aplicações que registraram no \broker interesse em tais dados.
-
-\begin{figure}[htb]
-	\centering
-	\caption{\label{fig:mhub-cdll-architecture}Arquitetura do \mhubcddl}
-	\includegraphics[width=0.85\linewidth]{img/mhub-cddl-architecture.png}
-	\fonte{\citeonline[p.~15]{gomes:et-al:2017}}
-\end{figure}
 
