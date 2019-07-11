@@ -80,19 +80,8 @@ Para gerenciar a descoberta e conexão com dispositivos que trabalham com difere
 
 Implementado como um módulo na arquitetura do \middleware, o \stwopa define um conjunto de métodos e interfaces que os módulos responsáveis por determinada tecnologia de comunicação devem implementar. Isto permite que o \stwopa se comunique com todas as tecnologias WPAN suportadas, gerenciando-as, e assim fornece uma \api unificada para todas as camadas superiores da arquitetura que precisam se comunicar com tais tecnologias.
 
-O \stwopa torna-se então um intermediador entre todas as tecnologias de comunicação específicas e os demais componenetes do \middleware. Dentre as funcionalidades---na forma de métodos e interfaces---que as tecnologias devem implementar para seu correto funcionamento no \middleware, destacam-se:
+É possível encontrar na \autoref{fig:technology-interface} a interface \techinterface definida pelo \stwopa que declara os métodos padrões que realizam as funcionalidades básicas, a qual todas as tecnologias devem suportar.
 
-\begin{alineas}
-	\item descoberta e conexão de \smartobjs;
-	
-	\item descoberta de serviços de cada \smartobjs;
-
-	\item leitura e escrita de atributos de serviços (\textit{e.g.}, dados de sensores e comandos de atuadores);
-
-	\item notificação de desconexão com \smartobjs.
-\end{alineas}
-
-É possível encontrar na \autoref{fig:technology-interface} a interface \techinterface definida pelo \stwopa que declara os métodos padrões que realizam as funcionalidades descritas, a qual todas as tecnologias devem implementar. Também é ilustrada a interface \techlistener que é implementada pela classe \stwopaservice---a implementação do \stwopa no \mhub.
 
 \begin{figure}[htb]
 	\centering
@@ -101,13 +90,44 @@ O \stwopa torna-se então um intermediador entre todas as tecnologias de comunic
 	\fonte{\citeonline[p.~125]{talavera:et-al:2015}}
 \end{figure}
 
-Além das tecnologias suportadas pelo \mhub, foi implementado uma pseudo tecnologia chamada de \faketechnology.
-Esta não controla nenhuma tecnologia real, mas é interpretada como tal pelo \stwopa, seu objetivo é permitir geração de eventos de descoberta, conexão e desconexão no \stwopa a partir da camada de aplicação, não necessitando a presença de objetos físicos que se comuniquem em determinada WLAN.
-Esta tecnologia foi utilizada para a realização das avaliações da solução proposta por este trabalho, como descrito no \autoref{chap:avaliacao}.
+A interface \techinterface inclui inicialmente um identificador numérico \texttt{ID}, definido em tempo de programação, este define unicamente a tecnologia. Dentre os métodos métodos definidos pela interface, destaca-se:
 
-O \stwopaservice utiliza os métodos da interface \techinterface para gerenciar as tecnologias suportadas e, em particular, utiliza o método \texttt{setListener()} para se cadastrar como o \listener daquela tecnologia. Já as tecnologias utilizam os métodos da interface \techlistener para informar ao \stwopaservice a ocorrência de eventos com \smartobjs, como: descoberta, conexão, desconexão e leitura de dados de sensores.
+\begin{alineas}
+	\item \texttt{exists()}: Informa se o suporte à determinada tecnologia existe no dispositivo móvel onde o \middleware está executando;
 
-Quando o \stwopaservice recebe de alguma tecnologia, um evento de descoberta, conexão, desconexão ou leitura de dados de \smartobjs, ele o ecapsula em um objeto do tipo \sensordata.
+	\item \texttt{enable()}: Habilita o uso da tecnologia para a aplicação;
+
+	\item \texttt{startScan()}: Inicia o processo de escaneamento desta tecnologia. Recebe como parâmetro um valor booleano que indica se o componente responsável pela tecnologia deve tentar realizar o processo de conexão automaticamente ao encontrar um dispositivo durante o escaneamento;
+
+	\item \texttt{stopScan()}: Finaliza o processo de escaneamento desta tecnologia;
+
+	\item \texttt{connect()}: Recebe como parâmetro o endereço MAC de um \smartobj, e tenta realizar conexão com ele;
+
+	\item \texttt{disconnect()}: Recebe um endereço MAC de um \smartobj como parâmetro, se conectado à ele, realiza a desconexão;
+
+	\item \texttt{readSensorValue()}: Recebe como parâmetro o endereço MAC e o nome de um serviço fornecido por um \smartobj e realiza o processo de leitura de dados fornecido por aquele serviço.
+\end{alineas}
+
+Outro método importante é o \texttt{setListener()}, que recebe como parâmetro uma instância de uma classe que implemente a interface \techlistener, também apresentada na \autoref{fig:technology-interface}.
+Todas as informações relevantes sobre \smartobjs descobertos pelas tecnologias geram eventos, estes são capturados através de \techlistener.
+Esta interface define métodos que serão acionados de acordo com o acontecimento de certos eventos por parte de alguma tecnologia de comunicação.
+Dentre os métodos, tem-se:
+
+\begin{alineas}
+	\item \texttt{onMobjectFound()}: Executado quando uma tecnologia encontra um \smartobj;
+
+	\item \texttt{onMobjectConnected()}: Executado quando uma tecnologia se conecta à um \smartobj;
+
+	\item \texttt{onMobjectDisconnected()}: Executado quando uma tecnologia se desconecta à um \smartobj;
+
+	\item \texttt{onMobjectValueRead()}: Executado quando uma tecnologia realiza uma leitura por parte de um \smartobj;
+\end{alineas}
+
+O \stwopa é uma classe que implementa a interface \techlistener.
+Ela é responsável por iniciar cada tecnologia e se cadastrar através do método \texttt{setListener()} como o \listener daquela tecnologia.
+As tecnologias se comunicam com o \stwopa através dos métodos de \techlistener descritos acima, desta forma o \stwopa recebe todas a interações com os \smartobjs.
+
+Quando o \stwopa recebe de alguma tecnologia, um evento de descoberta, conexão, desconexão ou leitura de dados de \smartobjs, ele o ecapsula em um objeto do tipo \sensordata.
 Esta classe possui os seguintes atributos:
 
 \begin{alineas}
@@ -158,15 +178,6 @@ O \mhub fornece diversos serviços que não serão tratados neste trabalho, dent
 	\item \emph{processamento ciente de energia}:
 		Por meio de um componente de gerenciamento de energia, o \mhub monitora o nível da bateria do dispositivo móvel, disparando ações adaptativas que ajustam os comportamento dos seus serviços, de acordo com a disponibilidade de energia do dispositivo móvel. Por exemplo, a frequência de publicação dos dados por ser reduzida quando o nível da bateria está baixo (por exemplo, menor que 20\%).
 \end{alineas}
-
-A arquitetura do \middleware pode ser observada na \autoref{fig:m-hub-architecture}.
-
-\begin{figure}[htb]
-	\centering
-	\caption{\label{fig:m-hub-architecture}Arquitetura do \mhub}
-	\includegraphics[width=0.85\linewidth]{img/m-hub-architecture.png}
-	\fonte{\citeonline[p.~6]{endler:silva:2018}}
-\end{figure}
 
 \subsection{\cddl} \label{subsec:cddl}
 
