@@ -125,7 +125,7 @@ Dentre os métodos, tem-se:
 
 O \stwopa é uma classe que implementa a interface \techlistener.
 Ela é responsável por iniciar cada tecnologia e se cadastrar através do método \texttt{setListener()} como o \listener daquela tecnologia.
-As tecnologias se comunicam com o \stwopa através dos métodos de \techlistener descritos acima, desta forma o \stwopa recebe todas a interações com os \smartobjs.
+As tecnologias se comunicam com o \stwopa através dos métodos de \techlistener descritos acima, desta forma o \stwopa recebe todas a interações com os \smartobjs, implementando assim o padrão de projeto \textit{observer}~\cite{gamma:et-al:1994}.
 
 Quando o \stwopa recebe de alguma tecnologia, um evento de descoberta, conexão, desconexão ou leitura de dados de \smartobjs, ele o ecapsula em um objeto do tipo \sensordata.
 Esta classe possui os seguintes atributos:
@@ -153,6 +153,8 @@ Esta classe possui os seguintes atributos:
 
 	\item \texttt{sensorValue}: Um vetor de pontos flutuantes que armazena os valores lidos do \smartobj. Logicamente este atributo só possui valores quando o atributo \texttt{action} assume o valor \texttt{READ}.
 \end{alineas}
+
+Os objetos do tipo \sensordata gerados no \stwopa a partir de leitura de dados de \smartobjs são enviados para o \cddl para distribuição.
 
 O \mhub fornece diversos serviços que não serão tratados neste trabalho, dentre eles, destaca-se \cite{gomes:2017}:
 
@@ -183,9 +185,29 @@ O \mhub fornece diversos serviços que não serão tratados neste trabalho, dent
 
 O \cddl é uma camada de distribuição de dados que provê mecanismos que permitem a especificação, controle e monitoramento de requisitos de qualidade de informação e do serviço de distribuição de dados \cite{gomes:2017}.
 
+Como \middleware, o \cddl permite que as aplicações clientes assumam o papel de produtoras ou consumidoras de dados de contexto, fornecendo suporte à políticas de qualidade de serviço de distribuição de dados. Desta forma as aplicações podem especificar parâmetros que expressam seus requisitos de QoC para envio e recebimento de mensagens. A fim de fornecer suporte para o desenvolvimento de aplicações de \iot e \iomt, o \cddl atende aos seguintes requisitos \cite{muniz:2017}:
+
+\begin{alineas}
+	\item suporte à distribuição de dados local e remota;
+
+	\item suporte ao registro e descoberta distribuída de serviços;
+
+	\item modelo de programação uniforme e independente de localização;
+
+	\item suporte à entrega confiável de dados em cenários de mobilidade;
+
+	\item provisionamento e monitoramento de qualidade da informação;
+
+	\item provisionamento e monitoramento de qualidade do serviço de distribuição;
+
+	\item filtragem das informações.
+\end{alineas}
+
 A interação entre produtores e consumidores de dados de contexto se dá através do modelo \pubsub com a utilização de \brokers, implementando uma comunicação ditribuída com o \mqtt. O \cddl também fornece um \ubroker que executa internamente no dispositivo móvel, o que permite que certas aplicações possam publicar e receber dados sem a dependência de conexão à Internet.
 
-Todos os dados que são publicados pelo \cddl são instâncias da classe \msg.
+O \cddl recebe através de \eventbus objetos do tipo \sensordata vindos do \stwopa.
+Este objeto é convertido em um objeto do tipo \msg, todos os dados publicados pelo \cddl são intâncias desta classe.
+Este novo objeto é então anotado com alguns parâmetros de QoI que não puderam ser informados no momento de captura do dado.
 Esta classe encapsula diversos atributos relevantes aos dados de contexto que representam, dentre eles, destaca-se:
 
 \begin{alineas}
@@ -206,26 +228,31 @@ Esta classe encapsula diversos atributos relevantes aos dados de contexto que re
 	\item \texttt{signal}: Intensidade do sinal no momento em que o \smartobj interagiu com o \stwopa.
 \end{alineas}
 
-Como ja mencionado, o modelo de programação do \cddl respeita o padrão \pubsub, então uma aplicação que registra o interesse por algum tipo de dado de contexto será notificada através de um objeto \msg, que representa este dado.
+Ao receber um dado de contexto vindo do \stwopa, o \cddl automaticamente o serializa em formato JSON e o publica em um \broker \mqtt definido no momento da inicialização do \middleware. 
+O atributo \texttt{serviceName} é utilizado para gerar parte do tópico.
+
+A \autoref{fig:general-vision-cddl} ilustra o uso da infraestrutura \mhubcddl em um cenário de \textit{Ambient Assisted Living}. Neste cenário os pacientes têm seus dados vitais monitorados por uma rede de sensores corporais.
+Os dados são coletados por \smartphones equipados com aplicações \mhubcddl que distribuem os dados em um conjunto de \brokers em nuvem.  
+Estes dados podem ser entregues aos médicos ou cuidadores e familiares do paciente.
+
+\begin{figure}[htb]
+	\centering
+	\caption{Visão geral do \mhubcddl em um cenário de \iomt}
+	\includegraphics[width=.85\linewidth]{img/general-vision-cddl.png}
+	\fonte{\citeonline{gomes:et-al:2017}}
+	\label{fig:general-vision-cddl}
+\end{figure}
+
+%\subsubsection{Modelo de programação}
+
+Como ja mencionado, o modelo de programação do \cddl respeita o padrão \pubsub, o \middleware oferece então duas classes: \texttt{Publisher} e \texttt{Subscriber} para realizar publicações e inscrições em tópicos, respectivamente.
+Uma aplicação que registra o interesse por algum tipo de dado de contexto será notificada através de um objeto \msg, que representa este dado.
 O \autoref{lst:subscriber} apresenta um exemplo de como o desenvolvedor pode consumir dados de temperatura capturados pelo \middleware.
 
 \lstinputlisting[float=htb,label=lst:subscriber, caption=Modelo de programação \pubsub do \cddl]{code/Subscriber.java}
 
-Como \middleware, o \cddl permite que as aplicações clientes assumam o papel de produtoras ou consumidoras de dados de contexto, fornecendo suporte à políticas de qualidade de serviço de distribuição de dados. Desta forma as aplicações podem especificar parâmetros que expressam seus requisitos de QoC para envio e recebimento de mensagens. A fim de fornecer suporte para o desenvolvimento de aplicações de \iot e \iomt, o \cddl atende aos seguintes requisitos \cite{muniz:2017}:
-
-\begin{alineas}
-	\item suporte à distribuição de dados local e remota;
-
-	\item suporte ao registro e descoberta distribuída de serviços;
-
-	\item modelo de programação uniforme e independente de localização;
-
-	\item suporte à entrega confiável de dados em cenários de mobilidade;
-
-	\item provisionamento e monitoramento de qualidade da informação;
-
-	\item provisionamento e monitoramento de qualidade do serviço de distribuição;
-
-	\item filtragem das informações.
-\end{alineas}
+Nas linhas 1 e 2, uma instância de \texttt{Subscriber} é criada e uma conexão com um \broker é feita.
+Na linha 3 o programa registra interesse em dados do serviço de temperatura, internamente o \texttt{Subscriber} irá se inscrever em um tópico onde todos os dados de contexto deste serviço são publicados.
+Nas linhas 5 até 13 um \textit{listener} para este objeto é definido, é a partir deste que os dados serão capturados.
+Todos os dados de contexto provenientes do serviço temperatura, chegarão ao método \texttt{onMessageArrived} como uma instância de \msg.
 
