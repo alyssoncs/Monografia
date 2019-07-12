@@ -1,38 +1,21 @@
 \chapter{Solução proposta}\label{chap:solucao}
 
-O trabalho em questão tem como objetivo a implementação do mecanismo que propaga os eventos de descoberta, conexão e desconexão que ocorrem no \stwopa do \mhub até a camada de aplicação do \cddl, de forma que os desenvolvedores possam projetar aplicações que se adaptem a tais eventos.
-Visto que o \cddl somente exportava à camada de aplicação, eventos de leitura de dados de contexto.
-
-Significando que dentre todos os objetos do tipo \sensordata criados no \stwopa, apenas aqueles com atributo ``\texttt{action}'' assumindo valor ``\texttt{READ}'' geravam eventos no \cddl que podiam ser percebidos pela aplicação (vide \autoref{subsub:s2pa}).
+Visto que o \cddl somente exporta à camada de aplicação, eventos de leitura de dados de contexto.
+Significando que, dentre todos os objetos do tipo \sensordata criados no \stwopa, apenas aqueles com atributo ``\texttt{action}'' assumindo valor ``\texttt{READ}'' eram propagados ao \qocevaluator no \cddl podendo assim serem percebidos pela aplicação (vide \autoref{subsub:s2pa}).
 
 Este fato implica em algumas limitações no desenvolvimento de aplicações.
-Imaginando um cenário onde uma aplicação necessite de certos dados providos por um \smartobj--- alocando recursos computacionais para processa-los.
-Em uma eventual desconexão com o \smartobj, o fluxo de dados do sensor cessaria de ser entregue à aplicação, contudo, nenhum fluxo ou notificação do evento de desconexão em si seria entregue.
-Tal aplicação não poderia decidir se o interrompimento do fluxo de dados se deu: devido a uma mudança na latência do envio de dados por parte do sensor, ou por uma desconexão; não podendo então decidir sobre a necessidade da desalocação de recursos.
+Imagine um cenário onde uma aplicação necessite de certos dados providos por um \smartobj--- alocando recursos computacionais para processa-los.
+Em uma eventual desconexão com o \smartobj, o fluxo de dados do sensor cessaria de ser entregue à aplicação, contudo, nenhum fluxo ou notificação do evento de desconexão seria entregue.
+A aplicação não poderia decidir se o interrompimento do fluxo de dados se deu, devido a uma mudança na latência do envio de dados por parte do sensor ou por uma desconexão, não podendo então decidir sobre a necessidade da desalocação de recursos.
 
-Outra classe de aplicações de \iomt que seriam prejudicadas, são aquelas que interagem com \smartobjs no ambiente por outros meios além de conexões.
+Esta limitação do \cddl dificultava ainda o desenvolvimento de aplicações que interagem com \smartobjs no ambiente por outros meios além de conexões.
 É o caso de aplicações de localização \textit{indoor} baseadas em \beacons \bluetooth, onde os \beacons são dispostos no interior de ambientes físicos e permanecem realizando \broadcast de sua presença.
 Os dispositívos móveis não realizam tentativas de conexão, apenas percebem a presença destes \smartobjs e utilizam a intensidade do sinal capturado no momento.
 
-Vale ressaltar que a implementação também deve permitir que tais eventos possam estar disponíveis para outras aplicações que estejam interessadas, utilizando para isso o \mqtt.
+O trabalho em questão tem como objetivo a implementação do mecanismo que propaga os eventos de descoberta, conexão e desconexão que ocorrem no \stwopa do \mhub até a camada de aplicação do \cddl, de forma que os desenvolvedores possam projetar aplicações que se adaptem a tais eventos.
+
+Vale ressaltar que a implementação também deve permitir que estes eventos possam estar disponíveis para outras aplicações que estejam interessadas, utilizando para isso o \mqtt.
 Ou seja---caso configurado desta forma---uma aplicação \mhubcddl pode mudar seu comportamento baseado em eventos que foram disparados a partir de interações entre \smartobjs e \smartphones remotos.
-
-\section{Metodologia} \label{sec:metodologia}
-
-O desenvolvimento do componente de \software foi realizado utilizando a metodologia ágil \textit{Feature-driven development}~\cite{coad:luca:lefebvre:1999}, dividido nas seguintes etapas:
-
-\begin{alineas}
-	\item transporte dos eventos gerados no \stwopa para o \cddl;
-
-	\item definição de uma estrutura de tópicos onde os eventos serão publicados pelo \cddl, e posteriormente subscritos pelas aplicações interessadas;
-
-	\item criação de uma \api para o consumo dos eventos.
-\end{alineas}
-
-Dentre as características que se considerou importantes, decidiu-se realizar a avaliação de desempenho e acurácia da solução.
-As avaliações são realizadas através de simulações de cenários de uso, estes estão descritos no \autoref{chap:avaliacao}.
-
-Como métricas da avaliação de desempenho, mede-se o tempo entre a ocorrência do evento e a sua respectiva notificação na camada de aplicação. Já as métricas de acurácia consistem na verificação da quantidade de notificação de eventos em relação a quantidade de eventos gerados.
 
 \section{Requisitos de \software}
 
@@ -45,14 +28,12 @@ Os requisitos funcionais definidos para a solução são:
 
 	\item separação dos fluxos de eventos, provendo uma \api que permita a aplicação registrar interesse em cada tipo de evento individualmente;
 
-	\item permitir que os eventos sejam acessíveis tanto para a aplicação que os gera, quanto para outras aplicações que registrem interesse;
+	\item permitir que estes eventos possam estar acessíveis tanto para a aplicação que os gera, quanto para aplicações remotas que registrem interesse em interações de outros \smartphones com \smartobjs;
 
 	\item fornecer uma \api assíncrona para o recebimento de cada notificação dos eventos desejados.
 \end{alineas}
 
 \section{Implementação}
-
-Esta seção descreve os detalhes de implementação da solução, abordando todos os tópicos descritos na \autoref{sec:metodologia}.
 
 \subsection{Propagação de eventos do \stwopa para o \cddl}
 
@@ -80,16 +61,12 @@ Foram criadas três novas classes que herdam os atributos de \msg, são elas:
 Com esta abordagem é possível utilizar a \api e métodos existentes, valendo-se do mecanísmo de polimorfismo da orientação a objetos.
 Ao receber um \sensordata, o \qocevaluator faz o seguinte: identifica, utilizando o atributo \texttt{action}, que tipo de evento ele representa; instancia um objeto de um dos tipos descritos anteriormente; e o publica no \broker \mqtt como um objeto do tipo \msg.
 
-Aplicações que estão interessadas em certo tipo de serviço receberão uma instância de \msg a cada evento gerado.
-Como ela é superclasse das anteriores, a aplicação pode verificar em tempo de execução se determinado objeto é instância das classes mais especializadas, como é mostrado no \autoref{lst:polymorphism}.
-
-\lstinputlisting[float=htb, label=lst:polymorphism, caption=Uso das classes mais especializadas em conjunto com a \api existente]{code/Polymorphism.java}
 
 \subsection{Definição da estrutura de tópicos}
 
 De forma a gerar fluxos diferentes para cada evento, e permitir consultas mais expressivas, o \qocevaluator deve publicar cada mensagem gerada em um tópico específico, de acordo com o tipo de evento que este representa.
 
-A estrutura de tópicos propósta para publicação de eventos de descoberta, conexão e desconexão segue o seguinte padrão:
+A estrutura de tópicos proposta para publicação de eventos de descoberta, conexão e desconexão segue o seguinte padrão:
 \[
 	\underbrace{\bm{\mathsf{domain}}\vphantom{p}}_{\text{\textsf{identificador do \cddl}}}
 	\bm{/}
@@ -100,9 +77,11 @@ A estrutura de tópicos propósta para publicação de eventos de descoberta, co
 Onde:
 
 \begin{alineas}
-	\item \emph{domain}: É um prefixo que identifica todas as mensagens publicadas pelo \cddl, isto permite que seja possível identificar as mensagens pertencentes ao \middleware, mesmo que um \broker público seja utilizado;
+	\item \emph{domain}: É um prefixo que compõe o primeiro nível de todos os tópicos gerados pelo \cddl, isto permite que seja possível identificar as mensagens publicadas no contexto do \middleware mesmo que um \broker público seja utilizado (\textit{e.g.}, realizando uma inscrição no tópico \texttt{domain/\#}).
+
 	\item \emph{clientId}: É um identificador da aplicação cliente que gerou tal mensagem. Este valor é informado pelo desenvolvedor ao iniciar o \cddl;
-	\item \emph{eventTopic}: Identificador único para cada tipo de evento, ou seja, para os evento de descoberta, conexão e desconexão.
+
+	\item \emph{eventTopic}: Identificador único para cada tipo de evento, ou seja, para os eventos de descoberta, conexão e desconexão.
 	\begin{alineas}
 		\item \texttt{object\_found\_topic}: Para os eventos de descoberta;
 		\item \texttt{object\_connected\_topic}: Para os eventos de conexão;
@@ -110,11 +89,10 @@ Onde:
 	\end{alineas}
 \end{alineas}
 
-Foram então adicionados métodos à interface \texttt{Subscriber} que permitem que a aplicação registre interesse em cada tipo de evento gerado através de interações entre \smartobjs o próprio dispositivo móvel em que executa, e também métodos que permitem que a aplicação receba eventos gerados por outras aplicações. Estes métodos inscrevem a aplicação no tópico \mqtt específico.
 
 A fim de se inscrever em eventos gerados por outras aplicações \mhubcddl, faz-se uso dos caracteres coringa do \mqtt descritos na \autoref{subsec:mqtt-topics}. Fazendo com que a aplicação se inscreva em tópicos com o seguinte padrão: \texttt{domain/+/eventTopic}.
 
-Caso a aplicação não possua o requisito de compartilhar os eventos gerados por ela com outras aplicações, pode-se utilizar o \ubroker embarcado disponível na plataforma \mhubcddl.
+%Caso a aplicação não possua o requisito de compartilhar os eventos gerados por ela com outras aplicações, pode-se utilizar o \ubroker embarcado disponível na plataforma \mhubcddl.
 
 A \autoref{fig:solution-sequence} apresenta o diagrama de sequência do funcionamento da solução proposta. Ilustrando, neste caso, o processo de notificação de eventos de descoberta.
 
@@ -124,4 +102,38 @@ A \autoref{fig:solution-sequence} apresenta o diagrama de sequência do funciona
 	\includegraphics[width=0.95\textwidth]{img/solution-sequence.pdf}
 	\label{fig:solution-sequence}
 \end{figure}
+
+\subsection{Modelo de programação}
+
+Foram então adicionados métodos à interface \texttt{Subscriber} que permitem que a aplicação registre interesse em cada tipo de evento gerado através de interações entre \smartobjs e o próprio dispositivo móvel em que executa, e também métodos que permitem que a aplicação receba eventos gerados por outras aplicações. Estes métodos inscrevem a aplicação no tópico \mqtt específico, e estão descritos adiante:
+
+\begin{alineas}
+	\item \texttt{subscribeObjectFoundTopic()}:
+	\begin{alineas}
+		\item Inscreve a aplicação no tópico \texttt{domain/userId/object\_found\_topic}, fazendo com que ela receba os eventos de descoberta de \smartobjs;
+	\end{alineas}
+
+	\item \texttt{subscribeObjectConnectedTopic()}
+	\begin{alineas}
+		\item Inscreve a aplicação no tópico \texttt{domain/userId/object\_connected\_topic}, fazendo com que ela receba os eventos de conexão de \smartobjs;
+	\end{alineas}
+
+	\item \texttt{subscribeObjectDisconnectedTopic()}
+	\begin{alineas}
+		\item Inscreve a aplicação no tópico \texttt{domain/userId/object\_disconnected\_topic}, fazendo com que ela receba os eventos de desconexão de \smartobjs.
+	\end{alineas}
+\end{alineas}
+
+
+Aplicações que estão interessadas em certo tipo de serviço receberão uma instância de \msg a cada evento gerado.
+Como ela é superclasse das anteriores,
+caso a aplicação deseje diferenciar qual tipo de evento o objeto \msg que ela recebeu representa, é possível verificar em tempo de execução se determinado objeto é instância das classes mais especializadas, como é mostrado no \autoref{lst:polymorphism}.
+
+\lstinputlisting[float=htb, label=lst:polymorphism, caption=Uso das classes mais especializadas em conjunto com a \api existente]{code/Polymorphism.java}
+
+Nas linhas 1 e 2 uma instância de \texttt{Subscriber} é criada e uma conexão com um \broker estabelecida.
+Nas linhas 3 e 4, a aplicação registra interesse em eventos de conexão e desconexão.
+Como foi realizado a inscrição em múltiplos tópicos com um único \sub, todas as mensagens serão entregues em um mesmo \textit{listener}, que é definido na linha 6.
+Nas linhas 9 e 11, a aplicação determina se o objeto que recebeu é instância de \objconnectedmsg ou \objdisconnectedmsg.
+Desta forma pode escolher o comportamento mais adequado para cada evento.
 
