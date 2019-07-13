@@ -22,9 +22,9 @@ Este protocolo permite o desacoplamento total entre os produtores e consumidores
 
 Existem dois elementos em uma mensagem \mqtt---o dado e o tópico. O dado é a informação que o \pub precisa enviar, este dado será então enviado para o \sub que assinou o tópico onde a mensagem foi publicada \cite{tantitharanukul:et-al:2017}.
 
-O \pub pode definir qualquer tópico para enviar uma mensagem, com um ou mais níveis de hieraquía, cada nível é separado por uma barra (e.g., \texttt{thailand/humidity} ou \texttt{thailand/bangkok/traffic}).
+O \pub pode definir qualquer tópico para enviar uma mensagem, com um ou mais níveis de hierarquia, cada nível é separado por uma barra (e.g., \texttt{thailand/humidity} ou \texttt{thailand/bangkok/traffic}).
 
-Também existe a conveniência da utilização de caracteres coringas para a assinatura de tópicos, como por exemplo \texttt{thailand/+/traffic} onde o caractere ``\texttt{+}'' corresponde a qualquer padrão de um único nível de uma hierarquía, neste caso terceiro nível, podendo ser utilizado para receber os dados de tráfego de qualquer cidade da Tailândia. Outro caractere coringa que pode ser utilizado é o ``\texttt{\#}'' que corresponde a todos os níveis subsequentes de uma hierarquia, este só pode ser utilizado como o último caractere de uma subscrição \cite{hunkeler:truong:stanford-clark:2008}.
+Também existe a conveniência da utilização de caracteres coringas para a assinatura de tópicos, como por exemplo \texttt{thailand/+/traffic} onde o caractere ``\texttt{+}'' corresponde a qualquer padrão de um único nível de uma hierarquia, neste caso terceiro nível, podendo ser utilizado para receber os dados de tráfego de qualquer cidade da Tailândia. Outro caractere coringa que pode ser utilizado é o ``\texttt{\#}'' que corresponde a todos os níveis subsequentes de uma hierarquia, este só pode ser utilizado como o último caractere de uma subscrição \cite{hunkeler:truong:stanford-clark:2008}.
 
 Dado o seguinte tópico \texttt{a/b/c/d}, as seguintes assinaturas irão receber os dados publicados nele \cite{light:mosquitto}:
 
@@ -68,9 +68,9 @@ Também nota-se a presença de um componente chamado \texttt{MicroBroker}, este 
 
 \subsection{\mhub}
 
-O \middleware \mhub pode ser definido, de acordo com \citeonline{talavera:et-al:2015}, como um serviço de \middleware de \iomt geral executado em um dispositivo móvel pessoal, responsável por descobrir e oportunisticamente conectar à uma miríade de \smartobjs acessíveis apenas através de tecnologias WPAN de curto alcance. Por estar envolvido com cenários de \iomt, este componenete de \software tem que lidar com situações que apresentam muito mais indeterminismo, devido à fatores como a menor garantia de disponibilidade de sensores e atuadores, confiabilidade reduzida, maior volatilidade em conexões, etc.
+O \middleware \mhub pode ser definido, de acordo com \citeonline{talavera:et-al:2015}, como um serviço de \middleware de \iomt geral executado em um dispositivo móvel pessoal, responsável por descobrir e oportunisticamente conectar à uma miríade de \smartobjs acessíveis apenas através de tecnologias WPAN de curto alcance. Por estar envolvido com cenários de \iomt, este componente de \software tem que lidar com situações que apresentam muito mais indeterminismo, devido à fatores como a menor garantia de disponibilidade de sensores e atuadores, confiabilidade reduzida, maior volatilidade em conexões, etc.
 
-O \smartphone executando uma intância do \mhub, funciona como \gateway para \smartobjs, fornecendo acesso à Internet para dispositivos que não podem se conectar. Outro recurso importante que pode ser explorado pelas aplicações é a habilidade de enriquecer os dados de sensores com dados de contexto obtidos dos sensores internos do \mhub.
+O \smartphone executando uma instância do \mhub, funciona como \gateway para \smartobjs, fornecendo acesso à Internet para dispositivos que não podem se conectar. Outro recurso importante que pode ser explorado pelas aplicações é a habilidade de enriquecer os dados de sensores com dados de contexto obtidos dos sensores internos do \mhub.
 
 Para que o \mhub tenha suporte à determinada tecnologia de comunicação, é necessário que um novo módulo seja implementado. Este módulo será responsável por gerenciar quaisquer operações que sejam necessárias para garantir o funcionamento desta tecnologia.
 
@@ -127,7 +127,7 @@ O \stwopa é uma classe que implementa a interface \techlistener.
 Ela é responsável por iniciar cada tecnologia e se cadastrar através do método \texttt{setListener()} como o \listener daquela tecnologia.
 As tecnologias se comunicam com o \stwopa através dos métodos de \techlistener descritos acima, desta forma o \stwopa recebe todas a interações com os \smartobjs, implementando assim o padrão de projeto \textit{observer}~\cite{gamma:et-al:1994}.
 
-Quando o \stwopa recebe de alguma tecnologia, um evento de descoberta, conexão, desconexão ou leitura de dados de \smartobjs, ele o ecapsula em um objeto do tipo \sensordata.
+Quando o \stwopa recebe de alguma tecnologia, um evento de descoberta, conexão, desconexão ou leitura de dados de \smartobjs, ele o encapsula em um objeto do tipo \sensordata.
 Esta classe possui os seguintes atributos:
 
 \begin{alineas}
@@ -163,7 +163,7 @@ O \mhub fornece diversos serviços que não serão tratados neste trabalho, dent
 		Os pacotes de dados recebidos dos sensores podem ter diferentes formatos e codificações.  Assim, o \mhub deve transcodificá-los e serializá-los, antes de transmiti-los. A transcodificação de dados é altamente dependente do tipo, marca e fabricante do sensor;
 		
 	\item \emph{caching de dados}:
-		A fim de otimizar a transmissão para a nuvem através da Internet móvel, o \mhub pode agrupar várias amostras de dados obtidas a partir de vários sensores próximos antes de enviá-las ao gateway em rajada única. Para isso, o \mhub armazena em cache as amostras de dados recebidas dos sensores;
+		A fim de otimizar a transmissão para a nuvem através da Internet móvel, o \mhub pode agrupar várias amostras de dados obtidas a partir de vários sensores próximos antes de enviá-las ao \gateway em rajada única. Para isso, o \mhub armazena em cache as amostras de dados recebidas dos sensores;
 		
 	\item \emph{configuração e controle dos sensores}:
 		Dependendo do tipo de sensor, o \mhub pode, eventualmente ou periodicamente, enviar comandos, definições de parâmetros ou requisições de consultas de dados através da WPAN para os sensores conectados;
@@ -172,7 +172,7 @@ O \mhub fornece diversos serviços que não serão tratados neste trabalho, dent
 		Antes de enviar os dados, pode ser necessário aplicar uma função de pré-processamento (e.g.  transcodificação, formatação, agregação, filtragem, ou comparação com leituras anteriores etc.).  Esse pré-processamento é feito no \mhub;
 		
 	\item \emph{carregamento dinâmico de módulos do sensor}:
-		Uma vez que não é possível ter módulos internos para todos os sensores que podem estar disponíveis a medida que o gateway se move, o \mhub oferece um mecanismo de implantação de módulo em tempo de execução e gerenciamento do ciclo de vida desses módulos;
+		Uma vez que não é possível ter módulos internos para todos os sensores que podem estar disponíveis a medida que o \gateway se move, o \mhub oferece um mecanismo de implantação de módulo em tempo de execução e gerenciamento do ciclo de vida desses módulos;
 		
 	\item \emph{processamento nas pontas}:
 		O \mhub oferece mecanismos que permitem aos desenvolvedores de aplicações distribuírem as funcionalidades do seu código entre o dispositivo móvel e nodos da nuvem, movendo parte do processamento das informações de contexto para “as pontas” do sistema. A isso se dá o nome de In-Network Processing, uma técnica que ajuda a diminuir a quantidade de informações a ser transmitida para a nuvem, podendo melhorar a escalabilidade do sistema. O processamento ao qual esta funcionalidade se refere pode ser implementado em código Java convencional ou utilizando EPL Esper;
@@ -203,10 +203,10 @@ Como \middleware, o \cddl permite que as aplicações clientes assumam o papel d
 	\item filtragem das informações.
 \end{alineas}
 
-A interação entre produtores e consumidores de dados de contexto se dá através do modelo \pubsub com a utilização de \brokers, implementando uma comunicação ditribuída com o \mqtt. O \cddl também fornece um \ubroker que executa internamente no dispositivo móvel, o que permite que certas aplicações possam publicar e receber dados sem a dependência de conexão à Internet.
+A interação entre produtores e consumidores de dados de contexto se dá através do modelo \pubsub com a utilização de \brokers, implementando uma comunicação distribuída com o \mqtt. O \cddl também fornece um \ubroker que executa internamente no dispositivo móvel, o que permite que certas aplicações possam publicar e receber dados sem a dependência de conexão à Internet.
 
 O \cddl recebe através de \eventbus objetos do tipo \sensordata vindos do \stwopa.
-Este objeto é convertido em um objeto do tipo \msg, todos os dados publicados pelo \cddl são intâncias desta classe.
+Este objeto é convertido em um objeto do tipo \msg, todos os dados publicados pelo \cddl são instâncias desta classe.
 Este novo objeto é então anotado com alguns parâmetros de QoI que não puderam ser informados no momento de captura do dado.
 Esta classe encapsula diversos atributos relevantes aos dados de contexto que representam, dentre eles, destaca-se:
 

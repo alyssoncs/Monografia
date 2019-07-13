@@ -80,7 +80,7 @@ Informações referentes à distribuição da quantidade de vezes em que o indiv
 
 O \dataset original é composto principalmente por um arquivo de texto que contém em cada linha uma representação de um momento no decorrer do experimento. Entre os dados contidos por linha, destaca-se o \timestamp da medição e a etiqueta detectada naquele instante. 
 
-Realizou-se um pré-processamento no \dataset de forma a facilitar a utilização dos dados para fim da simulação, gerando um arquivo contendo 3 valores separadas por espaço em que cada linha representa o instante em que o participante entrou e permaneceu contínuamente em um cômodo. Os 3 valores são: um identificador numérico do cômodo, o nome do cômodo e o \timestamp em que o indivíduo entrou naquele cômodo, como pode ser visto no \autoref{lst:preprocessed-dataset}.
+Realizou-se um pré-processamento no \dataset de forma a facilitar a utilização dos dados para fim da simulação, gerando um arquivo contendo 3 valores separadas por espaço em que cada linha representa o instante em que o participante entrou e permaneceu continuamente em um cômodo. Os 3 valores são: um identificador numérico do cômodo, o nome do cômodo e o \timestamp em que o indivíduo entrou naquele cômodo, como pode ser visto no \autoref{lst:preprocessed-dataset}.
 \begin{lstlisting}[float=htb, language=python, caption={Parte do \dataset pré-processado}, label=lst:preprocessed-dataset]
 #room    room-name          timestamp(seconds)
 2        living_area_A      485.352
@@ -186,7 +186,7 @@ O experimento descrito foi executado em um \smartphone Lenovo Moto Z Play, com p
 
 \subsection{Análise dos resultados}
 
-Mesmo com os \beacons configurados para realizarem \broadcast a cada 0.1 segundo, o que representa uma frequência muito alta para aplicações similares---como exemplo, em \citeonline{kim:et-al:2016} o autor utliza 1 broadcast a cada dois segundos---a solução conseguiu notificar a aplicação em um tempo na casa de milissegundos.  
+Mesmo com os \beacons configurados para realizarem \broadcast a cada 0.1 segundo, o que representa uma frequência muito alta para aplicações similares---como exemplo, em \citeonline{kim:et-al:2016} o autor utiliza 1 broadcast a cada dois segundos---a solução conseguiu notificar a aplicação em um tempo na casa de milissegundos.  
 Este tempo pode ser considerado é desprezível para aplicações reais.
 
 Do ponto de vista do percentual de perdas, a pesar de um grande número de eventos em um curto espaço de tempo, não houve perdas de notificações de eventos de descobertas dos \beacons.
@@ -199,7 +199,7 @@ O segundo experimento visa avaliar o desempenho e o percentual de perdas da solu
 
 \subsection{Métricas}
 
-As avaliaçãos de desempenho e percentual de perdas deste experimento são agora baseadas no tempo entre eventos de \emph{descoberta} no \stwopa e notificações de \emph{conexão} na aplicação.  
+As avaliações de desempenho e percentual de perdas deste experimento são agora baseadas no tempo entre eventos de \emph{descoberta} no \stwopa e notificações de \emph{conexão} na aplicação.  
 A \autoref{equ:performance-ready} será utilizada para avaliar a performance da solução.
 \begin{align}
 	\label{equ:performance-ready}
@@ -220,7 +220,7 @@ O experimento consiste em um cenário de uso composto por uma casa equipada com 
 O sistema multimídia pode ter ciência de qual usuário está presente através dos \smartphones conectados no momento, pois ele armazena a relação dos moradores da residência com seus respectivos \smartphones.
 
 
-Uma aplicação android foi desenvolvida com o \middleware \mhubcddl que permanece ativamente procurando e se conectando ao sistema multimídia no ambiente. Ao entrar na sala de estar o sistema multimídia é encontrado e em seguida a conexão é estabelecida. Quando o usuário sai da sala de estar a conexão é desfeita. 
+Uma aplicação \android foi desenvolvida com o \middleware \mhubcddl que permanece ativamente procurando e se conectando ao sistema multimídia no ambiente. Ao entrar na sala de estar o sistema multimídia é encontrado e em seguida a conexão é estabelecida. Quando o usuário sai da sala de estar a conexão é desfeita. 
 
 %-------------------------------------
 
@@ -263,7 +263,9 @@ Para a modelagem do tempo entre a descoberta e conexão do \smartphone e o \smar
 Um \smartobj baseado na plataforma Arduino e com suporte à tecnologia \ble foi construído, e várias amostras de tempo entre a descoberta deste dispositivo e a conexão com ele foram tomadas.
 
 \subsection{Resultados}
-\hphantom{a}
+
+\vphantom{abc}
+
 \begin{table}[ht]
 	\begin{center}
 		\IBGEtab{
