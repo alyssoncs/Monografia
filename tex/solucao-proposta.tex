@@ -50,12 +50,13 @@ O que efetivamente transfere todos os eventos gerados pelo \stwopa ao \cddl.
 
 Como todos os dados publicados pelo \cddl são do tipo \msg, decidiu-se manter este padrão, de forma a manter a retrocompatibilidade e assim continuar suportando as aplicações antigas.
 Ao invés de utilizar a estratégia adotada pelo \mhub (utilizar um atributo que identifica que tipo de evento o objeto está representando), adotou-se uma estratégia baseada em orientação a objetos.
-Foram criadas três novas classes que herdam os atributos de \msg, são elas:
+Foram criadas quatro novas classes que herdam os atributos de \msg, são elas:
 
 \begin{alineas}
 	\item \objfoundmsg: Para os eventos de descoberta;
 	\item \objconnectedmsg: Para os eventos de conexão;
-	\item \objdisconnectedmsg: Para os eventos de desconexão.
+	\item \objdisconnectedmsg: Para os eventos de desconexão;
+	\item \sensordatamsg: Para eventos de leitura de dados.
 \end{alineas}
 
 Com esta abordagem é possível utilizar a \api e métodos existentes, valendo-se do mecanísmo de polimorfismo da orientação a objetos.
@@ -110,15 +111,15 @@ Foram então adicionados métodos à interface \texttt{Subscriber} que permitem 
 \begin{alineas}
 	\item \texttt{subscribeObjectFoundTopic()}:
 	\begin{alineas}
-		\item Inscreve a aplicação no tópico \texttt{domain/userId/object\_found\_topic}, fazendo com que ela receba os eventos de descoberta de \smartobjs;
+		\item Inscreve a aplicação no tópico \texttt{domain/userId/object\_found\_topic}, fazendo com que ela receba os eventos de descoberta de \smartobjs.
 	\end{alineas}
 
-	\item \texttt{subscribeObjectConnectedTopic()}
+	\item \texttt{subscribeObjectConnectedTopic()}:
 	\begin{alineas}
-		\item Inscreve a aplicação no tópico \texttt{domain/userId/object\_connected\_topic}, fazendo com que ela receba os eventos de conexão de \smartobjs;
+		\item Inscreve a aplicação no tópico \texttt{domain/userId/object\_connected\_topic}, fazendo com que ela receba os eventos de conexão de \smartobjs.
 	\end{alineas}
 
-	\item \texttt{subscribeObjectDisconnectedTopic()}
+	\item \texttt{subscribeObjectDisconnectedTopic()}:
 	\begin{alineas}
 		\item Inscreve a aplicação no tópico \texttt{domain/userId/object\_disconnected\_topic}, fazendo com que ela receba os eventos de desconexão de \smartobjs.
 	\end{alineas}

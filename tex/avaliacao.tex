@@ -12,7 +12,6 @@ Em todos os experimentos, utilizou-se o \ubroker interno do \mhubcddl.
 \subsection{Métricas}
 
 A fim de determinar a performance da solução em relação à entrega dos eventos de descoberta, a aplicação permanece constantemente anotando os \timestamps de cada evento de descoberta emitido pelo \stwopa, e os \timestamps de notificações destes eventos na aplicação---ambos em milissegundos. O primeiro \timestamp é subtraído do segundo de forma a calcular o tempo de propagação dos eventos de descoberta, que será de agora em diante referido como $\Delta t_{descoberta}$ e calculado conforme a \autoref{equ:performance-discovery}.
-
 \begin{equation}
 	\label{equ:performance-discovery}
 	\Delta t_{descoberta} = t_{descoberta,app} - t_{descoberta,\stwopa}
@@ -33,9 +32,8 @@ Na \autoref{img:performance-annotation} é possível observar onde os \timestamp
 	\end{center}
 	
 \end{figure}
-\newpage
-Para avaliar percentual de perdas das notificações de eventos, é realizada uma comparação entre a quantidade de eventos de descoberta de \smartobjs que foram gerados e quantas notificações foram entregues à aplicação, e será calculada através da \autoref{equ:acuracy}.
 
+Para avaliar o percentual de perdas das notificações de eventos, é realizada uma comparação entre a quantidade de eventos de descoberta \smartobjs que foram gerados e quantas notificações foram entregues à aplicação, e será calculada através da \autoref{equ:acuracy}.
 \begin{equation}
 	\label{equ:acuracy}
 	P_{perda} = \frac{EventosGerados - EventosNotificados}{EventosGerados} \cdot 100
@@ -111,7 +109,8 @@ Utilizando o \dataset já descrito, a cada momento em que o participante entra e
 \end{equation}
 
 
-Onde $tempoPermanencia$ denota o tempo que o indivíduo permaneceu no cômodo. Os anúncios são então repoduzidos a cada intervalo de 0.1 segundo. Com isso foi possível calcular previamente os valores da \autoref{tab:generated-events-1}.  
+Onde $tempoPermanencia$ denota o tempo que o indivíduo permaneceu no cômodo.
+Com isso foi possível calcular previamente os valores da \autoref{tab:generated-events-1}.  
 Esta tabela mostra os valores do termo $EventosGerados$ na \autoref{equ:acuracy}, estes valores serão posteriormente comparados com a quantidade de eventos notificados para calcular o percentual de perdas.
 
 \begin{table}[htb]
@@ -187,34 +186,57 @@ O experimento descrito foi executado em um \smartphone Lenovo Moto Z Play, com p
 
 \subsection{Análise dos resultados}
 
+Mesmo com os \beacons configurados para realizarem \broadcast a cada 0.1 segundo, o que representa uma frequência muito alta para aplicações similares---como exemplo, em \citeonline{kim:et-al:2016} o autor utliza 1 broadcast a cada dois segundos---a solução conseguiu notificar a aplicação em um tempo na casa de milissegundos.  
+Este tempo pode ser considerado é desprezível para aplicações reais.
+
+Do ponto de vista do percentual de perdas, a pesar de um grande número de eventos em um curto espaço de tempo, não houve perdas de notificações de eventos de descobertas dos \beacons.
+
+A solução apresenta características satisfatórias para o uso em aplicações onde as interações com \smartobjs não são baseadas em conexões, como é o caso de aplicações de localização \textit{indoor}.
+
 \section{Experimento 2}
 
 O segundo experimento visa avaliar o desempenho e o percentual de perdas da solução proposta, entretanto levando em consideração também os eventos de conexão que não foram analisados no primeiro experimento.
-Neste contexto, será medido o tempo entre o evento de \emph{descoberta} do \smartobj no \stwopa e a notificação do evento de \emph{conexão} na camada de aplicação.
-Deseja-se saber em quanto tempo desde a descoberta do dispositivo os dados disponibilizados estarão disponíveis para o consumo pela aplicação.
-
-O experimento consiste em um cenário de uso composto por uma casa equipada com um sistema multimídia na sala de estar que possibilita que \smartphones se conectem a ele através de \bluetooth, onde o conteúdo da televisão se adapta de acordo com os usuários que estão presentes na sala, e a interação com as aplicações da televisão digital acontece através do \smartphone.
-
-O sistema multimídia pode ter ciência de qual usuário está presente através dos \smartphones conectados no momento, pois ele armazena a relação dos moradores da residência com seus respectivos \smartphones.
-
-Uma aplicação android foi desenvolvida com o \middleware \mhubcddl que permanece ativamente procurando e se conectando ao sistema multimídia no ambiente. Ao entrar na sala de estar o sistema multimídia é encontrado e em seguida a conexão é estabelecida. Quando o usuário sai da sala de estar a conexão é desfeita. 
 
 \subsection{Métricas}
 
-Para o experimento 2, a todo momento em que o participante entra na sala de estar acontece interações entre o aplicativo e o sistema multimídia, essas interações são compostas de um evento de descoberta, seguido por um evento de conexão. Ao sair do quarto um evento de desconexão é também gerado. Cada um desses eventos são gerados pelo \stwopa e notificados posteriormente à aplicação.
-
-As avaliaçãos de desempenho e percentual de perdas deste cenário de uso são agora baseadas no tempo entre eventos de \emph{descoberta} no \stwopa e notificações de \emph{conexão} na aplicação.  
+As avaliaçãos de desempenho e percentual de perdas deste experimento são agora baseadas no tempo entre eventos de \emph{descoberta} no \stwopa e notificações de \emph{conexão} na aplicação.  
 A \autoref{equ:performance-ready} será utilizada para avaliar a performance da solução.
-
 \begin{align}
 	\label{equ:performance-ready}
 	\Delta t_{conectado} &= t_{conexao,app} - t_{descoberta,\stwopa}
 \end{align}
 
-Onde $t_{descoberta,\stwopa}$ é o \timestamp de quando um evento de descoberta é gerado no \stwopa;
-$t_{conexao,app}$ é \timestamp de quando o a notificação do evento de conexão, gerado após $t_{descoberta, \stwopa}$, é entregue a aplicação e $\Delta t_{conectado}$ o tempo que processo levou para ser concluído.
+Onde $t_{descoberta,\stwopa}$ é o \timestamp de quando um evento de descoberta de um \smartobj é gerado no \stwopa, $t_{conexao,app}$ é \timestamp de quando o a notificação do evento de conexão do mesmo \smartobj é entregue a aplicação e $\Delta t_{conectado}$ o tempo que processo de descoberta até notificação de conexão levou para ser concluído.
 
-Para medir o percentual de perdas será utilizado a \autoref{equ:acuracy}. A \autoref{tab:generated-events-2} sumariza os resultados esperados para o experimento.
+Neste contexto, será medido o tempo entre o evento de \emph{descoberta} do \smartobj no \stwopa e a notificação do evento de \emph{conexão} na camada de aplicação.
+Deseja-se saber em quanto tempo desde a descoberta do dispositivo os dados disponibilizados estarão disponíveis para o consumo pela aplicação.
+
+Para medir o percentual de perdas será utilizado a \autoref{equ:acuracy}.
+
+\subsection{Cenário}
+
+O experimento consiste em um cenário de uso composto por uma casa equipada com um sistema multimídia na sala de estar que possibilita que \smartphones se conectem a ele através de \bluetooth, onde o conteúdo da televisão se adapta de acordo com os usuários que estão presentes na sala, e a interação com as aplicações da televisão digital acontece através do \smartphone.
+
+O sistema multimídia pode ter ciência de qual usuário está presente através dos \smartphones conectados no momento, pois ele armazena a relação dos moradores da residência com seus respectivos \smartphones.
+
+
+Uma aplicação android foi desenvolvida com o \middleware \mhubcddl que permanece ativamente procurando e se conectando ao sistema multimídia no ambiente. Ao entrar na sala de estar o sistema multimídia é encontrado e em seguida a conexão é estabelecida. Quando o usuário sai da sala de estar a conexão é desfeita. 
+
+%-------------------------------------
+
+
+\subsection{Simulação do sistema multimídia}
+
+Para este experimento foi feita uma simulação de um indivíduo se locomovendo em uma residência. Foram utilizados os dados do \dataset descrito na \autoref{subsec:simulacao-loc} para esta simulação.
+
+Escolheu-se também o experimento ``\texttt{living\_2}'' da casa ``\texttt{Residence D}'' por fornecer um dos maiores tempos de monitoramento do participante juntamente com a maior quantidade de visitas à sala de estar. Será utilizado apenas a parte do \dataset referentes à entradas no cômodo denotado como ``\texttt{living\_area\_A}'' na \autoref{fig:dataset-histogram}, pois este cômodo foi escolhido como a sala de estar onde o sistema multimídia se localiza.
+
+Desta forma, a todo momento em que o participante entra na sala de estar acontece interações entre o aplicativo e o sistema multimídia, essas interações são compostas de um evento de descoberta, seguido por um evento de conexão.
+Ao sair do quarto um evento de desconexão é também gerado. Cada um desses eventos são gerados pelo \stwopa e notificados posteriormente à aplicação.
+
+Como pode ser notado na \autoref{fig:dataset-histogram}, é possível determinar a quantidade de vezes em que o participante entra na sala de estar.
+Deste modo pode-se saber a quantidade total de interações com o sistema multimídia ocorrerão de antemão.
+A \autoref{tab:generated-events-2} sumariza os resultados esperados para o experimento.
 
 \begin{table}[htb]
 	\begin{center}
@@ -237,17 +259,12 @@ Para medir o percentual de perdas será utilizado a \autoref{equ:acuracy}. A \au
 	\end{center}
 \end{table}
 
-\subsection{Simulação do sistema multimídia}
-
-Para este experimento foi feita uma simulação de um indivíduo se locomovendo em uma residência. Foram utilizados os dados do \dataset descrito na \autoref{subsec:simulacao-loc} para esta simulação.
-
-Escolheu-se também o experimento ``\texttt{living\_2}'' da casa ``\texttt{Residence D}'' por fornecer um dos maiores tempos de monitoramento do participante juntamente com a maior quantidade de visitas à sala de estar. Será utilizado apenas a parte do \dataset referentes à entradas no cômodo denotado como ``\texttt{living\_area\_A}'' na \autoref{fig:dataset-histogram}, pois este cômodo foi escolhido como a sala de estar onde o sistema multimídia se localiza.
-
-Para a modelage do tempo entre a descoberta e conexão do \smartphone e o \smartobj, foram utilizados dados empíricos coletados pelo autor.
+Para a modelagem do tempo entre a descoberta e conexão do \smartphone e o \smartobj, foram utilizados dados empíricos coletados pelo autor.
+Um \smartobj baseado na plataforma Arduino e com suporte à tecnologia \ble foi construído, e várias amostras de tempo entre a descoberta deste dispositivo e a conexão com ele foram tomadas.
 
 \subsection{Resultados}
-
-\begin{table}[htb]
+\hphantom{a}
+\begin{table}[ht]
 	\begin{center}
 		\IBGEtab{
 			\caption{Quantidade de eventos notificados no experimento 2}
@@ -268,10 +285,10 @@ Para a modelage do tempo entre a descoberta e conexão do \smartphone e o \smart
 	\end{center}
 \end{table}
 
-\begin{table}[htb]
+\begin{table}[ht]
 	\begin{center}
 		\IBGEtab{
-			\caption{Performance da entrega de mensagens do experimento 1}
+			\caption{Performance da entrega de mensagens do experimento 2}
 			\label{tab:experiment-2-performance}
 		}{
 			\begin{tabular}{lccccc}
@@ -286,4 +303,20 @@ Para a modelage do tempo entre a descoberta e conexão do \smartphone e o \smart
 		}
 	\end{center}
 \end{table}
+
+\subsection{Análise dos resultados}
+
+Assim como no experimento 1, não foi possível observar perda de notificações neste experimento.
+O tempo entre a descoberta de um \smartobj no ambiente e sua conexão, e consequentemente a disponibilidade de consumir os dados oferecidos por este, se manteve em torno de 500 milissegundos.
+
+Isto implica que uma aplicação que necessite de dados oferecidos por sensores no ambiente, começaria a receber estes dados em média 0.5 segundo após o primeiro encontro com este dispositivo.
+
+Tomando como exemplo o cenário em que uma aplicação faz uso de dados de umidade do ar fornecidos por sensores em postes públicos que se comunicam através da tecnologia \ble, é possível fazer uma análise de o quão rápido o usuário pode passar nas redondezas do sensor sem perder a oportunidade de capturar o dado.
+Assumindo que o raio de cobertura do sinal \bluetooth é de 5 metros, e que o usuário tem que atravessar o diâmetro completo para perder o sinal, ele deve percorrer 10 metros desde o momento que encontra o dispositivo até perder o sinal.
+
+Dividindo a distância que ele deve percorrer pelo tempo médio que uma conexão é realizada, temos:
+\[
+	\frac{10\si{\meter}}{0.5\si{\second}} = 20\si{m/s} = 72\si{km/h}
+\]
+A implicação deste valor é que o usuário pode se locomover pelo entorno do sensor com até 72\si{km/h}, e ainda assim adquirir o dado que a aplicação necessita. Fazendo com que o usuário não necessite diminuir a velocidade de seu trajeto estando a pé, de bicicleta ou conduzindo veículo motorizado na maioria dos cenários urbanos.
 
