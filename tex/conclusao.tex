@@ -1,1 +1,18 @@
 \chapter{Conclusões} \label{chap:conclusao}
+
+A \iot tem motivado o desenvolvimento de uma gama de aplicações com os mais variados requisitos.
+Os requisitos de mobilidade e adaptação à ambientes onde os \smartobjs interagem de forma oportunísticas fazem da \iomt particularmente desafiadora.
+A habilidade de uma aplicação ser notificada com eficiência a respeito de interações com objetos inteligentes presentes no ambiente é crucial para o funcionamento de diversas aplicações.
+
+Este trabalho traz a implementação de tal funcionalidade no \middleware \mhubcddl, componente de software construído em parceria dos laboratórios de pesquisa LSDi--UFMA e LAC--PUC-Rio.
+
+A solução proposta permite que eventos de descoberta, conexão e desconexão de \smartobjs obtidas pelo \mhub sejam distribuídas pelo \cddl.
+Implementada utilizando o protocolo \mqtt, permitiu que as alterações realizadas no \middleware seguissem os padrões já estabelecidos de programação e comunicação.
+
+Os resultados experimentais mostram que o mecanismo implementado é eficiente e atende bem as necessidades de um grande número de aplicações de \iomt.
+
+\section{Trabalhos futuros}
+
+Como trabalhos futuros está previsto a realização de novas avaliações que possam responder sobre a performance da solução ao utilizar um \broker em rede, e como as condições da rede a afeta.
+Também espera-se avaliar características como a escalabilidade do mecanismo de notificação, em particular, como ele se comporta na presença de um grande número de \smartobjs no ambiente.
+
