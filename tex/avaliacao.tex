@@ -8,17 +8,10 @@ Em todos os experimentos, utilizou-se o \ubroker interno do \mhubcddl.
 
 \section{Experimento 1}\label{chap:avaliacao-experimento1}
 
-Este experimento tem como objetivo avaliar a performance e percentual de perdas da solução. Para tal, foi desenvolvido um cenário de uso, onde será possível determinar tais aspectos.
-
-Este cenário de uso consiste em uma casa onde cada cômodo é equipado com um \beacon \ble, calibrado de forma que o sinal emitido não possa ser detectado fora do cômodo e configurado para emitir 10 anúncios por segundo. Uma pessoa portando um \smartphone é instruída a conduzir as atividades do dia a dia nesta residência. Este \smartphone executa uma aplicação desenvolvida com o \middleware \mhubcddl que detecta os anúncios dos \beacons, determinando em qual região da casa o indivíduo se encontra.
-
-Ao entrar em um cômodo, o \beacon será encontrado pelo \mhubcddl, gerando um evento de descoberta no \stwopa que deverá ser propagado para a aplicação.
 
 \subsection{Métricas}
 
-Para este experimeto, cada anúncio detectado corresponde a um evento de descoberta gerado pelo \stwopa, este evento deve então ser propagado até a aplicação.
-
-A fim de determinar a performance, a aplicação permanece constantemente anotando os \timestamps de cada evento de descoberta emitido pelo \stwopa, e os \timestamps de notificações destes eventos na aplicação---ambos em milissegundos. O primeiro \timestamp é subtraído do segundo de forma a calcular o tempo de propagação dos eventos de descoberta, que será de agora em diante referido como $\Delta t_{descoberta}$ e calculado conforme a \autoref{equ:performance-discovery}.
+A fim de determinar a performance da solução em relação à entrega dos eventos de descoberta, a aplicação permanece constantemente anotando os \timestamps de cada evento de descoberta emitido pelo \stwopa, e os \timestamps de notificações destes eventos na aplicação---ambos em milissegundos. O primeiro \timestamp é subtraído do segundo de forma a calcular o tempo de propagação dos eventos de descoberta, que será de agora em diante referido como $\Delta t_{descoberta}$ e calculado conforme a \autoref{equ:performance-discovery}.
 
 \begin{equation}
 	\label{equ:performance-discovery}
@@ -27,7 +20,21 @@ A fim de determinar a performance, a aplicação permanece constantemente anotan
 
 Onde $t_{descoberta,app}$ e $t_{descoberta,\stwopa}$ se referem ao \timestamp de uma notificação de descoberta na aplicação e ao \timestamp do evento de descoberta gerado pelo \stwopa, respectivamente.
 
-Para avaliar percentual de perdas, é realizada uma comparação entre a quantidade de eventos que foram gerados e quantas notificações foram entregues à aplicação, e será calculada através da \autoref{equ:acuracy}.
+Na \autoref{img:performance-annotation} é possível observar onde os \timestamps utilizados na avaliação de performance são anotados. Ambos os \timestamps são denotados na imagem por um cronômetro. Na imagem, $T0$ e $T1$ são equivalentes à $t_{descoberta,\stwopa}$ e $t_{descoberta,app}$ da \autoref{equ:performance-discovery}.
+
+\begin{figure}[htb]
+	
+	\begin{center}
+
+		\caption{\label{img:performance-annotation}Componentes onde há a captura de \timestamps}
+		\includegraphics[width=0.95\linewidth]{img/performance-annotation}
+		\fonte{\autoriapropria}
+
+	\end{center}
+	
+\end{figure}
+\newpage
+Para avaliar percentual de perdas das notificações de eventos, é realizada uma comparação entre a quantidade de eventos de descoberta de \smartobjs que foram gerados e quantas notificações foram entregues à aplicação, e será calculada através da \autoref{equ:acuracy}.
 
 \begin{equation}
 	\label{equ:acuracy}
@@ -36,7 +43,76 @@ Para avaliar percentual de perdas, é realizada uma comparação entre a quantid
 
 Onde $EventosGerados$ e $EventosNotificados$ se referem à quantidade de eventos gerados no \stwopa e à quantidade de notificações desses eventos que chegaram à aplicação, respectivamente.
 
-A \autoref{tab:generated-events-1} mostra os valores do termo $EventosGerados$ na \autoref{equ:acuracy}, estes valores serão posteriormente comparados com a quantidade de eventos notificados para calcular o percentual de perdas.
+
+\subsection{Cenário}\label{sub:cenario}
+Para medir os parâmetros anteriores, foi desenvolvido um cenário de uso, onde será possível determinar tais aspectos.
+
+Este cenário de uso consiste em uma casa onde cada cômodo é equipado com um \beacon \ble, calibrado de forma que o sinal emitido não possa ser detectado fora do cômodo e configurado para emitir 10 anúncios por segundo.
+Uma pessoa portando um \smartphone é instruída a conduzir as atividades do dia a dia nesta residência.
+Este \smartphone executa uma aplicação desenvolvida com o \middleware \mhubcddl que detecta os anúncios dos \beacons, determinando em qual região da casa o indivíduo se encontra.
+
+Ao entrar em um cômodo, o \beacon será encontrado pelo \mhubcddl, gerando um evento de descoberta no \stwopa que deverá ser propagado para a aplicação.
+
+\subsection{Simulação da locomoção na residência}\label{subsec:simulacao-loc}
+
+A locomoção de um indivíduo em uma residencia como descrito na \autoref{sub:cenario} foi simulado utilizando um \dataset.
+Os dados utilizados para a simulação deste experimento foram obtidos do \dataset disponibilizado por \citeonline{byrne:et-al:2018}\footnote{O \dataset pode ser obtido em \cite{byrne:kozlowski:dataset:2019}}.
+Neste trabalho os autores instruíram que participantes conduzissem suas rotinas diárias em casa, enquanto sua localização na residência era monitorada.
+
+O chão dos cômodos das casas foi marcado com etiquetas, onde cada etiqueta é uma imagem binária que codifica um número inteiro, e este, único para cada uma das etiquetas. Os participantes são equipados com uma câmera na região do torso que aponta em direção ao chão, detectando e interpretando qual etiqueta está visível no momento, e deste modo, identificando em qual cômodo o participante se encontra.
+
+No trabalho citado, o autor realizou o experimento em 4 residências distintas, e estas foram denotadas de ``\texttt{Residence A}'', ``\texttt{Residence B}'', ``\texttt{Residence C}'' e ``\texttt{Residence D}''. Para cada residência, o experimento foi conduzido múltiplas vezes, e cada um denominado de ``\texttt{living\_1}'', ``\texttt{living\_2}'', ``\texttt{living\_3}'', \dots{}, ``\texttt{living\_n}''.
+
+
+A fim de maximizar a quantidade de eventos de descoberta gerados na simulação, foi utilizado os dados do experimento ``\texttt{living\_2}'' da casa ``\texttt{Residence D}'' pois este experimento possui um dos maiores tempos de monitoramento e quantidade de entrada em cômodos em todo o \dataset. Os dados deste experimento consistem de 58 minutos de monitoramento de um indivíduo em uma casa de 10 cômodos. Os dados possuem uma resolução média de aproximadamente 11 medições por segundo.
+
+Informações referentes à distribuição da quantidade de vezes em que o indivíduo visita um quarto estão sumarizadas na \autoref{fig:dataset-histogram}.
+
+\begin{figure}[htb]
+	
+	\begin{center}
+		
+		\caption{\label{fig:dataset-histogram}Frequência de entrada por cômodo}
+		\includegraphics[width=0.95\linewidth]{img/dataset-histogram}
+		\fonte{\autoriapropria}
+		
+	\end{center}
+
+\end{figure}
+
+O \dataset original é composto principalmente por um arquivo de texto que contém em cada linha uma representação de um momento no decorrer do experimento. Entre os dados contidos por linha, destaca-se o \timestamp da medição e a etiqueta detectada naquele instante. 
+
+Realizou-se um pré-processamento no \dataset de forma a facilitar a utilização dos dados para fim da simulação, gerando um arquivo contendo 3 valores separadas por espaço em que cada linha representa o instante em que o participante entrou e permaneceu contínuamente em um cômodo. Os 3 valores são: um identificador numérico do cômodo, o nome do cômodo e o \timestamp em que o indivíduo entrou naquele cômodo, como pode ser visto no \autoref{lst:preprocessed-dataset}.
+\begin{lstlisting}[float=htb, language=python, caption={Parte do \dataset pré-processado}, label=lst:preprocessed-dataset]
+#room    room-name          timestamp(seconds)
+2        living_area_A      485.352
+1        hallway_lower      506.273
+6        stairs             513.380
+8        hallway_upper      519.319
+10       bedroom_1          526.159
+8        hallway_upper      561.328
+7        bathroom_toilet    565.832
+8        hallway_upper      628.495
+9        bedroom_2          632.065
+\end{lstlisting}
+	
+\subsection{Simulação dos \beacons}
+
+Como descrito anteriormente, o cenário consiste em um \beacon em cada cômodo de uma casa.
+Utilizando os dados descritos na \autoref{subsec:simulacao-loc} foi realizado uma simulação de uma pessoa portando um \smartphone com uma aplicação \mhubcddl que detecta a presença de \beacons em cada cômodo onde o indivíduo adentra, estes \beacons foram configurados de forma a emitir 10 anúncios por segundo.  
+É esperado, então,  que o aplicativo detecte um anúncio a cada 0.1 segundo em que o participante permanece em um cômodo. 
+
+Para este experimento, cada anúncio detectado corresponde a um evento de descoberta gerado pelo \stwopa, este evento deve então ser propagado até a aplicação.
+
+Utilizando o \dataset já descrito, a cada momento em que o participante entra em determinado cômodo, calcula-se a quantidade de anúncios o \beacon daquele cômodo transmitirá durante o tempo de permanência no local, o cálculo é apresentado a seguir.
+
+\begin{equation}
+	anuncios = \frac{tempoPermanencia}{0.1} 
+\end{equation}
+
+
+Onde $tempoPermanencia$ denota o tempo que o indivíduo permaneceu no cômodo. Os anúncios são então repoduzidos a cada intervalo de 0.1 segundo. Com isso foi possível calcular previamente os valores da \autoref{tab:generated-events-1}.  
+Esta tabela mostra os valores do termo $EventosGerados$ na \autoref{equ:acuracy}, estes valores serão posteriormente comparados com a quantidade de eventos notificados para calcular o percentual de perdas.
 
 \begin{table}[htb]
 	\begin{center}
@@ -59,73 +135,7 @@ A \autoref{tab:generated-events-1} mostra os valores do termo $EventosGerados$ n
 	\end{center}
 \end{table}
 
-\subsection{Simulação dos \beacons}\label{chap:avaliacao-simulacao-beacons}
 
-O experimento descrito na \autoref{chap:avaliacao-experimento1} foi simulado utilizando um \dataset. Esta seção descreve como este \dataset foi utilizado para simular a detecção dos \beacons. Os dados utilizados para a simulação do experimento 1 foram obtidos do \dataset disponibilizado por \citeonline{byrne:et-al:2018}\footnote{O \dataset pode ser obtido em \cite{byrne:kozlowski:dataset:2019}}. Neste trabalho os autores instruíram que participantes conduzissem suas rotinas diárias em casa, enquanto sua localização na residência era monitorada.
-
-O chão dos cômodos das casas foi marcado com etiquetas, onde cada etiqueta é uma imagem binária que codifica um número inteiro, e este, único para cada uma das etiquetas. Os participantes são equipados com uma câmera na região do torso que aponta em direção ao chão, detectando e interpretando qual etiqueta está visível no momento, e deste modo, identificando em qual cômodo o participante se encontra.
-
-No trabalho citado, o autor realizou o experimento em 4 residências distintas, e estas foram denotadas de ``\texttt{Residence A}'', ``\texttt{Residence B}'', ``\texttt{Residence C}'' e ``\texttt{Residence D}''. Para cada residência, o experimento foi conduzido múltiplas vezes, e cada um denominado de ``\texttt{living\_1}'', ``\texttt{living\_2}'', ``\texttt{living\_3}'', \dots{}, ``\texttt{living\_n}''.
-
-
-A fim de maximizar a quantidade de eventos de descoberta gerados na simulação, foi utilizado os dados do experimento ``\texttt{living\_2}'' da casa ``\texttt{Residence D}'' pois este experimento possui um dos maiores tempos de monitoramento e quantidade de entrada em cômodos. Os dados deste experimento consistem de 58 minutos de monitoramento de um indivíduo em uma casa de 10 cômodos. Os dados possuem uma resolução média de aproximadamente 11 medições por segundo.
-
-Informações referentes à distribuição da quantidade de vezes em que o indivíduo visita um quarto estão sumarizadas na \autoref{fig:dataset-histogram}.
-
-\begin{figure}[htb]
-	
-	\begin{center}
-		
-		\caption{\label{fig:dataset-histogram}Frequência de entrada por cômodo}
-		\includegraphics[width=0.95\linewidth]{img/dataset-histogram}
-		\fonte{\autoriapropria}
-		
-	\end{center}
-
-\end{figure}
-
-O \dataset original é composto principalmente por um arquivo de texto que contém em cada linha uma representação de um momento no decorrer do experimento. Entre os dados contidos por linha, destaca-se o \timestamp da medição e a etiqueta detectada naquele instante. 
-
-Realizou-se um pré-processamento no \dataset de forma a facilitar a utilização dos dados para fim da simulação, gerando um arquivo contendo 3 valores separadas por espaço em que cada linha representa o instante em que o participante entrou e permaneceu contínuamente em um cômodo. Os 3 valores são: um identificador numérico do cômodo, o nome do cômodo e o \timestamp em que o indivíduo entrou naquele cômodo, como pode ser visto no \autoref{lst:preprocessed-dataset}.
-\begin{lstlisting}[language=python, caption={Parte do \dataset pré-processado}, label=lst:preprocessed-dataset]
-#room    room-name          timestamp(seconds)
-2        living_area_A      485.352
-1        hallway_lower      506.273
-6        stairs             513.380
-8        hallway_upper      519.319
-10       bedroom_1          526.159
-8        hallway_upper      561.328
-7        bathroom_toilet    565.832
-8        hallway_upper      628.495
-9        bedroom_2          632.065
-\end{lstlisting}
-	
-
-Como descrito anteriormente, cada um dos 10 cômodos possui um \beacon \ble, configurados para emitir 10 anúncios por segundo. É esperado, então,  que o aplicativo detecte um anúncio a cada 0.1 segundo em que o participante permanece em um cômodo. 
-
-Utilizando o \dataset já descrito, a cada momento em que o participante entra em determinado cômodo, calcula-se quantos anúncios o \beacon daquele cômodo transmitirá durante o tempo de permanência no local, o cálculo é apresentado a seguir.
-
-\begin{equation}
-	anuncios = \frac{tempoPermanencia}{0.1} 
-\end{equation}
-
-Onde $tempoPermanencia$ denota o tempo que o indivíduo permaneceu no cômodo. Os anúncios são então repoduzidos a cada intervalo de 0.1 segundo. Com isso foi possível calcular previamente os valores da \autoref{tab:generated-events-1}.
-
-\subsection{Coleta das métricas de performance}
-
-Na \autoref{img:performance-annotation} é possível observar onde os \timestamps utilizados na avaliação de performance são anotados. Ambos os \timestamps são denotados na imagem por um cronômetro. Na imagem, $T0$ e $T1$ são equivalentes à $t_{descoberta,\stwopa}$ e $t_{descoberta,app}$ da \autoref{equ:performance-discovery}.
-
-\begin{figure}[htb]
-	
-	\begin{center}
-
-		\caption{\label{img:performance-annotation}Componentes onde há a captura de \timestamps}
-		\includegraphics[width=0.95\linewidth]{img/performance-annotation}
-		\fonte{\autoriapropria}
-
-	\end{center}
-	
-\end{figure}
 
 \subsection{Recursos computacionais}
 
@@ -166,7 +176,7 @@ O experimento descrito foi executado em um \smartphone Lenovo Moto Z Play, com p
 				\toprule
 				                                           & Média & Desvio padrão & Mínimo & Máximo & Intervalo de 95\% de confiança \\
 				\midrule
-				$\bm{\Delta t_{descoberta}}$ \textbf{(\textmu s)} & 0.2 & 0.0       & 0.2 & 0.2 & 0.2--0.2 	              \\
+				$\bm{\Delta t_{descoberta}}$ \textbf{(ms)} & 20.1  & 3.7           & 7.0 & 78.9 & 20.1 $\pm$ 0.03 	              \\
 				\bottomrule
 			\end{tabular}
 		}{
@@ -175,11 +185,13 @@ O experimento descrito foi executado em um \smartphone Lenovo Moto Z Play, com p
 	\end{center}
 \end{table}
 
+\subsection{Análise dos resultados}
+
 \section{Experimento 2}
 
 O segundo experimento visa avaliar o desempenho e o percentual de perdas da solução proposta, entretanto levando em consideração também os eventos de conexão que não foram analisados no primeiro experimento.
 Neste contexto, será medido o tempo entre o evento de \emph{descoberta} do \smartobj no \stwopa e a notificação do evento de \emph{conexão} na camada de aplicação.
-Deseja-se saber em quanto tempo desde a descoberta do dispositívo os dados disponibilizados estarão disponíveis para o consumo pela aplicação.
+Deseja-se saber em quanto tempo desde a descoberta do dispositivo os dados disponibilizados estarão disponíveis para o consumo pela aplicação.
 
 O experimento consiste em um cenário de uso composto por uma casa equipada com um sistema multimídia na sala de estar que possibilita que \smartphones se conectem a ele através de \bluetooth, onde o conteúdo da televisão se adapta de acordo com os usuários que estão presentes na sala, e a interação com as aplicações da televisão digital acontece através do \smartphone.
 
@@ -227,7 +239,7 @@ Para medir o percentual de perdas será utilizado a \autoref{equ:acuracy}. A \au
 
 \subsection{Simulação do sistema multimídia}
 
-Para este experimento foi feita uma simulação de um indivíduo se locomovendo em uma residência. Foram utilizados os dados do \dataset descrito na \autoref{chap:avaliacao-simulacao-beacons} para esta simulação.
+Para este experimento foi feita uma simulação de um indivíduo se locomovendo em uma residência. Foram utilizados os dados do \dataset descrito na \autoref{subsec:simulacao-loc} para esta simulação.
 
 Escolheu-se também o experimento ``\texttt{living\_2}'' da casa ``\texttt{Residence D}'' por fornecer um dos maiores tempos de monitoramento do participante juntamente com a maior quantidade de visitas à sala de estar. Será utilizado apenas a parte do \dataset referentes à entradas no cômodo denotado como ``\texttt{living\_area\_A}'' na \autoref{fig:dataset-histogram}, pois este cômodo foi escolhido como a sala de estar onde o sistema multimídia se localiza.
 
@@ -266,7 +278,7 @@ Para a modelage do tempo entre a descoberta e conexão do \smartphone e o \smart
 				\toprule
 				                          & Média & Desvio padrão & Mínimo & Máximo & Intervalo de 95\% de confiança \\
 				\midrule
-				$\bm{\Delta t_{conectado}}$ \textbf{(ms)} & 28.03 & 32.71         &        &        &		                  \\
+				$\bm{\Delta t_{conectado}}$ \textbf{(ms)} & 501.4 & 60.8         &425.1        & 654.5       &	501.4 $\pm$ 19.6	                  \\
 				\bottomrule
 			\end{tabular}
 		}{
