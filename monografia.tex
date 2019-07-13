@@ -16,8 +16,19 @@
 \imprimircapa
 \imprimirfolhaderosto
 
+\includepdf{tex/ficha.pdf}
 \input{tex/folha-de-aprovacao}
+\input{tex/agradecimentos}
+\input{tex/epigrafe}
 \input{tex/resumo}
+
+\pdfbookmark[0]{\listfigurename}{lof}
+\listoffigures*
+\cleardoublepage
+
+\pdfbookmark[0]{\listtablename}{lot}
+\listoftables*
+\cleardoublepage
 
 \tableofcontents
 \cleardoublepage
