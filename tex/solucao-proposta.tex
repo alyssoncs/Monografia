@@ -4,7 +4,7 @@ Visto que o \cddl somente exporta à camada de aplicação, eventos de leitura d
 Significando que, dentre todos os objetos do tipo \sensordata criados no \stwopa, apenas aqueles com atributo ``\texttt{action}'' assumindo valor ``\texttt{READ}'' eram propagados ao \qocevaluator no \cddl podendo assim serem percebidos pela aplicação (vide \autoref{subsub:s2pa}).
 
 Este fato implica em algumas limitações no desenvolvimento de aplicações.
-Imagine um cenário onde uma aplicação necessite de certos dados providos por um \smartobj--- alocando recursos computacionais para processa-los.
+Imagine um cenário onde uma aplicação necessite de certos dados providos por um \smartobj---alocando recursos computacionais para processá-los.
 Em uma eventual desconexão com o \smartobj, o fluxo de dados do sensor cessaria de ser entregue à aplicação, contudo, nenhum fluxo ou notificação do evento de desconexão seria entregue.
 A aplicação não poderia decidir se o interrompimento do fluxo de dados se deu, devido a uma mudança na latência do envio de dados por parte do sensor ou por uma desconexão, não podendo então decidir sobre a necessidade da desalocação de recursos.
 
@@ -82,7 +82,7 @@ Onde:
 
 	\item \emph{clientId}: É um identificador da aplicação cliente que gerou tal mensagem. Este valor é informado pelo desenvolvedor ao iniciar o \cddl;
 
-	\item \emph{eventTopic}: Identificador único para cada tipo de evento, ou seja, para os eventos de descoberta, conexão e desconexão.
+	\item \emph{eventTopic}: Identificador único para cada tipo de evento, ou seja, para os eventos de descoberta, conexão e desconexão:
 	\begin{alineas}
 		\item \texttt{object\_found\_topic}: Para os eventos de descoberta;
 		\item \texttt{object\_connected\_topic}: Para os eventos de conexão;
@@ -101,6 +101,7 @@ A \autoref{fig:solution-sequence} apresenta o diagrama de sequência do funciona
 	\centering
 	\caption{Diagrama de sequência do mecanismo implementado}
 	\includegraphics[width=0.95\textwidth]{img/solution-sequence.pdf}
+	\fonte{\autoriapropria}
 	\label{fig:solution-sequence}
 \end{figure}
 
