@@ -1,77 +1,101 @@
-%Concepts
-\newcommand{\iot}{IoT\xspace}
-\newcommand{\iomt}{IoMT\xspace}
-\newcommand{\software}{software\xspace}
-\newcommand{\Software}{Software\xspace}
-\newcommand{\middleware}{middleware\xspace}
-\newcommand{\Middleware}{Middleware\xspace}
-\newcommand{\smartobj}{\textit{smart object}\xspace}
-\newcommand{\Smartobj}{\textit{Smart object}\xspace}
-\newcommand{\smartobjs}{\textit{smart objects}\xspace}
-\newcommand{\Smartobjs}{\textit{Smart objects}\xspace}
-\newcommand{\broadcast}{\textit{broadcast}\xspace}
-\newcommand{\gateway}{gateway\xspace}
-\newcommand{\Gateway}{Gateway\xspace}
-\newcommand{\gateways}{gateways\xspace}
-\newcommand{\Gateways}{Gateways\xspace}
-\newcommand{\smartphone}{smart\-phone\xspace}
-\newcommand{\Smartphone}{Smart\-phone\xspace}
-\newcommand{\smartphones}{smart\-phones\xspace}
-\newcommand{\Smartphones}{Smart\-phones\xspace}
-\newcommand{\timestamp}{\textit{timestamp}\xspace}
-\newcommand{\timestamps}{\textit{timestamps}\xspace}
-\newcommand{\framework}{framework\xspace}
-\newcommand{\dataset}{\textit{dataset}\xspace}
-\newcommand{\Dataset}{\textit{Dataset}\xspace}
-\newcommand{\broker}{\textit{broker}\xspace}
-\newcommand{\Broker}{\textit{Broker}\xspace}
-\newcommand{\brokers}{\textit{brokers}\xspace}
-\newcommand{\Brokers}{\textit{Brokers}\xspace}
-\newcommand{\ubroker}{\textit{microbroker}\xspace}
-\newcommand{\api}{API\xspace}
-\newcommand{\pub}{\textit{publisher}\xspace}
-\newcommand{\pubs}{\textit{publishers}\xspace}
-\newcommand{\sub}{\textit{subscriber}\xspace}
-\newcommand{\subs}{\textit{subscribers}\xspace}
-\newcommand{\pubsub}{\textit{publisher/subscriber}\xspace}
-\newcommand{\listener}{\textit{listener}\xspace}
+% Define um novo termo com o comando \newterm
+% \newterm{<nome do comando>}{<termo>}
+% Este comando cria um novo comando de nome <nome do comando>, que representa o termo <termo>.
+% O comando pode ser usado dentro do corpo do documento e será substituído pelo termo definido.
+%
+% Exemplo de uso:
+% \newterm{\iot}{IoT}
+% Agora, dentro do documento, ao usar \iot, ele será substituído por IoT.
+% Você também pode definir um termo que inclua formatações extra. Exemplo:
+% \newterm{\importantnote}{\textbf{Nota importante}} % negrito
+% \newterm{\println}{\texttt{printf}} % monoespaçado
+\newcommand*{\newterm}[2]{\newcommand*{#1}{#2\xspace}}
 
-%Technologies
-\newcommand{\rfid}{RFID\xspace}
-\newcommand{\ble}{BLE\xspace}
-\newcommand{\beacon}{\textit{beacon}\xspace}
-\newcommand{\Beacon}{\textit{Beacon}\xspace}
-\newcommand{\beacons}{\textit{beacons}\xspace}
-\newcommand{\Beacons}{\textit{Beacons}\xspace}
-\newcommand{\bluetooth}{\textit{bluetooth}\xspace}
-\newcommand{\Bluetooth}{\textit{Bluetooth}\xspace}
-\newcommand{\BluetoothLowEnergy}{\textit{Bluetooth Low Energy}\xspace}
-\newcommand{\mqtt}{MQTT\xspace}
+% Define um novo termo estrangeiro com o comando \newforeignterm
+% \newforeignterm{<nome do comando>}{<termo em itálico>}
+% Funciona como o comando \newterm, mas automaticamente formata o termo em itálico.
+% Exemplo de uso:
+% \newforeignterm{\dataset}{dataset}
+% Agora, dentro do documento, ao usar \dataset, ele será substituído por dataset em itálico.
+\newcommand*{\newforeignterm}[2]{\newterm{#1}{\textit{#2}}}
 
-%Proper noun
-\newcommand{\android}{Android\xspace}
-\newcommand{\mhub}{M-Hub\xspace}
-\newcommand{\cddl}{CDDL\xspace}
-\newcommand{\mhubcddl}{M-Hub/CDDL\xspace}
-\newcommand{\stwopa}{S2PA\xspace}
-\newcommand{\qocevaluator}{\texttt{QoCEvaluator}\xspace}
-\newcommand{\eventbus}{EventBus\xspace}
-\newcommand{\stwopaservice}{\texttt{S2PAService}\xspace}
-\newcommand{\faketechnology}{\texttt{FakeTechnology}\xspace}
-\newcommand{\techinterface}{\texttt{Technology}\xspace}
-\newcommand{\techlistener}{\texttt{TechnologyListener}\xspace}
-\newcommand{\sensordata}{\texttt{SensorData}\xspace}
-\newcommand{\msg}{\texttt{Message}\xspace}
-\newcommand{\objfoundmsg}{\texttt{ObjectFoundMessage}\xspace}
-\newcommand{\objconnectedmsg}{\texttt{ObjectConnectedMessage}\xspace}
-\newcommand{\objdisconnectedmsg}{\texttt{ObjectDisconnectedMessage}\xspace}
-\newcommand{\sensordatamsg}{\texttt{SensorDataMessage}\xspace}
+% Defina aqui os termos comumente usados no seu documento onde você quer garantir uma escrita e/ou formatação consistente; Sinta-se livre para organizar como bem entender.
+% Algumas palavras estrangeiras são consideradas comuns o suficiente de forma que é aceito e aconselhável que não sejam grafadas com itálico, não existe uma regra, use o bom senso. Você também pode seguir o manual de comunicação da SECOM como referência: https://www12.senado.leg.br/manualdecomunicacao/estilos/estrangeirismos-grafados-sem-italico-ou-aspas
 
-%Misc
-\newcommand{\autoriapropria}{Produzido pelo autor\xspace}
+% Conceitos
+\newterm{\api}{API}
+\newterm{\framework}{framework}
+\newterm{\gateway}{gateway}
+\newterm{\Gateway}{Gateway}
+\newterm{\gateways}{gateways}
+\newterm{\Gateways}{Gateways}
+\newterm{\iomt}{IoMT}
+\newterm{\iot}{IoT}
+\newterm{\middleware}{middleware}
+\newterm{\Middleware}{Middleware}
+\newterm{\rendezvous}{rendez-vous}
+\newterm{\smartphone}{smart\-phone}
+\newterm{\Smartphone}{Smart\-phone}
+\newterm{\smartphones}{smart\-phones}
+\newterm{\Smartphones}{Smart\-phones}
+\newterm{\software}{software}
+\newterm{\Software}{Software}
 
+\newforeignterm{\broadcast}{broadcast}
+\newforeignterm{\broker}{broker}
+\newforeignterm{\Broker}{Broker}
+\newforeignterm{\brokers}{brokers}
+\newforeignterm{\Brokers}{Brokers}
+\newforeignterm{\dataset}{dataset}
+\newforeignterm{\Dataset}{Dataset}
+\newforeignterm{\listener}{listener}
+\newforeignterm{\pub}{publisher}
+\newforeignterm{\pubs}{publishers}
+\newforeignterm{\pubsub}{publisher/subscriber}
+\newforeignterm{\smartobj}{smart object}
+\newforeignterm{\Smartobj}{Smart object}
+\newforeignterm{\smartobjs}{smart objects}
+\newforeignterm{\Smartobjs}{Smart objects}
+\newforeignterm{\subs}{subscribers}
+\newforeignterm{\sub}{subscriber}
+\newforeignterm{\timestamps}{timestamps}
+\newforeignterm{\timestamp}{timestamp}
+\newforeignterm{\ubroker}{microbroker}
 
+% Tecnologias
+\newterm{\ble}{BLE}
+\newterm{\mqtt}{MQTT}
+\newterm{\rfid}{RFID}
 
+\newforeignterm{\beacon}{beacon}
+\newforeignterm{\Beacon}{Beacon}
+\newforeignterm{\beacons}{beacons}
+\newforeignterm{\Beacons}{Beacons}
+\newforeignterm{\bluetooth}{bluetooth}
+\newforeignterm{\Bluetooth}{Bluetooth}
+\newforeignterm{\BluetoothLowEnergy}{Bluetooth Low Energy}
+
+% Substantivos próprios
+\newterm{\android}{Android}
+\newterm{\cddl}{CDDL}
+\newterm{\eventbus}{EventBus}
+\newterm{\faketechnology}{\texttt{FakeTechnology}}
+\newterm{\mhubcddl}{M-Hub/CDDL}
+\newterm{\mhub}{M-Hub}
+\newterm{\msg}{\texttt{Message}}
+\newterm{\objconnectedmsg}{\texttt{ObjectConnectedMessage}}
+\newterm{\objdisconnectedmsg}{\texttt{ObjectDisconnectedMessage}}
+\newterm{\objfoundmsg}{\texttt{ObjectFoundMessage}}
+\newterm{\qocevaluator}{\texttt{QoCEvaluator}}
+\newterm{\sensordatamsg}{\texttt{SensorDataMessage}}
+\newterm{\sensordata}{\texttt{SensorData}}
+\newterm{\stwopa}{S2PA}
+\newterm{\stwopaservice}{\texttt{S2PAService}}
+\newterm{\techinterface}{\texttt{Technology}}
+\newterm{\techlistener}{\texttt{TechnologyListener}}
+
+% Utils
+\newterm{\autoriapropria}{Produzido pelo autor}
 
 \titulo{Descoberta e Desconexão de Objetos Inteligentes (\textit{Smart Objects}) em Ambientes Oportunísticos de IoMT}
 \autor{Alysson Cirilo Silva}
@@ -81,5 +105,4 @@
 \preambulo{Monografia apresentada ao curso de Ciência da Computação da Universidade Federal do Maranhão, como parte dos requisitos necessários para obtenção do grau de Bacharel em Ciência da Computação.}
 \tipotrabalho{Monografia (Graduação)}
 \orientador{Francisco José da Silva e Silva}
-
 
