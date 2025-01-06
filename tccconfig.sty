@@ -2,9 +2,6 @@
 
 \ProvidesPackage{tccconfig}
 
-%\pdfstringdefDisableCommands{\let\uppercase\relax}
-	
-\usepackage[T1]{fontenc}
 \usepackage{indentfirst} % Garante recuo do primeiro parágrafo em cada seção.
 \usepackage{microtype} % Melhora a tipografia do documento com ajustes finos.
 \usepackage{color} % Permite o uso de cores no documento.
@@ -14,7 +11,7 @@
 \usepackage{xspace} % Facilita o uso de macros personalizadas sem precisar de espaços adicionais.
 \usepackage{bm} % Permite o uso de negrito em símbolos matemáticos.
 \usepackage{pdfpages} % Permite a inclusão de páginas de arquivos PDF em documentos LaTeX.
-\usepackage[varqu]{zi4} % Fonte monoespacada, provavelmente existe uma opcao melhor
+\usepackage[varqu]{zi4} % Fonte monoespacada (inconsolata), provavelmente existe uma opcao melhor
 \usepackage{siunitx} % Fornece uma forma consistente de apresentar unidades e números.
 \usepackage[
 	brazilian, 
@@ -77,7 +74,7 @@
 		Citado #1 vezes nas páginas #2.%
 \fi}%
 
-\setlength{\parindent}{1.3cm} 		% paragraph identation
-\setlength{\parskip}{0.2cm}		% space between paragraph
+\setlength{\parindent}{1.3cm} % paragraph identation
+\setlength{\parskip}{0.2cm} % space between paragraph
 \renewcommand{\lstlistingname}{Código}
 
