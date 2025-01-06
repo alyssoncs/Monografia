@@ -100,7 +100,7 @@ A \autoref{fig:solution-sequence} apresenta o diagrama de sequência do funciona
 \begin{figure}[htb]
 	\centering
 	\caption{Diagrama de sequência do mecanismo implementado}
-	\includegraphics[width=0.95\textwidth]{img/solution-sequence.pdf}
+	\includegraphics[width=0.95\textwidth]{\CurrentFilePath/res/img/solution-sequence.pdf}
 	\fonte{\autoriapropria}
 	\label{fig:solution-sequence}
 \end{figure}
@@ -131,7 +131,7 @@ Aplicações que estão interessadas em certo tipo de serviço receberão uma in
 Como ela é superclasse das anteriores,
 caso a aplicação deseje diferenciar qual tipo de evento o objeto \msg que ela recebeu representa, é possível verificar em tempo de execução se determinado objeto é instância das classes mais especializadas, como é mostrado no \autoref{lst:polymorphism}.
 
-\lstinputlisting[float=htb, label=lst:polymorphism, caption=Uso das classes mais especializadas em conjunto com a \api existente]{code/Polymorphism.java}
+\lstinputlisting[float=htb, label=lst:polymorphism, caption=Uso das classes mais especializadas em conjunto com a \api existente]{\CurrentFilePath/res/code/Polymorphism.java}
 
 Nas linhas 1 e 2 uma instância de \texttt{Subscriber} é criada e uma conexão com um \broker estabelecida.
 Nas linhas 3 e 4, a aplicação registra interesse em eventos de conexão e desconexão.

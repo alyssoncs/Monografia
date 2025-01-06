@@ -12,7 +12,7 @@ O \broker funciona como um intermediador entre as mensagens que são enviadas po
 	\caption{Diagrama de sequência do processo de entrega de mensagens no \mqtt}
 	\label{fig:mqtt-sequence}
 	\centering
-	\includegraphics[width=0.85\linewidth]{img/mqtt-sequence.png}
+	\includegraphics[width=0.85\linewidth]{\CurrentFilePath/res/img/mqtt-sequence.png}
 	\fonte{\citeonline{al-fuqaha:et-al:2015}}
 \end{figure}
 
@@ -47,7 +47,7 @@ A \autoref{fig:mhub-cdll-architecture} apresenta a arquitetura do \middleware.
 \begin{figure}[htb]
 	\centering
 	\caption{\label{fig:mhub-cdll-architecture}Arquitetura do \mhubcddl}
-	\includegraphics[width=0.85\linewidth]{img/mhub-cddl-architecture.png}
+	\includegraphics[width=0.85\linewidth]{\CurrentFilePath/res/img/mhub-cddl-architecture.png}
 	\fonte{\citeonline[p.~15]{gomes:et-al:2017}}
 \end{figure}
 
@@ -86,7 +86,7 @@ Implementado como um módulo na arquitetura do \middleware, o \stwopa define um 
 \begin{figure}[htb]
 	\centering
 	\caption{\label{fig:technology-interface}Interface \techinterface}
-	\includegraphics[width=0.85\linewidth]{img/technology-interface.png}
+	\includegraphics[width=0.85\linewidth]{\CurrentFilePath/res/img/technology-interface.png}
 	\fonte{\citeonline[p.~125]{talavera:et-al:2015}}
 \end{figure}
 
@@ -238,7 +238,7 @@ Estes dados podem ser entregues aos médicos ou cuidadores e familiares do pacie
 \begin{figure}[htb]
 	\centering
 	\caption{Visão geral do \mhubcddl em um cenário de \iomt}
-	\includegraphics[width=.85\linewidth]{img/general-vision-cddl.png}
+	\includegraphics[width=.85\linewidth]{\CurrentFilePath/res/img/general-vision-cddl.png}
 	\fonte{\citeonline{gomes:et-al:2017}}
 	\label{fig:general-vision-cddl}
 \end{figure}
@@ -249,7 +249,8 @@ Como já mencionado, o modelo de programação do \cddl respeita o padrão \pubs
 Uma aplicação que registra o interesse por algum tipo de dado de contexto será notificada através de um objeto \msg, que representa este dado.
 O \autoref{lst:subscriber} apresenta um exemplo de como o desenvolvedor pode consumir dados de temperatura capturados pelo \middleware.
 
-\lstinputlisting[float=htb,label=lst:subscriber, caption=Modelo de programação \pubsub do \cddl]{code/Subscriber.java}
+
+\lstinputlisting[float=htb,label=lst:subscriber, caption=Modelo de programação \pubsub do \cddl]{\CurrentFilePath/res/code/Subscriber.java}
 
 Nas linhas 1 e 2, uma instância de \texttt{Subscriber} é criada e uma conexão com um \broker é feita.
 Na linha 3 o programa registra interesse em dados do serviço de temperatura, internamente o \texttt{Subscriber} irá se inscrever em um tópico onde todos os dados de contexto deste serviço são publicados.
