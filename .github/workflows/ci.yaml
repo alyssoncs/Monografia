@@ -8,6 +8,11 @@ on:
 permissions:
   contents: write
 
+    
+env:
+  BUILD_DIR: build
+  PDF_NAME: monografia.pdf
+
 jobs:
   build:
     name: build 🛠️ 
@@ -21,7 +26,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: monografia
-          path: build/monografia.pdf
+          path: ${{ env.BUILD_DIR }}/${{ env.PDF_NAME }}
 
   deploy:
     name: deploy 🚀
@@ -36,7 +41,7 @@ jobs:
       - name: Move pdf to directory
         run: |
           mkdir out
-          mv monografia.pdf out
+          mv ${{ env.PDF_NAME }} out
       - name: Upload pdf to orphan branch
         uses: JamesIves/github-pages-deploy-action@v4
         with:
