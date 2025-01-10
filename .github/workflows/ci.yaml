@@ -28,19 +28,20 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Download pdf
         uses: actions/download-artifact@v4
         with:
           name: monografia
       - name: Move pdf to directory
         run: |
-          mkdir build
-          mv monografia.pdf build
+          mkdir out
+          mv monografia.pdf out
       - name: Upload pdf to orphan branch
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: build
-          branch: build
+          folder: out
+          branch: pdf
 
 
 
