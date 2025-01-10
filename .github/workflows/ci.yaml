@@ -9,7 +9,8 @@ permissions:
   contents: write
 
 jobs:
-  make-pdf:
+  build:
+    name: build 🛠️ 
     runs-on: ubuntu-latest
     container: texlive/texlive:latest
     steps:
@@ -21,5 +22,24 @@ jobs:
         with:
           name: monografia
           path: build/monografia.pdf
+
+  deploy:
+    name: deploy 🚀
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download pdf
+        uses: actions/download-artifact@v4
+        with:
+          name: monografia
+      - name: Move pdf to directory
+        run: |
+          mkdir build
+          mv monografia.pdf build
+      - name: Upload pdf to orphan branch
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: build
+          branch: build
+
 
 
