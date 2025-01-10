@@ -19,10 +19,11 @@ jobs:
     runs-on: ubuntu-latest
     container: texlive/texlive:latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Make PDF
+      - name: 🛎️ Checkout code
+        uses: actions/checkout@v4
+      - name: 📜 Make PDF
         run: make
-      - name: Upload pdf
+      - name: 📤 Upload PDF artifact
         uses: actions/upload-artifact@v4
         with:
           name: monografia
@@ -33,16 +34,17 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Download pdf
+      - name: 🛎️ Checkout code
+        uses: actions/checkout@v4
+      - name: 📥 Upload PDF artifact
         uses: actions/download-artifact@v4
         with:
           name: monografia
-      - name: Move pdf to directory
+      - name: 📂 Move PDF to output directory
         run: |
           mkdir out
           mv ${{ env.PDF_NAME }} out
-      - name: Upload pdf to orphan branch
+      - name: 🚀 Upload PDF to orphan branch
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: out
