@@ -10,7 +10,7 @@ permissions:
 
     
 env:
-  BUILD_DIR: build
+  OUT_DIR: output
   PDF_NAME: monografia.pdf
 
 jobs:
@@ -27,7 +27,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: monografia
-          path: ${{ env.BUILD_DIR }}/${{ env.PDF_NAME }}
+          path: ${{ env.OUT_DIR }}/${{ env.PDF_NAME }}
 
   deploy:
     name: deploy 🚀
@@ -42,12 +42,12 @@ jobs:
           name: monografia
       - name: 📂 Move PDF to output directory
         run: |
-          mkdir out
-          mv ${{ env.PDF_NAME }} out
+          mkdir ${{ env.OUT_DIR }}
+          mv ${{ env.PDF_NAME }} ${{ env.OUT_DIR }}
       - name: 🚀 Upload PDF to orphan branch
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: out
+          folder: ${{ env.OUT_DIR }}
           branch: pdf
 
 

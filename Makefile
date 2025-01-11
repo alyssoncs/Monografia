@@ -8,8 +8,10 @@ continuous:
 
 clean:
 	latexmk -c
+	rm -rf build/
 
-cleanall:
+cleanall: clean
 	latexmk -C
 	rm -rf build/
+	rm -rf output/
 

@@ -3,7 +3,8 @@
 $pdf_mode = 1;                        # Enable PDF output
 $pdflatex = 'xelatex %O %S';          # Use XeLaTeX
 
-$out_dir = 'build';                   # Set output directory
+$aux_dir = 'build';                   # Set auxiliary files directory
+$out_dir = 'output';                  # Set output directory
 
 $clean_ext = 'xdv log lof lfs log lot blg brf fdb_latexmk aux bbl toc xdv fls synctex.gz';
 
